@@ -93,11 +93,8 @@ class LeRobotDatasetMetadata:
         self.root = Path(root) if root is not None else HF_LEROBOT_HOME / repo_id
         self.writer = None
         self.latest_episode = None
-        self.metadata_buffer: list[dict] = []
         self.metadata_buffer_size = metadata_buffer_size
 
-        try:
-            if force_cache_sync:
                 raise FileNotFoundError
             self.load_metadata()
         except (FileNotFoundError, NotADirectoryError):

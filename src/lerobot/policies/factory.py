@@ -340,7 +340,10 @@ def make_policy(
     cfg: PreTrainedConfig,
     ds_meta: LeRobotDatasetMetadata | None = None,
     env_cfg: EnvConfig | None = None,
+<<<<<<< HEAD
     rename_map: dict[str, str] | None = None,
+=======
+>>>>>>> c0009bfc (done)
 ) -> PreTrainedPolicy:
     """
     Instantiate a policy model.
