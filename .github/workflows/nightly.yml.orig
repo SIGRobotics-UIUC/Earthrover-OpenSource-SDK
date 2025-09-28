@@ -119,10 +119,7 @@ jobs:
       TRITON_CACHE_DIR: /home/user_lerobot/.cache/triton
     container:
       image: ${{ needs.build-docker-cpu-nightly.outputs.image_tag }} # zizmor: ignore[unpinned-images]
-<<<<<<< HEAD
       options: --shm-size "16gb"
-=======
->>>>>>> c0009bfc (done)
       credentials:
         username: ${{ secrets.DOCKERHUB_LEROBOT_USERNAME }}
         password: ${{ secrets.DOCKERHUB_LEROBOT_PASSWORD }}
@@ -162,7 +159,6 @@ jobs:
         run: pytest tests -vv --maxfail=10
       - name: Run end-to-end tests
         run: make test-end-to-end
-<<<<<<< HEAD
 
   # This job runs multi-GPU training tests with 4 GPUs
   nightly-multi-gpu-tests:
@@ -196,5 +192,3 @@ jobs:
       # TODO(Steven): Investigate why motors tests are failing in multi-GPU setup
         run: pytest tests -vv --maxfail=10 --ignore=tests/motors/
         timeout-minutes: 10
-=======
->>>>>>> c0009bfc (done)

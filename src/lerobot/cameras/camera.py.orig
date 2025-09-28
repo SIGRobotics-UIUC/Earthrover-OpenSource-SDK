@@ -17,11 +17,7 @@
 import abc
 from typing import Any
 
-<<<<<<< HEAD
 from numpy.typing import NDArray  # type: ignore  # TODO: add type stubs for numpy.typing
-=======
-import numpy as np
->>>>>>> c0009bfc (done)
 
 from .configs import CameraConfig, ColorMode
 
@@ -93,11 +89,7 @@ class Camera(abc.ABC):
         pass
 
     @abc.abstractmethod
-<<<<<<< HEAD
     def read(self, color_mode: ColorMode | None = None) -> NDArray[Any]:
-=======
-    def read(self, color_mode: ColorMode | None = None) -> np.ndarray:
->>>>>>> c0009bfc (done)
         """Capture and return a single frame from the camera.
 
         Args:
@@ -110,11 +102,7 @@ class Camera(abc.ABC):
         pass
 
     @abc.abstractmethod
-<<<<<<< HEAD
     def async_read(self, timeout_ms: float = ...) -> NDArray[Any]:
-=======
-    def async_read(self, timeout_ms: float = ...) -> np.ndarray:
->>>>>>> c0009bfc (done)
         """Asynchronously capture and return a single frame from the camera.
 
         Args:

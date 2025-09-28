@@ -125,7 +125,6 @@ lerobot-train \
 LeRobot uses MuJoCo for simulation. You need to set the rendering backend before training or evaluation:
 
 - `export MUJOCO_GL=egl` → for headless servers (e.g. HPC, cloud)
-<<<<<<< HEAD
 
 ## Reproducing π₀.₅ results
 
@@ -165,5 +164,3 @@ These results are consistent with the original [results](https://github.com/Phys
 | Model    | LIBERO Spatial | LIBERO Object | LIBERO Goal | LIBERO 10 | Average   |
 | -------- | -------------- | ------------- | ----------- | --------- | --------- |
 | **π₀.₅** | 98.8           | 98.2          | 98.0        | 92.4      | **96.85** |
-=======
->>>>>>> c0009bfc (done)

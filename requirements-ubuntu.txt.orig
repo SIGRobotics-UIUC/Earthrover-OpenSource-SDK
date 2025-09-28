@@ -13,7 +13,6 @@ absl-py==2.3.1
     #   dm-tree
     #   labmaze
     #   mujoco
-<<<<<<< HEAD
     #   tensorboard
 accelerate==1.11.0
     # via
@@ -22,19 +21,11 @@ accelerate==1.11.0
 aiohappyeyeballs==2.6.1
     # via aiohttp
 aiohttp==3.13.1
-=======
-accelerate==1.9.0
-    # via lerobot
-aiohappyeyeballs==2.6.1
-    # via aiohttp
-aiohttp==3.12.15
->>>>>>> c0009bfc (done)
     # via fsspec
 aiosignal==1.4.0
     # via aiohttp
 annotated-types==0.7.0
     # via pydantic
-<<<<<<< HEAD
 antlr4-python3-runtime==4.9.3
     # via
     #   hydra-core
@@ -43,22 +34,15 @@ anyio==4.11.0
     # via
     #   starlette
     #   watchfiles
-=======
->>>>>>> c0009bfc (done)
 asttokens==3.0.0
     # via stack-data
 async-timeout==5.0.1
     # via aiohttp
-<<<<<<< HEAD
 attrs==25.4.0
-=======
-attrs==25.3.0
->>>>>>> c0009bfc (done)
     # via
     #   aiohttp
     #   dm-tree
     #   jsonlines
-<<<<<<< HEAD
     #   jsonschema
     #   referencing
     #   rerun-sdk
@@ -85,30 +69,6 @@ cloudpickle==3.1.1
     #   gymnasium
     #   libero
 cmake==4.1.0
-=======
-    #   rerun-sdk
-av==15.0.0
-    # via lerobot
-blinker==1.9.0
-    # via flask
-certifi==2025.7.14
-    # via
-    #   requests
-    #   sentry-sdk
-cffi==1.17.1
-    # via pymunk
-cfgv==3.4.0
-    # via pre-commit
-charset-normalizer==3.4.2
-    # via requests
-click==8.2.1
-    # via
-    #   flask
-    #   wandb
-cloudpickle==3.1.1
-    # via gymnasium
-cmake==4.0.3
->>>>>>> c0009bfc (done)
     # via lerobot
 cmeel==0.57.3
     # via
@@ -150,7 +110,6 @@ coal-library==3.0.1
     # via pin
 contourpy==1.3.2
     # via matplotlib
-<<<<<<< HEAD
 coverage[toml]==7.11.0
     # via pytest-cov
 cycler==0.12.1
@@ -168,33 +127,12 @@ deepdiff==8.6.1
 diffusers==0.35.2
     # via lerobot
 dill==0.4.0
-=======
-coverage[toml]==7.10.1
-    # via pytest-cov
-cycler==0.12.1
-    # via matplotlib
-datasets==3.6.0
-    # via lerobot
-debugpy==1.8.15
-    # via lerobot
-decorator==5.2.1
-    # via ipython
-deepdiff==8.5.0
-    # via lerobot
-diffusers==0.34.0
-    # via lerobot
-dill==0.3.8
->>>>>>> c0009bfc (done)
     # via
     #   datasets
     #   multiprocess
 distlib==0.4.0
     # via virtualenv
-<<<<<<< HEAD
 dm-control==1.0.34
-=======
-dm-control==1.0.14
->>>>>>> c0009bfc (done)
     # via gym-aloha
 dm-env==1.6
     # via dm-control
@@ -202,15 +140,11 @@ dm-tree==0.1.9
     # via
     #   dm-control
     #   dm-env
-<<<<<<< HEAD
     #   lerobot
-=======
->>>>>>> c0009bfc (done)
 docopt==0.6.2
     # via num2words
 draccus==0.10.0
     # via lerobot
-<<<<<<< HEAD
 dynamixel-sdk==3.8.4
     # via lerobot
 easydict==1.13
@@ -230,21 +164,10 @@ eiquadprog==1.2.9
     # via placo
 etils[epath,epy]==1.13.0
     # via mujoco
-=======
-dynamixel-sdk==3.7.31
-    # via lerobot
-eigenpy==3.10.3
-    # via coal-library
-einops==0.8.1
-    # via lerobot
-eiquadprog==1.2.9
-    # via placo
->>>>>>> c0009bfc (done)
 evdev==1.9.2
     # via pynput
 exceptiongroup==1.3.0
     # via
-<<<<<<< HEAD
     #   anyio
     #   ipython
     #   pytest
@@ -259,17 +182,6 @@ fastjsonschema==2.21.2
 feetech-servo-sdk==1.0.0
     # via lerobot
 filelock==3.20.0
-=======
-    #   ipython
-    #   pytest
-executing==2.2.0
-    # via stack-data
-farama-notifications==0.0.4
-    # via gymnasium
-feetech-servo-sdk==1.0.0
-    # via lerobot
-filelock==3.18.0
->>>>>>> c0009bfc (done)
     # via
     #   datasets
     #   diffusers
@@ -277,7 +189,6 @@ filelock==3.18.0
     #   torch
     #   transformers
     #   virtualenv
-<<<<<<< HEAD
 flash-attn==2.8.3
     # via lerobot
 fonttools==4.60.1
@@ -294,30 +205,11 @@ fsspec[http]==2025.9.0
     #   torch
 future==1.0.0
     # via libero
-=======
-flask==3.1.1
-    # via lerobot
-fonttools==4.59.0
-    # via matplotlib
-frozenlist==1.7.0
-    # via
-    #   aiohttp
-    #   aiosignal
-fsspec[http]==2025.3.0
-    # via
-    #   datasets
-    #   huggingface-hub
-    #   torch
->>>>>>> c0009bfc (done)
 gitdb==4.0.12
     # via gitpython
 gitpython==3.1.45
     # via wandb
-<<<<<<< HEAD
 glfw==2.10.0
-=======
-glfw==2.9.0
->>>>>>> c0009bfc (done)
     # via
     #   dm-control
     #   mujoco
@@ -325,7 +217,6 @@ grpcio==1.73.1
     # via
     #   grpcio-tools
     #   lerobot
-<<<<<<< HEAD
     #   reachy2-sdk
     #   reachy2-sdk-api
     #   tensorboard
@@ -340,24 +231,10 @@ gym-hil==0.1.13
 gym-pusht==0.1.6
     # via lerobot
 gymnasium==1.2.1
-=======
-grpcio-tools==1.73.1
-    # via lerobot
-gym-aloha==0.1.1
-    # via lerobot
-gym-hil==0.1.10
-    # via lerobot
-gym-pusht==0.1.5
-    # via lerobot
-gym-xarm==0.1.1
-    # via lerobot
-gymnasium==0.29.1
->>>>>>> c0009bfc (done)
     # via
     #   gym-aloha
     #   gym-hil
     #   gym-pusht
-<<<<<<< HEAD
     #   lerobot
     #   libero
     #   metaworld
@@ -370,35 +247,19 @@ hebi-py==2.11.0
 hf-transfer==0.1.9
     # via huggingface-hub
 hf-xet==1.1.10
-=======
-    #   gym-xarm
-    #   gymnasium-robotics
-    #   lerobot
-    #   pettingzoo
-gymnasium-robotics==1.2.4
-    # via gym-xarm
-hf-transfer==0.1.9
-    # via huggingface-hub
-hf-xet==1.1.5
->>>>>>> c0009bfc (done)
     # via huggingface-hub
 hidapi==0.14.0.post4
     # via
     #   gym-hil
     #   lerobot
-<<<<<<< HEAD
 httptools==0.7.1
     # via uvicorn
 huggingface-hub[cli,hf-transfer]==0.35.3
-=======
-huggingface-hub[cli,hf-transfer]==0.34.3
->>>>>>> c0009bfc (done)
     # via
     #   accelerate
     #   datasets
     #   diffusers
     #   lerobot
-<<<<<<< HEAD
     #   peft
     #   timm
     #   tokenizers
@@ -410,21 +271,12 @@ identify==2.6.15
 idna==3.11
     # via
     #   anyio
-=======
-    #   tokenizers
-    #   transformers
-identify==2.6.12
-    # via pre-commit
-idna==3.10
-    # via
->>>>>>> c0009bfc (done)
     #   requests
     #   yarl
 imageio[ffmpeg]==2.37.0
     # via
     #   gym-aloha
     #   gym-hil
-<<<<<<< HEAD
     #   lerobot
     #   metaworld
     #   robomimic
@@ -438,16 +290,6 @@ importlib-metadata==8.7.0
 importlib-resources==6.5.2
     # via etils
 iniconfig==2.3.0
-=======
-    #   gymnasium-robotics
-    #   lerobot
-    #   scikit-image
-imageio-ffmpeg==0.6.0
-    # via imageio
-importlib-metadata==8.7.0
-    # via diffusers
-iniconfig==2.1.0
->>>>>>> c0009bfc (done)
     # via pytest
 inquirerpy==0.3.4
     # via huggingface-hub
@@ -455,7 +297,6 @@ ipython==8.37.0
     # via meshcat
 ischedule==1.2.7
     # via placo
-<<<<<<< HEAD
 jedi==0.19.2
     # via ipython
 jinja2==3.1.6
@@ -471,26 +312,11 @@ jupyter-core==5.9.1
 jupytext==1.18.1
     # via bddl
 kiwisolver==1.4.9
-=======
-itsdangerous==2.2.0
-    # via flask
-jedi==0.19.2
-    # via ipython
-jinja2==3.1.6
-    # via
-    #   flask
-    #   gymnasium-robotics
-    #   torch
-jsonlines==4.0.0
-    # via lerobot
-kiwisolver==1.4.8
->>>>>>> c0009bfc (done)
     # via matplotlib
 labmaze==1.0.6
     # via dm-control
 lazy-loader==0.4
     # via scikit-image
-<<<<<<< HEAD
 libero @ git+https://github.com/huggingface/lerobot-libero.git@main
     # via lerobot
 llvmlite==0.45.1
@@ -517,51 +343,25 @@ mdit-py-plugins==0.5.0
     # via jupytext
 mdurl==0.1.2
     # via markdown-it-py
-=======
-lxml==6.0.0
-    # via dm-control
-markupsafe==3.0.2
-    # via
-    #   flask
-    #   jinja2
-    #   werkzeug
-matplotlib==3.10.5
-    # via lerobot
-matplotlib-inline==0.1.7
-    # via ipython
->>>>>>> c0009bfc (done)
 mergedeep==1.3.4
     # via draccus
 meshcat==0.3.2
     # via placo
-<<<<<<< HEAD
 metaworld==3.0.0
     # via lerobot
-=======
->>>>>>> c0009bfc (done)
 mock-serial==0.0.1
     # via lerobot
 mpmath==1.3.0
     # via sympy
-<<<<<<< HEAD
 mujoco==3.3.7
-=======
-mujoco==2.3.7
->>>>>>> c0009bfc (done)
     # via
     #   dm-control
     #   gym-aloha
     #   gym-hil
-<<<<<<< HEAD
     #   libero
     #   metaworld
     #   robosuite
 multidict==6.7.0
-=======
-    #   gym-xarm
-    #   gymnasium-robotics
-multidict==6.6.3
->>>>>>> c0009bfc (done)
     # via
     #   aiohttp
     #   yarl
@@ -569,7 +369,6 @@ multiprocess==0.70.16
     # via datasets
 mypy-extensions==1.1.0
     # via typing-inspect
-<<<<<<< HEAD
 nbformat==5.10.4
     # via jupytext
 networkx==3.4.2
@@ -579,17 +378,10 @@ networkx==3.4.2
     #   torch
 ninja==1.13.0
     # via lerobot
-=======
-networkx==3.4.2
-    # via
-    #   scikit-image
-    #   torch
->>>>>>> c0009bfc (done)
 nodeenv==1.9.1
     # via pre-commit
 num2words==0.5.14
     # via lerobot
-<<<<<<< HEAD
 numba==0.62.1
     # via robosuite
 numpy==2.2.6
@@ -600,20 +392,11 @@ numpy==2.2.6
     #   contourpy
     #   datasets
     #   decord
-=======
-numpy==2.2.6
-    # via
-    #   accelerate
-    #   cmeel-boost
-    #   contourpy
-    #   datasets
->>>>>>> c0009bfc (done)
     #   diffusers
     #   dm-control
     #   dm-env
     #   dm-tree
     #   gymnasium
-<<<<<<< HEAD
     #   h5py
     #   hebi-py
     #   imageio
@@ -643,25 +426,6 @@ numpy==2.2.6
     #   torchvision
     #   transformers
     #   transforms3d
-=======
-    #   gymnasium-robotics
-    #   imageio
-    #   labmaze
-    #   matplotlib
-    #   meshcat
-    #   mujoco
-    #   opencv-python
-    #   opencv-python-headless
-    #   pandas
-    #   pettingzoo
-    #   rerun-sdk
-    #   scikit-image
-    #   scipy
-    #   shapely
-    #   tifffile
-    #   torchvision
-    #   transformers
->>>>>>> c0009bfc (done)
 nvidia-cublas-cu12==12.6.4.1
     # via
     #   nvidia-cudnn-cu12
@@ -699,7 +463,6 @@ nvidia-nvjitlink-cu12==12.6.85
     #   torch
 nvidia-nvtx-cu12==12.6.77
     # via torch
-<<<<<<< HEAD
 omegaconf==2.3.0
     # via hydra-core
 opencv-python==4.12.0.88
@@ -708,10 +471,6 @@ opencv-python==4.12.0.88
     #   libero
     #   reachy2-sdk
     #   robosuite
-=======
-opencv-python==4.12.0.88
-    # via gym-pusht
->>>>>>> c0009bfc (done)
 opencv-python-headless==4.12.0.88
     # via lerobot
 orderly-set==5.5.0
@@ -721,7 +480,6 @@ packaging==25.0
     #   accelerate
     #   datasets
     #   huggingface-hub
-<<<<<<< HEAD
     #   hydra-core
     #   jupytext
     #   lazy-loader
@@ -743,28 +501,10 @@ parso==0.8.5
     # via jedi
 peft==0.17.1
     # via lerobot
-=======
-    #   lazy-loader
-    #   lerobot
-    #   matplotlib
-    #   pytest
-    #   scikit-image
-    #   transformers
-    #   wandb
-pandas==2.3.1
-    # via
-    #   datasets
-    #   lerobot
-parso==0.8.4
-    # via jedi
-pettingzoo==1.24.3
-    # via gymnasium-robotics
->>>>>>> c0009bfc (done)
 pexpect==4.9.0
     # via ipython
 pfzy==0.3.4
     # via inquirerpy
-<<<<<<< HEAD
 pillow==12.0.0
     # via
     #   diffusers
@@ -776,36 +516,20 @@ pillow==12.0.0
     #   robosuite
     #   scikit-image
     #   tensorboard
-=======
-pillow==11.3.0
-    # via
-    #   diffusers
-    #   imageio
-    #   matplotlib
-    #   meshcat
-    #   rerun-sdk
-    #   scikit-image
->>>>>>> c0009bfc (done)
     #   torchvision
 pin==3.4.0
     # via placo
 placo==0.9.14
     # via lerobot
-<<<<<<< HEAD
 platformdirs==4.5.0
     # via
     #   jupyter-core
-=======
-platformdirs==4.3.8
-    # via
->>>>>>> c0009bfc (done)
     #   virtualenv
     #   wandb
 pluggy==1.6.0
     # via
     #   pytest
     #   pytest-cov
-<<<<<<< HEAD
 pre-commit==4.3.0
     # via lerobot
 prompt-toolkit==3.0.52
@@ -813,15 +537,6 @@ prompt-toolkit==3.0.52
     #   inquirerpy
     #   ipython
 propcache==0.4.1
-=======
-pre-commit==4.2.0
-    # via lerobot
-prompt-toolkit==3.0.51
-    # via
-    #   inquirerpy
-    #   ipython
-propcache==0.3.2
->>>>>>> c0009bfc (done)
     # via
     #   aiohttp
     #   yarl
@@ -830,7 +545,6 @@ protobuf==6.31.0
     #   dm-control
     #   grpcio-tools
     #   lerobot
-<<<<<<< HEAD
     #   reachy2-sdk
     #   reachy2-sdk-api
     #   tensorboard
@@ -842,13 +556,6 @@ psutil==7.1.1
     #   imageio
     #   peft
     #   robomimic
-=======
-    #   wandb
-psutil==7.0.0
-    # via
-    #   accelerate
-    #   imageio
->>>>>>> c0009bfc (done)
 ptyprocess==0.7.0
     # via pexpect
 pure-eval==0.2.3
@@ -857,7 +564,6 @@ pyarrow==21.0.0
     # via
     #   datasets
     #   rerun-sdk
-<<<<<<< HEAD
 pycparser==2.23
     # via cffi
 pydantic==2.12.3
@@ -865,13 +571,6 @@ pydantic==2.12.3
     #   fastapi
     #   wandb
 pydantic-core==2.41.4
-=======
-pycparser==2.22
-    # via cffi
-pydantic==2.11.7
-    # via wandb
-pydantic-core==2.33.2
->>>>>>> c0009bfc (done)
     # via pydantic
 pygame==2.6.1
     # via
@@ -886,17 +585,12 @@ pymunk==6.11.1
     # via
     #   gym-pusht
     #   lerobot
-<<<<<<< HEAD
 pyngrok==7.4.1
-=======
-pyngrok==7.2.12
->>>>>>> c0009bfc (done)
     # via meshcat
 pynput==1.8.1
     # via
     #   gym-hil
     #   lerobot
-<<<<<<< HEAD
 pyopengl==3.1.10
     # via
     #   dm-control
@@ -907,16 +601,6 @@ pyparsing==3.2.5
     #   matplotlib
 pyquaternion==0.9.9
     # via reachy2-sdk
-=======
-pyopengl==3.1.9
-    # via
-    #   dm-control
-    #   mujoco
-pyparsing==3.2.3
-    # via
-    #   dm-control
-    #   matplotlib
->>>>>>> c0009bfc (done)
 pyrealsense2==2.56.5.9235
     # via lerobot
 pyserial==3.5
@@ -924,7 +608,6 @@ pyserial==3.5
     #   dynamixel-sdk
     #   feetech-servo-sdk
     #   lerobot
-<<<<<<< HEAD
 pytest==8.4.2
     # via
     #   bddl
@@ -933,14 +616,6 @@ pytest==8.4.2
     #   pytest-timeout
     #   teleop
 pytest-cov==7.0.0
-=======
-pytest==8.4.1
-    # via
-    #   lerobot
-    #   pytest-cov
-    #   pytest-timeout
-pytest-cov==6.2.1
->>>>>>> c0009bfc (done)
     # via lerobot
 pytest-timeout==2.4.0
     # via lerobot
@@ -948,25 +623,17 @@ python-dateutil==2.9.0.post0
     # via
     #   matplotlib
     #   pandas
-<<<<<<< HEAD
 python-dotenv==1.1.1
     # via uvicorn
-=======
->>>>>>> c0009bfc (done)
 python-xlib==0.33
     # via pynput
 pytz==2025.2
     # via pandas
-<<<<<<< HEAD
 pyyaml==6.0.3
-=======
-pyyaml==6.0.2
->>>>>>> c0009bfc (done)
     # via
     #   accelerate
     #   datasets
     #   draccus
-<<<<<<< HEAD
     #   hebi-py
     #   huggingface-hub
     #   jupytext
@@ -998,31 +665,11 @@ regex==2025.10.23
     #   diffusers
     #   transformers
 requests==2.32.5
-=======
-    #   huggingface-hub
-    #   pre-commit
-    #   pyngrok
-    #   pyyaml-include
-    #   transformers
-    #   wandb
-pyyaml-include==1.4.1
-    # via draccus
-pyzmq==27.0.0
-    # via
-    #   lerobot
-    #   meshcat
-regex==2025.7.34
-    # via
-    #   diffusers
-    #   transformers
-requests==2.32.4
->>>>>>> c0009bfc (done)
     # via
     #   datasets
     #   diffusers
     #   dm-control
     #   huggingface-hub
-<<<<<<< HEAD
     #   teleop
     #   transformers
     #   wandb
@@ -1039,24 +686,12 @@ rpds-py==0.28.0
     #   jsonschema
     #   referencing
 safetensors==0.6.2
-=======
-    #   transformers
-    #   wandb
-rerun-sdk==0.22.1
-    # via lerobot
-rhoban-cmeel-jsoncpp==1.9.4.9
-    # via placo
-safetensors==0.5.3
->>>>>>> c0009bfc (done)
     # via
     #   accelerate
     #   diffusers
     #   lerobot
-<<<<<<< HEAD
     #   peft
     #   timm
-=======
->>>>>>> c0009bfc (done)
     #   transformers
 scikit-image==0.25.2
     # via
@@ -1065,19 +700,12 @@ scikit-image==0.25.2
 scipy==1.15.3
     # via
     #   dm-control
-<<<<<<< HEAD
     #   metaworld
     #   robosuite
     #   scikit-image
 sentry-sdk==2.42.1
     # via wandb
 shapely==2.1.2
-=======
-    #   scikit-image
-sentry-sdk==2.34.1
-    # via wandb
-shapely==2.1.1
->>>>>>> c0009bfc (done)
     # via gym-pusht
 six==1.17.0
     # via
@@ -1086,7 +714,6 @@ six==1.17.0
     #   python-xlib
 smmap==5.0.2
     # via gitdb
-<<<<<<< HEAD
 sniffio==1.3.1
     # via anyio
 stack-data==0.6.3
@@ -1122,68 +749,37 @@ tomli==2.3.0
     #   cmeel
     #   coverage
     #   jupytext
-=======
-stack-data==0.6.3
-    # via ipython
-sympy==1.14.0
-    # via torch
-termcolor==3.1.0
-    # via lerobot
-tifffile==2025.5.10
-    # via scikit-image
-tokenizers==0.21.4
-    # via transformers
-toml==0.10.2
-    # via draccus
-tomli==2.2.1
-    # via
-    #   cmeel
-    #   coverage
->>>>>>> c0009bfc (done)
     #   pytest
 torch==2.7.1
     # via
     #   accelerate
-<<<<<<< HEAD
     #   flash-attn
     #   lerobot
     #   peft
     #   robomimic
     #   thop
     #   timm
-=======
-    #   lerobot
->>>>>>> c0009bfc (done)
     #   torchvision
 torchcodec==0.5
     # via lerobot
 torchvision==0.22.1
-<<<<<<< HEAD
     # via
     #   lerobot
     #   robomimic
     #   timm
 tornado==6.5.2
-=======
-    # via lerobot
-tornado==6.5.1
->>>>>>> c0009bfc (done)
     # via meshcat
 tqdm==4.67.1
     # via
     #   datasets
     #   dm-control
     #   huggingface-hub
-<<<<<<< HEAD
     #   peft
     #   robomimic
-=======
->>>>>>> c0009bfc (done)
     #   transformers
 traitlets==5.14.3
     # via
     #   ipython
-<<<<<<< HEAD
     #   jupyter-core
     #   matplotlib-inline
     #   nbformat
@@ -1203,24 +799,12 @@ typing-extensions==4.15.0
     #   etils
     #   exceptiongroup
     #   fastapi
-=======
-    #   matplotlib-inline
-transformers==4.51.3
-    # via lerobot
-triton==3.3.1
-    # via torch
-typing-extensions==4.14.1
-    # via
-    #   aiosignal
-    #   exceptiongroup
->>>>>>> c0009bfc (done)
     #   gymnasium
     #   huggingface-hub
     #   ipython
     #   multidict
     #   pydantic
     #   pydantic-core
-<<<<<<< HEAD
     #   referencing
     #   rerun-sdk
     #   starlette
@@ -1233,16 +817,6 @@ typing-extensions==4.14.1
 typing-inspect==0.9.0
     # via draccus
 typing-inspection==0.4.2
-=======
-    #   rerun-sdk
-    #   torch
-    #   typing-inspect
-    #   typing-inspection
-    #   wandb
-typing-inspect==0.9.0
-    # via draccus
-typing-inspection==0.4.1
->>>>>>> c0009bfc (done)
     # via pydantic
 tzdata==2025.2
     # via pandas
@@ -1252,7 +826,6 @@ urllib3==2.5.0
     # via
     #   requests
     #   sentry-sdk
-<<<<<<< HEAD
 uvicorn[standard]==0.38.0
     # via teleop
 uvloop==0.22.1
@@ -1283,24 +856,6 @@ zipp==3.23.0
     # via
     #   etils
     #   importlib-metadata
-=======
-virtualenv==20.32.0
-    # via pre-commit
-wandb==0.21.0
-    # via lerobot
-wcwidth==0.2.13
-    # via prompt-toolkit
-werkzeug==3.1.3
-    # via flask
-wrapt==1.17.2
-    # via dm-tree
-xxhash==3.5.0
-    # via datasets
-yarl==1.20.1
-    # via aiohttp
-zipp==3.23.0
-    # via importlib-metadata
->>>>>>> c0009bfc (done)
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools

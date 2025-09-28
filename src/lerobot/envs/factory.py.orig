@@ -16,15 +16,10 @@
 import importlib
 
 import gymnasium as gym
-<<<<<<< HEAD
 from gymnasium.envs.registration import registry as gym_registry
 
 from lerobot.envs.configs import AlohaEnv, EnvConfig, LiberoEnv, PushtEnv
 from lerobot.envs.utils import _call_make_env, _download_hub_file, _import_hub_module, _normalize_hub_result
-=======
-
-from lerobot.envs.configs import AlohaEnv, EnvConfig, LiberoEnv, PushtEnv, XarmEnv
->>>>>>> c0009bfc (done)
 
 
 def make_env_config(env_type: str, **kwargs) -> EnvConfig:
@@ -32,11 +27,6 @@ def make_env_config(env_type: str, **kwargs) -> EnvConfig:
         return AlohaEnv(**kwargs)
     elif env_type == "pusht":
         return PushtEnv(**kwargs)
-<<<<<<< HEAD
-=======
-    elif env_type == "xarm":
-        return XarmEnv(**kwargs)
->>>>>>> c0009bfc (done)
     elif env_type == "libero":
         return LiberoEnv(**kwargs)
     else:
@@ -44,7 +34,6 @@ def make_env_config(env_type: str, **kwargs) -> EnvConfig:
 
 
 def make_env(
-<<<<<<< HEAD
     cfg: EnvConfig | str,
     n_envs: int = 1,
     use_async_envs: bool = False,
@@ -63,17 +52,6 @@ def make_env(
         hub_cache_dir (str | None): Optional cache path for downloaded hub files.
         trust_remote_code (bool): **Explicit consent** to execute remote code from the Hub.
             Default False — must be set to True to import/exec hub `env.py`.
-=======
-    cfg: EnvConfig, n_envs: int = 1, use_async_envs: bool = False
-) -> dict[str, dict[int, gym.vector.VectorEnv]]:
-    """Makes a gym vector environment according to the config.
-
-    Args:
-        cfg (EnvConfig): the config of the environment to instantiate.
-        n_envs (int, optional): The number of parallelized env to return. Defaults to 1.
-        use_async_envs (bool, optional): Whether to return an AsyncVectorEnv or a SyncVectorEnv. Defaults to
-            False.
->>>>>>> c0009bfc (done)
 
     Raises:
         ValueError: if n_envs < 1
@@ -86,7 +64,6 @@ def make_env(
             - For single-task environments: a single suite entry (cfg.type) with task_id=0.
 
     """
-<<<<<<< HEAD
     # if user passed a hub id string (e.g., "username/repo", "username/repo@main:env.py")
     # simplified: only support hub-provided `make_env`
     if isinstance(cfg, str):
@@ -102,8 +79,6 @@ def make_env(
         # normalize the return into {suite: {task_id: vec_env}}
         return _normalize_hub_result(raw_result)
 
-=======
->>>>>>> c0009bfc (done)
     if n_envs < 1:
         raise ValueError("`n_envs` must be at least 1")
 
@@ -112,12 +87,9 @@ def make_env(
     if "libero" in cfg.type:
         from lerobot.envs.libero import create_libero_envs
 
-<<<<<<< HEAD
         if cfg.task is None:
             raise ValueError("LiberoEnv requires a task to be specified")
 
-=======
->>>>>>> c0009bfc (done)
         return create_libero_envs(
             task=cfg.task,
             n_envs=n_envs,
@@ -126,7 +98,6 @@ def make_env(
             gym_kwargs=cfg.gym_kwargs,
             env_cls=env_cls,
         )
-<<<<<<< HEAD
     elif "metaworld" in cfg.type:
         from lerobot.envs.metaworld import create_metaworld_envs
 
@@ -159,22 +130,6 @@ def make_env(
         return gym.make(cfg.gym_id, disable_env_checker=cfg.disable_env_checker, **(cfg.gym_kwargs or {}))
 
     vec = env_cls([_make_one for _ in range(n_envs)], autoreset_mode=gym.vector.AutoresetMode.SAME_STEP)
-=======
-
-    package_name = f"gym_{cfg.type}"
-    try:
-        importlib.import_module(package_name)
-    except ModuleNotFoundError as e:
-        print(f"{package_name} is not installed. Please install it with `pip install 'lerobot[{cfg.type}]'`")
-        raise e
-
-    gym_handle = f"{package_name}/{cfg.task}"
-
-    def _make_one():
-        return gym.make(gym_handle, disable_env_checker=cfg.disable_env_checker, **(cfg.gym_kwargs or {}))
-
-    vec = env_cls([_make_one for _ in range(n_envs)])
->>>>>>> c0009bfc (done)
 
     # normalize to {suite: {task_id: vec_env}} for consistency
     suite_name = cfg.type  # e.g., "pusht", "aloha"

@@ -26,16 +26,12 @@ This script will help you convert any LeRobot dataset already pushed to the hub 
 
 Usage:
 
-<<<<<<< HEAD
 Convert a dataset from the hub:
-=======
->>>>>>> c0009bfc (done)
 ```bash
 python src/lerobot/datasets/v30/convert_dataset_v21_to_v30.py \
     --repo-id=lerobot/pusht
 ```
 
-<<<<<<< HEAD
 Convert a local dataset (works in place):
 ```bash
 python src/lerobot/datasets/v30/convert_dataset_v21_to_v30.py \
@@ -44,8 +40,6 @@ python src/lerobot/datasets/v30/convert_dataset_v21_to_v30.py \
     --push-to-hub=false
 ```
 
-=======
->>>>>>> c0009bfc (done)
 """
 
 import argparse
@@ -75,15 +69,9 @@ from lerobot.datasets.utils import (
     LEGACY_TASKS_PATH,
     cast_stats_to_numpy,
     flatten_dict,
-<<<<<<< HEAD
     get_file_size_in_mb,
     get_parquet_file_size_in_mb,
     get_parquet_num_frames,
-=======
-    get_parquet_file_size_in_mb,
-    get_parquet_num_frames,
-    get_video_size_in_mb,
->>>>>>> c0009bfc (done)
     load_info,
     update_chunk_file_indices,
     write_episodes,
@@ -96,11 +84,7 @@ from lerobot.utils.constants import HF_LEROBOT_HOME
 from lerobot.utils.utils import init_logging
 
 V21 = "v2.1"
-<<<<<<< HEAD
 V30 = "v3.0"
-=======
-
->>>>>>> c0009bfc (done)
 
 """
 -------------------------
@@ -114,11 +98,7 @@ OLD
 videos/chunk-000/CAMERA/episode_000000.mp4
 
 NEW
-<<<<<<< HEAD
 videos/CAMERA/chunk-000/file_000.mp4
-=======
-videos/chunk-000/file_000.mp4
->>>>>>> c0009bfc (done)
 -------------------------
 OLD
 episodes.jsonl
@@ -174,7 +154,6 @@ def legacy_load_tasks(local_dir: Path) -> tuple[dict, dict]:
     return tasks, task_to_task_index
 
 
-<<<<<<< HEAD
 def validate_local_dataset_version(local_path: Path) -> None:
     """Validate that the local dataset has the expected v2.1 version."""
     info = load_info(local_path)
@@ -186,8 +165,6 @@ def validate_local_dataset_version(local_path: Path) -> None:
         )
 
 
-=======
->>>>>>> c0009bfc (done)
 def convert_tasks(root, new_root):
     logging.info(f"Converting tasks from {root} to {new_root}")
     tasks, _ = legacy_load_tasks(root)
@@ -333,11 +310,7 @@ def convert_videos_of_camera(root: Path, new_root: Path, video_key: str, video_f
     episodes_metadata = []
 
     for ep_path in tqdm.tqdm(ep_paths, desc=f"convert videos of {video_key}"):
-<<<<<<< HEAD
         ep_size_in_mb = get_file_size_in_mb(ep_path)
-=======
-        ep_size_in_mb = get_video_size_in_mb(ep_path)
->>>>>>> c0009bfc (done)
         ep_duration_in_s = get_video_duration_in_s(ep_path)
 
         # Check if adding this episode would exceed the limit
@@ -454,21 +427,13 @@ def convert_episodes_metadata(root, new_root, episodes_metadata, episodes_video_
 
 def convert_info(root, new_root, data_file_size_in_mb, video_file_size_in_mb):
     info = load_info(root)
-<<<<<<< HEAD
     info["codebase_version"] = V30
-=======
-    info["codebase_version"] = "v3.0"
->>>>>>> c0009bfc (done)
     del info["total_chunks"]
     del info["total_videos"]
     info["data_files_size_in_mb"] = data_file_size_in_mb
     info["video_files_size_in_mb"] = video_file_size_in_mb
     info["data_path"] = DEFAULT_DATA_PATH
-<<<<<<< HEAD
     info["video_path"] = DEFAULT_VIDEO_PATH if info["video_path"] is not None else None
-=======
-    info["video_path"] = DEFAULT_VIDEO_PATH
->>>>>>> c0009bfc (done)
     info["fps"] = int(info["fps"])
     logging.info(f"Converting info from {root} to {new_root}")
     for key in info["features"]:
@@ -484,24 +449,15 @@ def convert_dataset(
     branch: str | None = None,
     data_file_size_in_mb: int | None = None,
     video_file_size_in_mb: int | None = None,
-<<<<<<< HEAD
     root: str | Path | None = None,
     push_to_hub: bool = True,
     force_conversion: bool = False,
 ):
-=======
-):
-    root = HF_LEROBOT_HOME / repo_id
-    old_root = HF_LEROBOT_HOME / f"{repo_id}_old"
-    new_root = HF_LEROBOT_HOME / f"{repo_id}_v30"
-
->>>>>>> c0009bfc (done)
     if data_file_size_in_mb is None:
         data_file_size_in_mb = DEFAULT_DATA_FILE_SIZE_IN_MB
     if video_file_size_in_mb is None:
         video_file_size_in_mb = DEFAULT_VIDEO_FILE_SIZE_IN_MB
 
-<<<<<<< HEAD
     # First check if the dataset already has a v3.0 version
     if root is None and not force_conversion:
         try:
@@ -523,8 +479,6 @@ def convert_dataset(
     new_root = root.parent / f"{root.name}_v30"
 
     # Handle old_root cleanup if both old_root and root exist
-=======
->>>>>>> c0009bfc (done)
     if old_root.is_dir() and root.is_dir():
         shutil.rmtree(str(root))
         shutil.move(str(old_root), str(root))
@@ -532,7 +486,6 @@ def convert_dataset(
     if new_root.is_dir():
         shutil.rmtree(new_root)
 
-<<<<<<< HEAD
     if not use_local_dataset:
         snapshot_download(
             repo_id,
@@ -540,14 +493,6 @@ def convert_dataset(
             revision=V21,
             local_dir=root,
         )
-=======
-    snapshot_download(
-        repo_id,
-        repo_type="dataset",
-        revision=V21,
-        local_dir=root,
-    )
->>>>>>> c0009bfc (done)
 
     convert_info(root, new_root, data_file_size_in_mb, video_file_size_in_mb)
     convert_tasks(root, new_root)
@@ -558,7 +503,6 @@ def convert_dataset(
     shutil.move(str(root), str(old_root))
     shutil.move(str(new_root), str(root))
 
-<<<<<<< HEAD
     if push_to_hub:
         hub_api = HfApi()
         try:
@@ -575,23 +519,6 @@ def convert_dataset(
         hub_api.create_tag(repo_id, tag=CODEBASE_VERSION, revision=branch, repo_type="dataset")
 
         LeRobotDataset(repo_id).push_to_hub()
-=======
-    hub_api = HfApi()
-    try:
-        hub_api.delete_tag(repo_id, tag=CODEBASE_VERSION, repo_type="dataset")
-    except HTTPError as e:
-        print(f"tag={CODEBASE_VERSION} probably doesn't exist. Skipping exception ({e})")
-        pass
-    hub_api.delete_files(
-        delete_patterns=["data/chunk*/episode_*", "meta/*.jsonl", "videos/chunk*"],
-        repo_id=repo_id,
-        revision=branch,
-        repo_type="dataset",
-    )
-    hub_api.create_tag(repo_id, tag=CODEBASE_VERSION, revision=branch, repo_type="dataset")
-
-    LeRobotDataset(repo_id).push_to_hub()
->>>>>>> c0009bfc (done)
 
 
 if __name__ == "__main__":
@@ -622,7 +549,6 @@ if __name__ == "__main__":
         default=None,
         help="File size in MB. Defaults to 100 for data and 500 for videos.",
     )
-<<<<<<< HEAD
     parser.add_argument(
         "--root",
         type=str,
@@ -640,8 +566,6 @@ if __name__ == "__main__":
         action="store_true",
         help="Force conversion even if the dataset already has a v3.0 version.",
     )
-=======
->>>>>>> c0009bfc (done)
 
     args = parser.parse_args()
     convert_dataset(**vars(args))

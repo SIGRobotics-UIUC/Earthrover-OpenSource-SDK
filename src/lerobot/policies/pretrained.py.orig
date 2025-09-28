@@ -18,11 +18,7 @@ import os
 from importlib.resources import files
 from pathlib import Path
 from tempfile import TemporaryDirectory
-<<<<<<< HEAD
 from typing import TypedDict, TypeVar
-=======
-from typing import TypeVar
->>>>>>> c0009bfc (done)
 
 import packaging
 import safetensors
@@ -31,10 +27,7 @@ from huggingface_hub.constants import SAFETENSORS_SINGLE_FILE
 from huggingface_hub.errors import HfHubHTTPError
 from safetensors.torch import load_model as load_model_as_safetensor, save_model as save_model_as_safetensor
 from torch import Tensor, nn
-<<<<<<< HEAD
 from typing_extensions import Unpack
-=======
->>>>>>> c0009bfc (done)
 
 from lerobot.configs.policies import PreTrainedConfig
 from lerobot.configs.train import TrainPipelineConfig
@@ -44,13 +37,10 @@ from lerobot.utils.hub import HubMixin
 T = TypeVar("T", bound="PreTrainedPolicy")
 
 
-<<<<<<< HEAD
 class ActionSelectKwargs(TypedDict, total=False):
     noise: Tensor | None
 
 
-=======
->>>>>>> c0009bfc (done)
 class PreTrainedPolicy(nn.Module, HubMixin, abc.ABC):
     """
     Base class for policy models.
@@ -196,11 +186,7 @@ class PreTrainedPolicy(nn.Module, HubMixin, abc.ABC):
         raise NotImplementedError
 
     @abc.abstractmethod
-<<<<<<< HEAD
     def predict_action_chunk(self, batch: dict[str, Tensor], **kwargs: Unpack[ActionSelectKwargs]) -> Tensor:
-=======
-    def predict_action_chunk(self, batch: dict[str, Tensor]) -> Tensor:
->>>>>>> c0009bfc (done)
         """Returns the action chunk (for action chunking policies) for a given observation, potentially in batch mode.
 
         Child classes using action chunking should use this method within `select_action` to form the action chunk
@@ -209,11 +195,7 @@ class PreTrainedPolicy(nn.Module, HubMixin, abc.ABC):
         raise NotImplementedError
 
     @abc.abstractmethod
-<<<<<<< HEAD
     def select_action(self, batch: dict[str, Tensor], **kwargs: Unpack[ActionSelectKwargs]) -> Tensor:
-=======
-    def select_action(self, batch: dict[str, Tensor]) -> Tensor:
->>>>>>> c0009bfc (done)
         """Return one action to run in the environment (potentially in batch mode).
 
         When the model uses a history of observations, or outputs a sequence of actions, this method deals

@@ -7,11 +7,6 @@
 - sections:
   - local: il_robots
     title: Imitation Learning for Robots
-<<<<<<< HEAD
-=======
-  - local: il_sim
-    title: Imitation Learning in Sim
->>>>>>> c0009bfc (done)
   - local: cameras
     title: Cameras
   - local: integrate_hardware
@@ -22,18 +17,14 @@
     title: Train RL in Simulation
   - local: async
     title: Use Async Inference
-<<<<<<< HEAD
   - local: multi_gpu_training
     title: Multi GPU training
-=======
->>>>>>> c0009bfc (done)
   title: "Tutorials"
 - sections:
   - local: lerobot-dataset-v3
     title: Using LeRobotDataset
   - local: porting_datasets_v3
     title: Porting Large Datasets
-<<<<<<< HEAD
   - local: using_dataset_tools
     title: Using the Dataset Tools
   title: "Datasets"
@@ -59,16 +50,6 @@
   - local: metaworld
     title: Using MetaWorld
   title: "Simulation"
-=======
-  title: "Datasets"
-- sections:
-  - local: smolvla
-    title: Finetune SmolVLA
-  - local: libero
-    title: Using Libero
-  title: "Policies"
-
->>>>>>> c0009bfc (done)
 - sections:
   - local: introduction_processors
     title: Introduction to Robot Processors

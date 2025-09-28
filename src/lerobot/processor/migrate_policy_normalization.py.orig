@@ -303,7 +303,6 @@ def clean_state_dict(
     return new_state_dict
 
 
-<<<<<<< HEAD
 def load_state_dict_with_missing_key_handling(
     policy: torch.nn.Module,
     state_dict: dict[str, torch.Tensor],
@@ -363,8 +362,6 @@ def load_state_dict_with_missing_key_handling(
     return problematic_missing_keys
 
 
-=======
->>>>>>> c0009bfc (done)
 def convert_features_to_policy_features(features_dict: dict[str, dict]) -> dict[str, PolicyFeature]:
     """
     Converts a feature dictionary from the old config format to the new `PolicyFeature` format.
@@ -398,7 +395,6 @@ def convert_features_to_policy_features(features_dict: dict[str, dict]) -> dict[
     return converted_features
 
 
-<<<<<<< HEAD
 def display_migration_summary_with_warnings(problematic_missing_keys: list[str]) -> None:
     """
     Display final migration summary with warnings about problematic missing keys.
@@ -438,11 +434,6 @@ def display_migration_summary_with_warnings(problematic_missing_keys: list[str])
 def load_model_from_hub(
     repo_id: str, revision: str | None = None
 ) -> tuple[dict[str, torch.Tensor], dict[str, Any], dict[str, Any] | None]:
-=======
-def load_model_from_hub(
-    repo_id: str, revision: str | None = None
-) -> tuple[dict[str, torch.Tensor], dict[str, Any], dict[str, Any]]:
->>>>>>> c0009bfc (done)
     """
     Downloads and loads a model's state_dict and configs from the Hugging Face Hub.
 
@@ -452,20 +443,12 @@ def load_model_from_hub(
 
     Returns:
         A tuple containing the model's state dictionary, the policy configuration,
-<<<<<<< HEAD
         and the training configuration (None if train_config.json is not found).
-=======
-        and the training configuration.
->>>>>>> c0009bfc (done)
     """
     # Download files.
     safetensors_path = hf_hub_download(repo_id=repo_id, filename="model.safetensors", revision=revision)
 
     config_path = hf_hub_download(repo_id=repo_id, filename="config.json", revision=revision)
-<<<<<<< HEAD
-=======
-    train_config_path = hf_hub_download(repo_id=repo_id, filename="train_config.json", revision=revision)
->>>>>>> c0009bfc (done)
 
     # Load state_dict
     state_dict = load_safetensors(safetensors_path)
@@ -474,7 +457,6 @@ def load_model_from_hub(
     with open(config_path) as f:
         config = json.load(f)
 
-<<<<<<< HEAD
     # Try to load train_config (optional)
     train_config = None
     try:
@@ -483,10 +465,6 @@ def load_model_from_hub(
             train_config = json.load(f)
     except FileNotFoundError:
         print("train_config.json not found - continuing without training configuration")
-=======
-    with open(train_config_path) as f:
-        train_config = json.load(f)
->>>>>>> c0009bfc (done)
 
     return state_dict, config, train_config
 
@@ -532,7 +510,6 @@ def main():
         state_dict = load_safetensors(os.path.join(args.pretrained_path, "model.safetensors"))
         with open(os.path.join(args.pretrained_path, "config.json")) as f:
             config = json.load(f)
-<<<<<<< HEAD
 
         # Try to load train_config (optional)
         train_config = None
@@ -542,10 +519,6 @@ def main():
                 train_config = json.load(f)
         else:
             print("train_config.json not found - continuing without training configuration")
-=======
-        with open(os.path.join(args.pretrained_path, "train_config.json")) as f:
-            train_config = json.load(f)
->>>>>>> c0009bfc (done)
     else:
         # Hub repository
         state_dict, config, train_config = load_model_from_hub(args.pretrained_path, args.revision)
@@ -622,7 +595,6 @@ def main():
     policy_class = get_policy_class(policy_type)
     policy = policy_class(policy_config)
 
-<<<<<<< HEAD
     # Define whitelist of known missing keys that are acceptable (for example weight tie) for certain policy types
     known_missing_keys_whitelist = {
         "pi0": ["model.paligemma_with_expert.paligemma.model.language_model.embed_tokens.weight"],
@@ -637,12 +609,6 @@ def main():
         known_missing_keys_whitelist=known_missing_keys_whitelist,
     )
     policy.to(torch.float32)
-=======
-    # Load the cleaned state dict
-    policy.load_state_dict(new_state_dict, strict=True)
-    print("Successfully loaded cleaned state dict into policy model")
-
->>>>>>> c0009bfc (done)
     # Create preprocessor and postprocessor using the factory
     print("Creating preprocessor and postprocessor using make_pre_post_processors...")
     preprocessor, postprocessor = make_pre_post_processors(policy_cfg=policy_config, dataset_stats=stats)
@@ -672,13 +638,9 @@ def main():
     # Generate and save model card
     print("Generating model card...")
     # Get metadata from original config
-<<<<<<< HEAD
     dataset_repo_id = "unknown"
     if train_config is not None:
         dataset_repo_id = train_config.get("repo_id", "unknown")
-=======
-    dataset_repo_id = train_config.get("repo_id", "unknown")
->>>>>>> c0009bfc (done)
     license = config.get("license", "apache-2.0")
 
     tags = config.get("tags", ["robotics", "lerobot", policy_type]) or ["robotics", "lerobot", policy_type]
@@ -709,41 +671,25 @@ def main():
 
         if create_pr:
             # Separate commit description for PR body
-<<<<<<< HEAD
             commit_description = """**Automated Policy Migration to PolicyProcessorPipeline**
-=======
-            commit_description = """🤖 **Automated Policy Migration to PolicyProcessorPipeline**
->>>>>>> c0009bfc (done)
 
 This PR migrates your model to the new LeRobot policy format using the modern PolicyProcessorPipeline architecture.
 
 ## What Changed
 
-<<<<<<< HEAD
 ### **New Architecture - PolicyProcessorPipeline**
-=======
-### ✨ **New Architecture - PolicyProcessorPipeline**
->>>>>>> c0009bfc (done)
 Your model now uses external PolicyProcessorPipeline components for data processing instead of built-in normalization layers. This provides:
 - **Modularity**: Separate preprocessing and postprocessing pipelines
 - **Flexibility**: Easy to swap, configure, and debug processing steps
 - **Compatibility**: Works with the latest LeRobot ecosystem
 
-<<<<<<< HEAD
 ### **Normalization Extraction**
-=======
-### 🔧 **Normalization Extraction**
->>>>>>> c0009bfc (done)
 We've extracted normalization statistics from your model's state_dict and removed the built-in normalization layers:
 - **Extracted patterns**: `normalize_inputs.*`, `unnormalize_outputs.*`, `normalize.*`, `unnormalize.*`, `input_normalizer.*`, `output_normalizer.*`
 - **Statistics preserved**: Mean, std, min, max values for all features
 - **Clean model**: State dict now contains only core model weights
 
-<<<<<<< HEAD
 ### **Files Added**
-=======
-### 📦 **Files Added**
->>>>>>> c0009bfc (done)
 - **preprocessor_config.json**: Configuration for input preprocessing pipeline
 - **postprocessor_config.json**: Configuration for output postprocessing pipeline
 - **model.safetensors**: Clean model weights without normalization layers
@@ -751,21 +697,13 @@ We've extracted normalization statistics from your model's state_dict and remove
 - **train_config.json**: Training configuration
 - **README.md**: Updated model card with migration information
 
-<<<<<<< HEAD
 ### **Benefits**
-=======
-### 🚀 **Benefits**
->>>>>>> c0009bfc (done)
 - **Backward Compatible**: Your model behavior remains identical
 - **Future Ready**: Compatible with latest LeRobot features and updates
 - **Debuggable**: Easy to inspect and modify processing steps
 - **Portable**: Processors can be shared and reused across models
 
-<<<<<<< HEAD
 ### **Usage**
-=======
-### 💻 **Usage**
->>>>>>> c0009bfc (done)
 ```python
 # Load your migrated model
 from lerobot.policies import get_policy_class
@@ -823,12 +761,9 @@ final_action = postprocessor(action)
         else:
             print(f"\nView the changes at: https://huggingface.co/{hub_repo_id}")
 
-<<<<<<< HEAD
     # Display final summary about any problematic missing keys
     display_migration_summary_with_warnings(problematic_missing_keys)
 
-=======
->>>>>>> c0009bfc (done)
 
 if __name__ == "__main__":
     main()

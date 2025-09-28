@@ -15,13 +15,10 @@
 # limitations under the License.
 import importlib
 import logging
-<<<<<<< HEAD
 import pkgutil
 from typing import Any
 
 from draccus.choice_types import ChoiceRegistry
-=======
->>>>>>> c0009bfc (done)
 
 
 def is_package_available(pkg_name: str, return_version: bool = False) -> tuple[bool, str] | bool:
@@ -65,7 +62,6 @@ def is_package_available(pkg_name: str, return_version: bool = False) -> tuple[b
 
 
 _transformers_available = is_package_available("transformers")
-<<<<<<< HEAD
 _peft_available = is_package_available("peft")
 
 
@@ -157,5 +153,3 @@ def register_third_party_devices() -> None:
                 failed.append(name)
 
     logging.debug("Third-party plugin import summary: imported=%s failed=%s", imported, failed)
-=======
->>>>>>> c0009bfc (done)

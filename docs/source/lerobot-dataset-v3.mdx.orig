@@ -279,7 +279,6 @@ python -m lerobot.datasets.v30.convert_dataset_v21_to_v30 --repo-id=<HF_USER/DAT
 - Aggregates parquet files: `episode-0000.parquet`, `episode-0001.parquet`, … → **`file-0000.parquet`**, …
 - Aggregates mp4 files: `episode-0000.mp4`, `episode-0001.mp4`, … → **`file-0000.mp4`**, …
 - Updates `meta/episodes/*` (chunked Parquet) with per‑episode lengths, tasks, and byte/frame offsets.
-<<<<<<< HEAD
 
 ## Common Issues
 
@@ -313,5 +312,3 @@ Dataset v3.0 uses incremental parquet writing with buffered metadata for efficie
 - Ensures the dataset is valid for loading
 
 Without calling `finalize()`, your parquet files will be incomplete and the dataset won't load properly.
-=======
->>>>>>> c0009bfc (done)

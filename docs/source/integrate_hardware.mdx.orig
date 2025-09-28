@@ -8,11 +8,7 @@ To that end, we provide the [`Robot`](https://github.com/huggingface/lerobot/blo
 
 - Your own robot which exposes a communication interface (e.g. serial, CAN, TCP)
 - A way to read sensor data and send motor commands programmatically, e.g. manufacturer's SDK or API, or your own protocol implementation.
-<<<<<<< HEAD
 - LeRobot installed in your environment. Follow our [Installation Guide](./installation).
-=======
-- LeRobot installed in your environment. Follow our [Installation Guide](./installation.mdx).
->>>>>>> c0009bfc (done)
 
 ## Choose your motors
 
@@ -69,11 +65,7 @@ class MyCoolRobotConfig(RobotConfig):
 ```
 <!-- prettier-ignore-end -->
 
-<<<<<<< HEAD
 [Cameras tutorial](./cameras) to understand how to detect and add your camera.
-=======
-[Cameras tutorial](./cameras.mdx) to understand how to detect and add your camera.
->>>>>>> c0009bfc (done)
 
 Next, we'll create our actual robot class which inherits from `Robot`. This abstract class defines a contract you must follow for your robot to be usable with the rest of the LeRobot tools.
 
@@ -216,7 +208,6 @@ LeRobot supports saving and loading calibration data automatically. This is usef
 
 <!-- prettier-ignore-start -->
 ```python
-<<<<<<< HEAD
 @property
 def is_calibrated(self) -> bool:
     return True
@@ -225,54 +216,28 @@ def calibrate(self) -> None:
     pass
 ```
 <!-- prettier-ignore-end -->
-=======
-> @property
-> def is_calibrated(self) -> bool:
->    return True
->
-> def calibrate(self) -> None:
->    pass
-> ```
->>>>>>> c0009bfc (done)
 
 ### `is_calibrated`
 
 This should reflect whether your robot has the required calibration loaded.
 
-<<<<<<< HEAD
 <!-- prettier-ignore-start -->
 ```python
-=======
-```
-<!-- prettier-ignore-end -->python
->>>>>>> c0009bfc (done)
 @property
 def is_calibrated(self) -> bool:
     return self.bus.is_calibrated
 ```
-<<<<<<< HEAD
 <!-- prettier-ignore-end -->
-=======
->>>>>>> c0009bfc (done)
 
 ### `calibrate()`
 
 The goal of the calibration is twofold:
-<<<<<<< HEAD
 
 - Know the physical range of motion of each motors in order to only send commands within this range.
 - Normalize raw motors positions to sensible continuous values (e.g. percentages, degrees) instead of arbitrary discrete value dependant on the specific motor used that will not replicate elsewhere.
 
 It should implement the logic for calibration (if relevant) and update the `self.calibration` dictionary. If you are using Feetech or Dynamixel motors, our bus interfaces already include methods to help with this.
 
-=======
-    - Know the physical range of motion of each motors in order to only send commands within this range.
-    - Normalize raw motors positions to sensible continuous values (e.g. percentages, degrees) instead of arbitrary discrete value dependant on the specific motor used that will not replicate elsewhere.
-
-It should implement the logic for calibration (if relevant) and update the `self.calibration` dictionary. If you are using Feetech or Dynamixel motors, our bus interfaces already include methods to help with this.
-
-
->>>>>>> c0009bfc (done)
 <!-- prettier-ignore-start -->
 ```python
 def calibrate(self) -> None:
@@ -372,7 +337,6 @@ For implementing teleoperation devices, we also provide a [`Teleoperator`](https
 
 The main differences are in the I/O functions: a teleoperator allows you to produce action via `get_action` and can receive feedback actions via `send_feedback`. Feedback could be anything controllable on the teleoperation device that could help the person controlling it understand the consequences of the actions sent. Think motion/force feedback on a leader arm, vibrations on a gamepad controller for example. To implement a teleoperator, you can follow this same tutorial and adapt it for these two methods.
 
-<<<<<<< HEAD
 ## Using Your Own `LeRobot` Devices 🔌
 
 You can easily extend `lerobot` with your own custom hardware—be it a camera, robot, or teleoperation device—by creating a separate, installable Python package. If you follow a few simple conventions, the `lerobot` command-line tools (like `lerobot-teleop` and `lerobot-record`) will **automatically discover and integrate your creations** without requiring any changes to the `lerobot` source code.
@@ -501,8 +465,6 @@ Check out these two packages from the community:
 - https://github.com/SpesRobotics/lerobot-robot-xarm
 - https://github.com/SpesRobotics/lerobot-teleoperator-teleop
 
-=======
->>>>>>> c0009bfc (done)
 ## Wrapping Up
 
 Once your robot class is complete, you can leverage the LeRobot ecosystem:

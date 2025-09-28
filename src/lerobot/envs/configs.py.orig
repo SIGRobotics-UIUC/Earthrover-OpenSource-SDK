@@ -38,7 +38,6 @@ class EnvConfig(draccus.ChoiceRegistry, abc.ABC):
         return self.get_choice_name(self.__class__)
 
     @property
-<<<<<<< HEAD
     def package_name(self) -> str:
         """Package name to import if environment not found in gym registry"""
         return f"gym_{self.type}"
@@ -49,8 +48,6 @@ class EnvConfig(draccus.ChoiceRegistry, abc.ABC):
         return f"{self.package_name}/{self.task}"
 
     @property
-=======
->>>>>>> c0009bfc (done)
     @abc.abstractmethod
     def gym_kwargs(self) -> dict:
         raise NotImplementedError()
@@ -63,11 +60,8 @@ class AlohaEnv(EnvConfig):
     fps: int = 50
     episode_length: int = 400
     obs_type: str = "pixels_agent_pos"
-<<<<<<< HEAD
     observation_height: int = 480
     observation_width: int = 640
-=======
->>>>>>> c0009bfc (done)
     render_mode: str = "rgb_array"
     features: dict[str, PolicyFeature] = field(
         default_factory=lambda: {
@@ -85,7 +79,6 @@ class AlohaEnv(EnvConfig):
 
     def __post_init__(self):
         if self.obs_type == "pixels":
-<<<<<<< HEAD
             self.features["top"] = PolicyFeature(
                 type=FeatureType.VISUAL, shape=(self.observation_height, self.observation_width, 3)
             )
@@ -94,12 +87,6 @@ class AlohaEnv(EnvConfig):
             self.features["pixels/top"] = PolicyFeature(
                 type=FeatureType.VISUAL, shape=(self.observation_height, self.observation_width, 3)
             )
-=======
-            self.features["top"] = PolicyFeature(type=FeatureType.VISUAL, shape=(480, 640, 3))
-        elif self.obs_type == "pixels_agent_pos":
-            self.features["agent_pos"] = PolicyFeature(type=FeatureType.STATE, shape=(14,))
-            self.features["pixels/top"] = PolicyFeature(type=FeatureType.VISUAL, shape=(480, 640, 3))
->>>>>>> c0009bfc (done)
 
     @property
     def gym_kwargs(self) -> dict:
@@ -120,11 +107,8 @@ class PushtEnv(EnvConfig):
     render_mode: str = "rgb_array"
     visualization_width: int = 384
     visualization_height: int = 384
-<<<<<<< HEAD
     observation_height: int = 384
     observation_width: int = 384
-=======
->>>>>>> c0009bfc (done)
     features: dict[str, PolicyFeature] = field(
         default_factory=lambda: {
             ACTION: PolicyFeature(type=FeatureType.ACTION, shape=(2,)),
@@ -142,13 +126,9 @@ class PushtEnv(EnvConfig):
 
     def __post_init__(self):
         if self.obs_type == "pixels_agent_pos":
-<<<<<<< HEAD
             self.features["pixels"] = PolicyFeature(
                 type=FeatureType.VISUAL, shape=(self.observation_height, self.observation_width, 3)
             )
-=======
-            self.features["pixels"] = PolicyFeature(type=FeatureType.VISUAL, shape=(384, 384, 3))
->>>>>>> c0009bfc (done)
         elif self.obs_type == "environment_state_agent_pos":
             self.features["environment_state"] = PolicyFeature(type=FeatureType.ENV, shape=(16,))
 
@@ -163,48 +143,6 @@ class PushtEnv(EnvConfig):
         }
 
 
-<<<<<<< HEAD
-=======
-@EnvConfig.register_subclass("xarm")
-@dataclass
-class XarmEnv(EnvConfig):
-    task: str | None = "XarmLift-v0"
-    fps: int = 15
-    episode_length: int = 200
-    obs_type: str = "pixels_agent_pos"
-    render_mode: str = "rgb_array"
-    visualization_width: int = 384
-    visualization_height: int = 384
-    features: dict[str, PolicyFeature] = field(
-        default_factory=lambda: {
-            ACTION: PolicyFeature(type=FeatureType.ACTION, shape=(4,)),
-            "pixels": PolicyFeature(type=FeatureType.VISUAL, shape=(84, 84, 3)),
-        }
-    )
-    features_map: dict[str, str] = field(
-        default_factory=lambda: {
-            ACTION: ACTION,
-            "agent_pos": OBS_STATE,
-            "pixels": OBS_IMAGE,
-        }
-    )
-
-    def __post_init__(self):
-        if self.obs_type == "pixels_agent_pos":
-            self.features["agent_pos"] = PolicyFeature(type=FeatureType.STATE, shape=(4,))
-
-    @property
-    def gym_kwargs(self) -> dict:
-        return {
-            "obs_type": self.obs_type,
-            "render_mode": self.render_mode,
-            "visualization_width": self.visualization_width,
-            "visualization_height": self.visualization_height,
-            "max_episode_steps": self.episode_length,
-        }
-
-
->>>>>>> c0009bfc (done)
 @dataclass
 class ImagePreprocessingConfig:
     crop_params_dict: dict[str, tuple[int, int, int, int]] | None = None
@@ -236,10 +174,6 @@ class ObservationConfig:
 
     add_joint_velocity_to_observation: bool = False
     add_current_to_observation: bool = False
-<<<<<<< HEAD
-=======
-    add_ee_pose_to_observation: bool = False
->>>>>>> c0009bfc (done)
     display_cameras: bool = False
 
 
@@ -249,10 +183,6 @@ class GripperConfig:
 
     use_gripper: bool = True
     gripper_penalty: float = 0.0
-<<<<<<< HEAD
-=======
-    gripper_penalty_in_reward: bool = False
->>>>>>> c0009bfc (done)
 
 
 @dataclass
@@ -305,13 +235,9 @@ class LiberoEnv(EnvConfig):
     render_mode: str = "rgb_array"
     camera_name: str = "agentview_image,robot0_eye_in_hand_image"
     init_states: bool = True
-<<<<<<< HEAD
     camera_name_mapping: dict[str, str] | None = None
     observation_height: int = 360
     observation_width: int = 360
-=======
-    camera_name_mapping: dict[str, str] | None = (None,)
->>>>>>> c0009bfc (done)
     features: dict[str, PolicyFeature] = field(
         default_factory=lambda: {
             ACTION: PolicyFeature(type=FeatureType.ACTION, shape=(7,)),
@@ -329,32 +255,18 @@ class LiberoEnv(EnvConfig):
     def __post_init__(self):
         if self.obs_type == "pixels":
             self.features["pixels/agentview_image"] = PolicyFeature(
-<<<<<<< HEAD
                 type=FeatureType.VISUAL, shape=(self.observation_height, self.observation_width, 3)
             )
             self.features["pixels/robot0_eye_in_hand_image"] = PolicyFeature(
                 type=FeatureType.VISUAL, shape=(self.observation_height, self.observation_width, 3)
-=======
-                type=FeatureType.VISUAL, shape=(360, 360, 3)
-            )
-            self.features["pixels/robot0_eye_in_hand_image"] = PolicyFeature(
-                type=FeatureType.VISUAL, shape=(360, 360, 3)
->>>>>>> c0009bfc (done)
             )
         elif self.obs_type == "pixels_agent_pos":
             self.features["agent_pos"] = PolicyFeature(type=FeatureType.STATE, shape=(8,))
             self.features["pixels/agentview_image"] = PolicyFeature(
-<<<<<<< HEAD
                 type=FeatureType.VISUAL, shape=(self.observation_height, self.observation_width, 3)
             )
             self.features["pixels/robot0_eye_in_hand_image"] = PolicyFeature(
                 type=FeatureType.VISUAL, shape=(self.observation_height, self.observation_width, 3)
-=======
-                type=FeatureType.VISUAL, shape=(360, 360, 3)
-            )
-            self.features["pixels/robot0_eye_in_hand_image"] = PolicyFeature(
-                type=FeatureType.VISUAL, shape=(360, 360, 3)
->>>>>>> c0009bfc (done)
             )
         else:
             raise ValueError(f"Unsupported obs_type: {self.obs_type}")
@@ -365,7 +277,6 @@ class LiberoEnv(EnvConfig):
             "obs_type": self.obs_type,
             "render_mode": self.render_mode,
         }
-<<<<<<< HEAD
 
 
 @EnvConfig.register_subclass("metaworld")
@@ -408,5 +319,3 @@ class MetaworldEnv(EnvConfig):
             "obs_type": self.obs_type,
             "render_mode": self.render_mode,
         }
-=======
->>>>>>> c0009bfc (done)

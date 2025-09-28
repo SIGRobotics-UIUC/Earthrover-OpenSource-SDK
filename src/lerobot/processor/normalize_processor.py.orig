@@ -119,22 +119,12 @@ class _NormalizationMixin:
                     )
                 self.features = reconstructed
 
-<<<<<<< HEAD
         # if keys are strings (JSON), rebuild enum map
         if self.norm_map and all(isinstance(k, str) for k in self.norm_map):
             reconstructed = {}
             for ft_type_str, norm_mode_str in self.norm_map.items():
                 reconstructed[FeatureType(ft_type_str)] = NormalizationMode(norm_mode_str)
             self.norm_map = reconstructed
-=======
-        if self.norm_map:
-            # if keys are strings (JSON), rebuild enum map
-            if all(isinstance(k, str) for k in self.norm_map.keys()):
-                reconstructed = {}
-                for ft_type_str, norm_mode_str in self.norm_map.items():
-                    reconstructed[FeatureType(ft_type_str)] = NormalizationMode(norm_mode_str)
-                self.norm_map = reconstructed
->>>>>>> c0009bfc (done)
 
         # Convert stats to tensors and move to the target device once during initialization.
         self.stats = self.stats or {}
@@ -291,7 +281,6 @@ class _NormalizationMixin:
         """
         Core logic to apply a normalization or unnormalization transformation to a tensor.
 
-<<<<<<< HEAD
         This method selects the appropriate normalization mode based on the feature type
         and applies the corresponding mathematical operation.
 
@@ -300,10 +289,6 @@ class _NormalizationMixin:
           - MIN_MAX: Scales data to [-1, 1] range using actual min/max values.
           - QUANTILES: Scales data to [-1, 1] range using 1st and 99th percentiles (q01/q99).
           - QUANTILE10: Scales data to [-1, 1] range using 10th and 90th percentiles (q10/q90).
-=======
-        This method selects the appropriate normalization mode (e.g., mean/std, min/max)
-        based on the feature type and applies the corresponding mathematical operation.
->>>>>>> c0009bfc (done)
 
         Args:
             tensor: The input tensor to transform.
@@ -321,16 +306,12 @@ class _NormalizationMixin:
         if norm_mode == NormalizationMode.IDENTITY or key not in self._tensor_stats:
             return tensor
 
-<<<<<<< HEAD
         if norm_mode not in (
             NormalizationMode.MEAN_STD,
             NormalizationMode.MIN_MAX,
             NormalizationMode.QUANTILES,
             NormalizationMode.QUANTILE10,
         ):
-=======
-        if norm_mode not in (NormalizationMode.MEAN_STD, NormalizationMode.MIN_MAX):
->>>>>>> c0009bfc (done)
             raise ValueError(f"Unsupported normalization mode: {norm_mode}")
 
         # For Accelerate compatibility: Ensure stats are on the same device and dtype as the input tensor
@@ -341,7 +322,6 @@ class _NormalizationMixin:
 
         stats = self._tensor_stats[key]
 
-<<<<<<< HEAD
         if norm_mode == NormalizationMode.MEAN_STD:
             mean = stats.get("mean", None)
             std = stats.get("std", None)
@@ -350,9 +330,6 @@ class _NormalizationMixin:
                     "MEAN_STD normalization mode requires mean and std stats, please update the dataset with the correct stats"
                 )
 
-=======
-        if norm_mode == NormalizationMode.MEAN_STD and "mean" in stats and "std" in stats:
->>>>>>> c0009bfc (done)
             mean, std = stats["mean"], stats["std"]
             # Avoid division by zero by adding a small epsilon.
             denom = std + self.eps
@@ -360,7 +337,6 @@ class _NormalizationMixin:
                 return tensor * std + mean
             return (tensor - mean) / denom
 
-<<<<<<< HEAD
         if norm_mode == NormalizationMode.MIN_MAX:
             min_val = stats.get("min", None)
             max_val = stats.get("max", None)
@@ -369,9 +345,6 @@ class _NormalizationMixin:
                     "MIN_MAX normalization mode requires min and max stats, please update the dataset with the correct stats"
                 )
 
-=======
-        if norm_mode == NormalizationMode.MIN_MAX and "min" in stats and "max" in stats:
->>>>>>> c0009bfc (done)
             min_val, max_val = stats["min"], stats["max"]
             denom = max_val - min_val
             # When min_val == max_val, substitute the denominator with a small epsilon
@@ -386,7 +359,6 @@ class _NormalizationMixin:
             # Map from [min, max] to [-1, 1]
             return 2 * (tensor - min_val) / denom - 1
 
-<<<<<<< HEAD
         if norm_mode == NormalizationMode.QUANTILES:
             q01 = stats.get("q01", None)
             q99 = stats.get("q99", None)
@@ -421,8 +393,6 @@ class _NormalizationMixin:
                 return (tensor + 1.0) * denom / 2.0 + q10
             return 2.0 * (tensor - q10) / denom - 1.0
 
-=======
->>>>>>> c0009bfc (done)
         # If necessary stats are missing, return input unchanged.
         return tensor
 
