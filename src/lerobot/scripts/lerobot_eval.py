@@ -1,3 +1,5 @@
+#TODO: Fix this copyright to match ours
+
 #!/usr/bin/env python
 
 # Copyright 2024 The HuggingFace Inc. team. All rights reserved.
@@ -13,12 +15,20 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+
 """Evaluate a policy on an environment by running rollouts and computing metrics.
+
+The policy lets the robot interact in the environment for several episodes and records metrics.
 
 Usage examples:
 
 You want to evaluate a model from the hub (eg: https://huggingface.co/lerobot/diffusion_pusht)
 for 10 episodes.
+
+The code below is specifying what pre-trained policy will be run, the environment type, 
+how many concurrent evaluations is happning, how many episodes will be run, and specifying 
+that it will run on a gpu.
 
 ```
 lerobot-eval \
@@ -31,6 +41,11 @@ lerobot-eval \
 ```
 
 OR, you want to evaluate a model checkpoint from the LeRobot training script for 10 episodes.
+
+The code below is specifying that a checkpoint you evaluatated yourself will be used, the environment type, 
+how many concurrent evaluations is happning, how many episodes will be run, and specifying 
+that it will run on a gpu.
+
 ```
 lerobot-eval \
     --policy.path=outputs/train/diffusion_pusht/checkpoints/005000/pretrained_model \
