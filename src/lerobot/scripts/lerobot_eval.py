@@ -61,17 +61,17 @@ Note that in both examples, the repo/folder should contain at least `config.json
 You can learn about the CLI options for this script in the `EvalPipelineConfig` in lerobot/configs/eval.py
 """
 
-import concurrent.futures as cf
-import json
+import concurrent.futures as cf #lets you do multi-threading
+import json 
 import logging
-import threading
+import threading #work with threads
 import time
-from collections import defaultdict
-from collections.abc import Callable
-from contextlib import nullcontext
-from copy import deepcopy
-from dataclasses import asdict
-from functools import partial
+from collections import defaultdict #dictionary that creates default values
+from collections.abc import Callable 
+from contextlib import nullcontext #
+from copy import deepcopy #makes a deep copy with all nested data
+from dataclasses import asdict #converts into normal dictionary
+from functools import partial #
 from pathlib import Path
 from pprint import pformat
 from typing import Any, TypedDict
