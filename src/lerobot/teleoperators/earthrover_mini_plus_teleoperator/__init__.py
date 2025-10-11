@@ -14,3 +14,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from .config_earthrover_mini_plus_teleoperator import EarthroverMiniPlusConfig
+from .earthrover_mini_plus_teleoperator import EarthroverMiniPlus
