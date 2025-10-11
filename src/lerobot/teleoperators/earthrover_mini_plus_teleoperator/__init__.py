@@ -16,3 +16,6 @@
 
 from .config_earthrover_mini_plus_teleoperator import EarthroverMiniPlusConfig
 from .earthrover_mini_plus_teleoperator import EarthroverMiniPlus
+
+# __init__.py states that whatever folder this file is in can be treated as an individualized module, then you can do
+# simpler imports like from earthrover_mini_plus_teleoperator import EarthroverMiniPlus, EarthroverMiniPlusConfig
