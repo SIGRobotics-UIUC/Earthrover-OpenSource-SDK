@@ -60,7 +60,7 @@ class EarthroverKeyboardTeleop(Teleoperator):
     name = "keyboard"
 
     def __init__(self, config: EarthroverKeyboardTeleopConfig): #prepares everything an object needs (runs automatically) such as the variables needed, config tells what kind of robot this is
-        super().__init__(config) #this tells the parent class to do its setup
+        super().__init__(config) #this tells the parent class to do its setup first (calls the parent class's __init__ function [its constructor])
         self.config = config #saves the setting box into the object
         self.robot_type = config.type #saves the setting box type (what kind of robot) into the object
 
@@ -69,7 +69,17 @@ class EarthroverKeyboardTeleop(Teleoperator):
         self.listener = None #prepares what will actually listen for keyboard inputs
         self.logs = {} #sets up a dictionary to log all key presses
 
-        
+    @property #turns this function into a read-only function like a variable
+    def action_features(self) -> dict:  #describing all properties of an action in an array; creating a blueprint/metadata
+        return {
+            "dtype": "float32", #data type of values in the action, like how motor positions are this data type
+            "shape": (4,), #four arguments to pass in to move the robot (size of the array/how many values)
+            "names": { #describing what each element represents
+                "fields": ["sock", "duration", "speed", "angular"] #TODO: check if i need to set them to have default values later on
+            },
+        }
+
+
 
 
 
