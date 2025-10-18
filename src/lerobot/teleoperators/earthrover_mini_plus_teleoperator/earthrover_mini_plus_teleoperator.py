@@ -15,7 +15,14 @@
 # limitations under the License.
 
 import logging
+import os
+import sys
 import time
+from queue import Queue
+from typing import Any
+
+from lerobot.utils.errors import DeviceAlreadyConnectedError, DeviceNotConnectedError
+
 
 #TODO: Need to implement our own motor class in lerobot.motors
 
@@ -24,8 +31,40 @@ from lerobot.utils.errors import DeviceAlreadyConnectedError, DeviceNotConnected
 
 #TODO: Figure out what is Teleoperator
 from ..teleoperator import Teleoperator
+from ..utils import TeleopEvents
+from keyboard.configuration_keyboard import KeyboardEndEffectorTeleopConfig, KeyboardTeleopConfig
 
 from .config_earthrover_mini_plus_teleoperator import EarthroverMiniPlusConfig
+
+PYNPUT_AVAILABLE = True #this is just a flag to see whether PYNPUT is able to be imported or not
+try:
+    if ("DISPLAY" not in os.environ) and ("linux" in sys.platform):
+        logging.info("No DISPLAY set. Skipping pynput import.")
+        raise ImportError("pynput blocked intentionally. This is because pynput utilizes a GUI and your OS global input system to function. However, you do not have a GUI (and thus are running a headless linux system).")
+    
+    from pynput import keyboard
+except ImportError:
+    keyboard = None
+    PYNPUT_AVAILABLE = False
+except Exception as e: #catches any other errors and displays them
+    keyboard = None
+    PYNPUT_AVAILABLE = False
+    logging.info(f"Could not import pynput: {e}")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 logger = logging.getLogger(__name__)
 
