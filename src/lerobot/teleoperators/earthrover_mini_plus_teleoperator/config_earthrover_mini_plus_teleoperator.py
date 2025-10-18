@@ -30,7 +30,7 @@ class EarthroverMiniPlusConfig(TeleoperatorConfig):
 
 @TeleoperatorConfig.register_subclass("earthrover_keyboard")
 @dataclass
-class KeyboardTeleopConfig(TeleoperatorConfig):
+class EarthroverKeyboardTeleopConfig(TeleoperatorConfig):
     #check if we want to state what keys we will capture/listen to
     mock: bool = False
 

@@ -23,6 +23,9 @@ from typing import Any
 
 from lerobot.utils.errors import DeviceAlreadyConnectedError, DeviceNotConnectedError
 
+from .config_earthrover_mini_plus_teleoperator import EarthroverMiniPlusConfig, EarthroverKeyboardTeleopConfig
+from .earthrover_mini_plus_teleoperator import EarthroverMiniPlus, EarthroverKeyboardTeleop
+
 
 #TODO: Need to implement our own motor class in lerobot.motors
 
@@ -32,9 +35,6 @@ from lerobot.utils.errors import DeviceAlreadyConnectedError, DeviceNotConnected
 #TODO: Figure out what is Teleoperator
 from ..teleoperator import Teleoperator
 from ..utils import TeleopEvents
-from keyboard.configuration_keyboard import KeyboardEndEffectorTeleopConfig, KeyboardTeleopConfig
-
-from .config_earthrover_mini_plus_teleoperator import EarthroverMiniPlusConfig
 
 PYNPUT_AVAILABLE = True #this is just a flag to see whether PYNPUT is able to be imported or not
 try:
@@ -50,6 +50,27 @@ except Exception as e: #catches any other errors and displays them
     keyboard = None
     PYNPUT_AVAILABLE = False
     logging.info(f"Could not import pynput: {e}")
+
+class EarthroverKeyboardTeleop(Teleoperator):
+    """
+    Teleop class to use keyboard inputs for control.
+    """
+    
+    config_class = EarthroverKeyboardTeleopConfig
+    name = "keyboard"
+
+    def __init__(self, config: EarthroverKeyboardTeleopConfig): #prepares everything an object needs (runs automatically) such as the variables needed, config tells what kind of robot this is
+        super().__init__(config) #this tells the parent class to do its setup
+        self.config = config #saves the setting box into the object
+        self.robot_type = config.type #saves the setting box type (what kind of robot) into the object
+
+        self.event_queue = Queue() #creates a queue for key presses
+        self.current_pressed = {} #creates a dictionary to track which keys are pressed down at any point in time
+        self.listener = None #prepares what will actually listen for keyboard inputs
+        self.logs = {} #sets up a dictionary to log all key presses
+
+        
+
 
 
 
