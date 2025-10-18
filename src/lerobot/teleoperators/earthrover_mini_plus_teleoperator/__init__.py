@@ -14,14 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from .config_earthrover_mini_plus_teleoperator import EarthroverMiniPlusConfig
-from .earthrover_mini_plus_teleoperator import EarthroverMiniPlus
+from .config_earthrover_mini_plus_teleoperator import EarthroverMiniPlusConfig, EarthroverKeyboardTeleopConfig
+from .earthrover_mini_plus_teleoperator import EarthroverMiniPlus, EarthroverKeyboardTeleop
 
 #TODO: Check if I need to do something for a .util file as well
 #TODO: Find out all instances where this file needs to be inserted by looking at the So100 example
-
-from keyboard.teleop_keyboard import KeyboardEndEffectorTeleop, KeyboardTeleop
-from keyboard.configuration_keyboard import KeyboardEndEffectorTeleopConfig, KeyboardTeleopConfig
 
 # __init__.py states that whatever folder this file is in can be treated as an individualized module, then you can do
 # simpler imports like from earthrover_mini_plus_teleoperator import EarthroverMiniPlus, EarthroverMiniPlusConfig
