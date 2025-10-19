@@ -78,6 +78,24 @@ class EarthroverKeyboardTeleop(Teleoperator):
                 "fields": ["sock", "duration", "speed", "angular"] #TODO: check if i need to set them to have default values later on
             },
         }
+    
+    @property
+    def feedback_features(self) -> dict: #describes the shape of the feedback getting sent back
+        return{
+            "RPM": {"dtype": "float32", "shape": (4,)}, #the (4,d) represents a 1-D array using a tuple
+            "Head": {"dtype": "float32", "shape": (1,)},
+            "V": {"dtype": "float32", "shape": (1,)},
+            "I": {"dtype": "float32", "shape": (1,)},
+            "ACC": {"dtype": "float32", "shape": (3,)}, #acceleration
+            "Gyro": {"dtype": "float32", "shape": (3,)},
+            "Mag": {"dtype": "float32", "shape": (3,)}
+        }
+    
+    @property
+    
+    @property
+
+
 
 
 
