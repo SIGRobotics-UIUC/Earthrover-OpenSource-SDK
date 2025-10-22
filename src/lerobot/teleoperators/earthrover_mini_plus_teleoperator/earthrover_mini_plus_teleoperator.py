@@ -91,13 +91,15 @@ class EarthroverKeyboardTeleop(Teleoperator):
             "Mag": {"dtype": "float32", "shape": (3,)}
         }
     
-    @property
+    @property #TODO: Create issue because in orig. code LeRobot code is unsafe
     def is_connected(self) -> bool: #self represents the current object calling this method
         if not PYNPUT_AVAILABLE or keyboard is None:
             return False
         return isinstance(self.listener, keyboard.Listener) and self.listener.is_alive()
     
-    @property
+    @property #TODO: Check where this is being called and see if we can set this to be true/false
+    def is_calibrated(self) -> bool:
+        pass
 
 
 
