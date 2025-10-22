@@ -93,13 +93,41 @@ class EarthroverKeyboardTeleop(Teleoperator):
     
     @property #TODO: Create issue because in orig. code LeRobot code is unsafe
     def is_connected(self) -> bool: #self represents the current object calling this method
-        if not PYNPUT_AVAILABLE or keyboard is None:
+        if not PYNPUT_AVAILABLE or keyboard is None: #returns whether the robot can be connected or not
             return False
-        return isinstance(self.listener, keyboard.Listener) and self.listener.is_alive()
+        return isinstance(self.listener, keyboard.Listener) and self.listener.is_alive() #returns true if robot is able to be connected and is
     
     @property #TODO: Check where this is being called and see if we can set this to be true/false
-    def is_calibrated(self) -> bool:
+    def is_calibrated(self) -> bool: #should I suppress this function for now?
         pass
+    
+    #TODO: check how this will be called becuse of the passed in parameter
+    def connect(self, calibrate: bool = True) -> None:
+        if self.is_connected:
+            raise DeviceAlreadyConnectedError(
+                "The earthrover-keyboard teleoperation is already setup. Do not run `robot.connect()` twice."
+            )
+        
+        if PYNPUT_AVAILABLE: #runs if robot is not connected yet
+            logging.info("pynput is available - enabling local keyboard listener.")
+            self.listener = keyboard.Listener(
+                on_press=self.on_press,
+                on_release=self.on_release,
+            )
+            self.listener.start()
+        else:
+            logging.info("pynput not available - skipping local keyboard listener.")
+            self.listener = None
+    
+    #TODO: Check where this is being called and if this needs to be implemented/how
+    def calibrate(self) -> None:
+        # do i do this: return super().calibrate() or is there a different thing to do
+        pass
+
+    def _on_press(self, key): #key is the key being pressed in I think
+        if hasattr(key, "char"):
+            self.event_queue.put((key.char, True))
+        
 
 
 
