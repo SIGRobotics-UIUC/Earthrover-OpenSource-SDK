@@ -92,6 +92,10 @@ class EarthroverKeyboardTeleop(Teleoperator):
         }
     
     @property
+    def is_connected(self) -> bool: #self represents the current object calling this method
+        if not PYNPUT_AVAILABLE or keyboard is None:
+            return False
+        return isinstance(self.listener, keyboard.Listener) and self.listener.is_alive()
     
     @property
 
