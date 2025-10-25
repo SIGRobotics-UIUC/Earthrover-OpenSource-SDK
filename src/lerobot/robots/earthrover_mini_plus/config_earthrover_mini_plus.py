@@ -16,17 +16,18 @@ from dataclasses import dataclass, field
 
 from lerobot.cameras.configs import CameraConfig, Cv2Rotation
 from lerobot.cameras.opencv.configuration_opencv import OpenCVCameraConfig  
+from lerobot.cameras.earthrover_mini_camera.configuration_earthrover_mini import EarthRoverMiniCameraConfig, ColorMode
 
 from ..config import RobotConfig
 
 def earthrover_mini_plus_cameras_config() -> dict[str, CameraConfig]:
     # to edit based on earth rover's cameras
     return {
-        "front": OpenCVCameraConfig(
-            index_or_path="/dev/video0", fps=30, width=640, height=480, rotation=Cv2Rotation.ROTATE_180
+        "front": EarthRoverMiniCameraConfig(
+            index_or_path= EarthRoverMiniCameraConfig.FRONT_CAM_MAIN, fps=30, width=640, height=480, color_mode=ColorMode.RGB
         ),
-        "rear": OpenCVCameraConfig(
-            index_or_path="/dev/video2", fps=30, width=640, height=480, rotation=Cv2Rotation.ROTATE_180
+        "rear": EarthRoverMiniCameraConfig(
+            index_or_path=EarthRoverMiniCameraConfig.REAR_CAM_MAIN, fps=30, width=640, height=480, color_mode=ColorMode.RGB
         ),
     }
 
