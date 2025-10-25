@@ -37,15 +37,7 @@ from ..camera import Camera
 from ..utils import get_cv2_backend, get_cv2_rotation
 from .configuration_earthrover_mini import ColorMode, EarthRoverMiniCameraConfig
 
-# NOTE(Steven): The maximum opencv device index depends on your operating system. For instance,
-# if you have 3 cameras, they should be associated to index 0, 1, and 2. This is the case
-# on MacOS. However, on Ubuntu, the indices are different like 6, 16, 23.
-# When you change the USB port or reboot the computer, the operating system might
-# treat the same cameras as new devices. Thus we select a higher bound to search indices.
-MAX_OPENCV_INDEX = 60
-
 logger = logging.getLogger(__name__)
-
 
 class EarthRoverMiniCamera(Camera):
     """
@@ -55,48 +47,44 @@ class EarthRoverMiniCamera(Camera):
     frames from cameras compatible with OpenCV's VideoCapture. It supports both
     synchronous and asynchronous frame reading.
 
-    An OpenCVCamera instance requires a camera index (e.g., 0) or a device path
-    (e.g., '/dev/video0' on Linux). Camera indices can be unstable across reboots
-    or port changes, especially on Linux. Use the provided utility script to find
-    available camera indices or paths:
-    ```bash
-    lerobot-find-cameras opencv
-    ```
+    There are 4 camera paths available, the front main camera, front sub camera,
+    rear camera, and rear main sub camera. Main cameras provide higher resolution
+    outputs than sub cameras, but display a similar image. These paths are defined
+    as FRONT_CAM_MAIN, FRONT_CAM_SUB, REAR_CAM_MAIN, REAR_CAM_SUB in the 
+    EarthRoverMiniCameraConfig class in configuration_earthrover_mini.py.
 
     The camera's default settings (FPS, resolution, color mode) are used unless
-    overridden in the configuration.
+    overridden in the configuration. FPS and resolution are locked at 30 FPS and
+    1920 x 1080 resolution, and will throw an error if modified in the config.
 
     Example:
         ```python
-        from lerobot.cameras.opencv import OpenCVCamera
-        from lerobot.cameras.configuration_opencv import OpenCVCameraConfig, ColorMode, Cv2Rotation
+        from lerobot.cameras.earthrover_mini_camera import EarthRoverMiniCamera
+        from lerobot.cameras.earthrover_mini_camera.configuration_earthrover_mini import EarthRoverMiniCameraConfig, ColorMode
 
-        # Basic usage with camera index 0
-        config = OpenCVCameraConfig(index_or_path=0)
-        camera = OpenCVCamera(config)
+        # Front main camera config
+        config = EarthRoverMiniCameraConfig(
+            index_or_path=EarthRoverMiniCameraConfig.FRONT_CAM_MAIN, 
+            color_mode=ColorMode.RGB
+        )
+
+        # Instantiate the camera
+        camera = EarthRoverMiniCamera(config)
+
+        # Connect to the camera
         camera.connect()
 
-        # Read 1 frame synchronously
-        color_image = camera.read()
-        print(color_image.shape)
-
-        # Read 1 frame asynchronously
-        async_image = camera.async_read()
-
-        # When done, properly disconnect the camera using
-        camera.disconnect()
-
-        # Example with custom settings
-        custom_config = OpenCVCameraConfig(
-            index_or_path='/dev/video0', # Or use an index
-            fps=30,
-            width=1280,
-            height=720,
-            color_mode=ColorMode.RGB,
-            rotation=Cv2Rotation.ROTATE_90
-        )
-        custom_camera = OpenCVCamera(custom_config)
-        # ... connect, read, disconnect ...
+        # Display frames in a loop
+        try:
+            while True:
+                frame = camera.read() 
+                cv2.imshow("Earth Rover Camera", frame)
+                if cv2.waitKey(1) & 0xFF == ord('q'):
+                    break
+        finally:
+            # Disconnect and cleanup
+            camera.disconnect()
+            cv2.destroyAllWindows()
         ```
     """
 
@@ -142,7 +130,7 @@ class EarthRoverMiniCamera(Camera):
 
     def connect(self, warmup: bool = True):
         """
-        Connects to the OpenCV camera specified in the configuration.
+        Connects to the EarthRoverMini camera specified in the configuration.
 
         Initializes the OpenCV VideoCapture object, sets desired camera properties
         (FPS, width, height), and performs initial checks.
@@ -168,8 +156,6 @@ class EarthRoverMiniCamera(Camera):
                 f"Failed to open {self}.Run `lerobot-find-cameras opencv` to find available cameras."
             )
 
-        self._configure_capture_settings()
-
         if warmup:
             start_time = time.time()
             while time.time() - start_time < self.warmup_s:
@@ -178,95 +164,27 @@ class EarthRoverMiniCamera(Camera):
 
         logger.info(f"{self} connected.")
 
-    def _configure_capture_settings(self) -> None:
-        """
-        Applies the specified FPS, width, and height settings to the connected camera.
-
-        This method attempts to set the camera properties via OpenCV. It checks if
-        the camera successfully applied the settings and raises an error if not.
-
-        Args:
-            fps: The desired frames per second. If None, the setting is skipped.
-            width: The desired capture width. If None, the setting is skipped.
-            height: The desired capture height. If None, the setting is skipped.
-
-        Raises:
-            RuntimeError: If the camera fails to set any of the specified properties
-                          to the requested value.
-            DeviceNotConnectedError: If the camera is not connected when attempting
-                                     to configure settings.
-        """
-        if not self.is_connected:
-            raise DeviceNotConnectedError(f"Cannot configure settings for {self} as it is not connected.")
-
-        if self.fps is None:
-            self.fps = self.videocapture.get(cv2.CAP_PROP_FPS)
-        else:
-            self._validate_fps()
-
-        default_width = int(round(self.videocapture.get(cv2.CAP_PROP_FRAME_WIDTH)))
-        default_height = int(round(self.videocapture.get(cv2.CAP_PROP_FRAME_HEIGHT)))
-
-        if self.width is None or self.height is None:
-            self.width, self.height = default_width, default_height
-            self.capture_width, self.capture_height = default_width, default_height
-            if self.rotation in [cv2.ROTATE_90_CLOCKWISE, cv2.ROTATE_90_COUNTERCLOCKWISE]:
-                self.width, self.height = default_height, default_width
-                self.capture_width, self.capture_height = default_width, default_height
-        else:
-            self._validate_width_and_height()
-
-    def _validate_fps(self) -> None:
-        """Validates and sets the camera's frames per second (FPS)."""
-
-        success = self.videocapture.set(cv2.CAP_PROP_FPS, float(self.fps))
-        actual_fps = self.videocapture.get(cv2.CAP_PROP_FPS)
-
-        print(f"Camera requested FPS: {self.fps}, actual FPS: {actual_fps}")
-        # Use math.isclose for robust float comparison
-        # if not success or not math.isclose(self.fps, actual_fps, rel_tol=1e-3):
-        #     raise RuntimeError(f"{self} failed to set fps={self.fps} ({actual_fps=}).")
-
-    def _validate_width_and_height(self) -> None:
-        """Validates and sets the camera's frame capture width and height."""
-
-        width_success = self.videocapture.set(cv2.CAP_PROP_FRAME_WIDTH, float(self.capture_width))
-        height_success = self.videocapture.set(cv2.CAP_PROP_FRAME_HEIGHT, float(self.capture_height))
-
-        actual_width = int(round(self.videocapture.get(cv2.CAP_PROP_FRAME_WIDTH)))
-        # if not width_success or self.capture_width != actual_width:
-        #     raise RuntimeError(
-        #         f"{self} failed to set capture_width={self.capture_width} ({actual_width=}, {width_success=})."
-        #     )
-
-        actual_height = int(round(self.videocapture.get(cv2.CAP_PROP_FRAME_HEIGHT)))
-        # if not height_success or self.capture_height != actual_height:
-        #     raise RuntimeError(
-        #         f"{self} failed to set capture_height={self.capture_height} ({actual_height=}, {height_success=})."
-        #     )
-
     @staticmethod
     def find_cameras() -> list[dict[str, Any]]:
         """
-        Detects available OpenCV cameras connected to the system.
-
-        On Linux, it scans '/dev/video*' paths. On other systems (like macOS, Windows),
-        it checks indices from 0 up to `MAX_OPENCV_INDEX`.
+        Detects available EarthRoverMini cameras connected to the system.
 
         Returns:
             List[Dict[str, Any]]: A list of dictionaries,
             where each dictionary contains 'type', 'id' (port index or path),
             and the default profile properties (width, height, fps, format).
         """
+
         found_cameras_info = []
 
-        if platform.system() == "Linux":
-            possible_paths = sorted(Path("/dev").glob("video*"), key=lambda p: p.name)
-            targets_to_scan = [str(p) for p in possible_paths]
-        else:
-            targets_to_scan = list(range(MAX_OPENCV_INDEX))
+        targets_to_scan = [EarthRoverMiniCameraConfig.FRONT_CAM_MAIN, 
+                           EarthRoverMiniCameraConfig.FRONT_CAM_SUB, 
+                           EarthRoverMiniCameraConfig.REAR_CAM_MAIN,
+                           EarthRoverMiniCameraConfig.REAR_CAM_SUB]
+        
+        target_names = ["Front Main", "Front Sub", "Rear Main", "Rear Sub"]
 
-        for target in targets_to_scan:
+        for target, target_name in zip(targets_to_scan, target_names):
             camera = cv2.VideoCapture(target)
             if camera.isOpened():
                 default_width = int(camera.get(cv2.CAP_PROP_FRAME_WIDTH))
@@ -274,7 +192,7 @@ class EarthRoverMiniCamera(Camera):
                 default_fps = camera.get(cv2.CAP_PROP_FPS)
                 default_format = camera.get(cv2.CAP_PROP_FORMAT)
                 camera_info = {
-                    "name": f"OpenCV Camera @ {target}",
+                    "name": f"{target_name} Camera @ {target}",
                     "type": "OpenCV",
                     "id": target,
                     "backend_api": camera.getBackendName(),
@@ -356,11 +274,6 @@ class EarthRoverMiniCamera(Camera):
             )
 
         h, w, c = image.shape
-
-        # if h != self.capture_height or w != self.capture_width:
-        #     raise RuntimeError(
-        #         f"{self} frame width={w} or height={h} do not match configured width={self.capture_width} or height={self.capture_height}."
-        #     )
 
         if c != 3:
             raise RuntimeError(f"{self} frame channels={c} do not match expected 3 channels (RGB/BGR).")
