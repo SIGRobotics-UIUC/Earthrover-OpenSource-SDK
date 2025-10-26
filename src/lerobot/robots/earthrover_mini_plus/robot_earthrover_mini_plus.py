@@ -24,12 +24,15 @@ class EarthRoverMiniPlus(Robot):
 
         super().__init__(config)
         self.config = config
+        self.earth_rover: None
 
-        self.base_motors = [] # todo
+        #No motors
+        #self.base_motors = [] # todo
         self.cameras = make_cameras_from_configs(config.cameras)
 
-    @cached_property
+   
     def is_connected(self) -> bool:
+<<<<<<< HEAD
 
         # When are we connected?
         # class api_structure:
@@ -38,6 +41,9 @@ class EarthRoverMiniPlus(Robot):
         # We are connected once the api_structure object has been created, so we need to check it exists
 
         return self.is_connected
+=======
+        return  and all(cam.is_connected for cam in self.cameras.values())
+>>>>>>> 51f4885 (robot class)
     
     def connect(self, calibrate: bool = True) -> None:
         if self.is_connected:
@@ -58,7 +64,7 @@ class EarthRoverMiniPlus(Robot):
         logger.info(f"{self} connected")
     
     def is_calibrated(self) -> bool:
-        return self.is_calibrated
+        return selfd.is_calibrated
     
     def calibrate(self) -> None:
         # Calibrate the IMU, motors, etc?
@@ -73,6 +79,50 @@ class EarthRoverMiniPlus(Robot):
     def configure(self):
         # todo
         pass
+
+    @property
+    def _motor_rpms_ft(self) -> dict[str, type]:
+        return {
+            "motor_Fl": float,
+            "motor_Fr": float,
+            "motor_Br": float,
+            "motor_Bl": float,
+        }
+    
+    @property
+    def _speed_and_heading_ft(self) -> dict[str, type]:
+        return {
+                "speed": float,
+                "heading": float,
+            }
+    
+
+    @property
+    def _imu_ft(self) -> dict[str, type]:
+         {
+            "accel_x": 0.01, "accel_y": -0.12, "accel_z": 9.81,
+            "gyro_x": 0.002, "gyro_y": -0.001, "gyro_z": 0.0005,
+            "mag_x": 30.2, "mag_y": -47.8, "mag_z": 10.3
+        }
+
+    @property
+    def _cameras_ft(self) -> dict[str, tuple]:
+        return {
+            cam: (self.cameras[cam].height, self.cameras[cam].width, 3) for cam in self.cameras
+        }
+
+    @property
+    def observation_features(self) -> dict:
+        return {**self._motor_rpms_ft, **self._imu_ft, **self._speed_and_heading_ft, **self._cameras_ft}
+    
+
+    @property
+    def action_features(self) -> dict:
+        return self._speed_and_heading_ft
+
+
+    def action
+
     
     def get_observation(self) -> dict[str, Any]:
         if not self.is_connected:
