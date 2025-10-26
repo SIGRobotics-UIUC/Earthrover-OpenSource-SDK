@@ -22,6 +22,7 @@ class EarthRoverMiniPlusClient(Robot):
 
         self.teleop_keys = config.teleop_keys
         self.cameras = config.cameras
+        
 
         self.polling_timeout_ms = config.polling_timeout_ms
         self.connect_timeout_s = config.connect_timeout_s
