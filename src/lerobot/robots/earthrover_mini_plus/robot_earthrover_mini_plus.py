@@ -1,5 +1,6 @@
 import logging
 from socket import socket
+from typing import Any
 
 from lerobot.utils.errors import DeviceAlreadyConnectedError, DeviceNotConnectedError
 
@@ -32,7 +33,6 @@ class EarthRoverMiniPlus(Robot):
 
    
     def is_connected(self) -> bool:
-<<<<<<< HEAD
 
         # When are we connected?
         # class api_structure:
@@ -41,9 +41,6 @@ class EarthRoverMiniPlus(Robot):
         # We are connected once the api_structure object has been created, so we need to check it exists
 
         return self.is_connected
-=======
-        return  and all(cam.is_connected for cam in self.cameras.values())
->>>>>>> 51f4885 (robot class)
     
     def connect(self, calibrate: bool = True) -> None:
         if self.is_connected:
@@ -70,7 +67,7 @@ class EarthRoverMiniPlus(Robot):
         # Calibrate the IMU, motors, etc?
         if self.calibration:
             
-        logger.info(f"\nRunning calibration of {self}")
+            logger.info(f"\nRunning calibration of {self}")
 
         # todo
     
@@ -121,7 +118,7 @@ class EarthRoverMiniPlus(Robot):
         return self._speed_and_heading_ft
 
 
-    def action
+
 
     
     def get_observation(self) -> dict[str, Any]:
