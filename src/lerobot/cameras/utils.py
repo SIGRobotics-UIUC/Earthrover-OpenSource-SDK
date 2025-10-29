@@ -42,6 +42,10 @@ def make_cameras_from_configs(camera_configs: dict[str, CameraConfig]) -> dict[s
             from .reachy2_camera.reachy2_camera import Reachy2Camera
 
             cameras[key] = Reachy2Camera(cfg)
+        elif cfg.type == "earthrover_mini_camera":
+            from .earthrover_mini_camera.earthrover_mini_camera import EarthRoverMiniCamera
+
+            cameras[key] = EarthRoverMiniCamera(cfg)
 
         else:
             raise ValueError(f"The camera type '{cfg.type}' is not valid.")

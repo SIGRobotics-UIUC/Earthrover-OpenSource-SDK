@@ -29,19 +29,14 @@ class EarthRoverMiniPlus(Robot):
 
         #No motors
         #self.base_motors = [] # todo
+        self.is_connected = False
         self.cameras = make_cameras_from_configs(config.cameras)
-
    
     def is_connected(self) -> bool:
-
-        # When are we connected?
-        # class api_structure:
-        #     def __init__(self, ip, port=5500):
-        #         self.__socket = self.connect_to_rover(ip, port)
-        # We are connected once the api_structure object has been created, so we need to check it exists
-
+        # Connected iff all the cameras are connected
         return self.is_connected
     
+    # Connects to all robot devices, currently just the cameras
     def connect(self, calibrate: bool = True) -> None:
         if self.is_connected:
             raise DeviceAlreadyConnectedError(f"{self} already connected")
@@ -55,16 +50,16 @@ class EarthRoverMiniPlus(Robot):
             else:
                 print(f"Failed to connect to {cam.config.index_or_path}. Exiting...")
                 raise DeviceNotConnectedError
+        
         # Currently doesn't do anything, no configuration needed? Only need to connect.
         self.configure()
 
-        # Connect to the EarthRover here by instantiating an api_structure object (this creates the socket connection automatically)
+        # Change the is_connected class value
+        self.is_connected = True
 
-
-        
     
     def is_calibrated(self) -> bool:
-        return selfd.is_calibrated
+        return self.is_calibrated
     
     def calibrate(self) -> None:
         """
