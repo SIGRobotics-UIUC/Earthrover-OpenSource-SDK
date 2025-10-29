@@ -71,17 +71,17 @@ class EarthRoverMiniPlusClientConfig:
     teleop_keys: dict[str, str] = field(
         default_factory=lambda: {
             # Movement
-            "forward": "w",
-            "backward": "s",
-            "left": "a",
-            "right": "d",
-            "rotate_left": "z",
-            "rotate_right": "x",
+            "forward": "up",
+            "backward": "down",
+            "increase_time": "+",
+            "decrease_time": "-",
+            "rotate_left": "left",
+            "rotate_right": "right",
             # Speed control
-            "speed_up": "r",
-            "speed_down": "f",
+            # "speed_up": "r",
+            # "speed_down": "f",
             # quit teleop
-            "quit": "q",
+            # "quit": "q",
         }
     )
 

@@ -203,6 +203,7 @@ class EarthroverKeyboardTeleopActions(EarthroverKeyboardTeleop): #child class ex
         angular = 0.0
 
         # Generate action based on current key states
+        #TODO: See if I need a quit key
         for key, val in self.current_pressed.items(): #all of the below will error
             if key == "up": #TODO: add in gradient stuff + better way for users to increment
                 speed += 5.0

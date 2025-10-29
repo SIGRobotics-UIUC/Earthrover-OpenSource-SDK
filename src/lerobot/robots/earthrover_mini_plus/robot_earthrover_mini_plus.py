@@ -13,7 +13,6 @@ from .config_earthrover_mini_plus import EarthRoverMiniPlusConfig
 # The import from our low-level API, so we can call actual functions on the robot
 from api import api_structure
 
-
 logger = logging.get_logger(__name__)
 
 class EarthRoverMiniPlus(Robot):
