@@ -23,18 +23,14 @@ from typing import Any
 
 from lerobot.utils.errors import DeviceAlreadyConnectedError, DeviceNotConnectedError
 
-from .config_earthrover_mini_plus_teleoperator import EarthroverMiniPlusConfig, EarthroverKeyboardTeleopConfig, EarthroverKeyboardTeleopConfigActions
-from .earthrover_mini_plus_teleoperator import EarthroverMiniPlus, EarthroverKeyboardTeleop
+from .config_earthrover_mini_plus_teleoperator import EarthroverKeyboardTeleopConfig, EarthroverKeyboardTeleopConfigActions
+#from .earthrover_mini_plus_teleoperator import EarthroverMiniPlus, EarthroverKeyboardTeleop TODO: Check if I need this
 
-
-#TODO: Need to implement our own motor class in lerobot.motors
-
-from lerobot.teleoperators.config import TeleoperatorConfig
 from lerobot.utils.errors import DeviceAlreadyConnectedError, DeviceNotConnectedError
 
 #TODO: Figure out what is Teleoperator
 from ..teleoperator import Teleoperator
-from ..utils import TeleopEvents
+from ..utils import TeleopEvents #TODO: Figure out if I need this
 
 PYNPUT_AVAILABLE = True #this is just a flag to see whether PYNPUT is able to be imported or not
 try:
@@ -171,16 +167,16 @@ class EarthroverKeyboardTeleop(Teleoperator):
         if self.listener is not None:
             self.listener.stop()
 
-class EarthroverKeyboardTeleopConfigActions(EarthroverKeyboardTeleop): #child class extending parent behavior
+class EarthroverKeyboardTeleopActions(EarthroverKeyboardTeleop): #child class extending parent behavior
     """
     Keyboard teleop class to use keyboard inputs for robot actions.
     Designed to be used with the `Earthrover Mini Plus` robot.
     """
 
-    config_class = EarthroverKeyboardTeleopConfig
+    config_class = EarthroverKeyboardTeleopConfigActions
     name = "earthrover keyboard teleop actions"
 
-    def __init__(self, config: EarthroverKeyboardTeleopConfig):
+    def __init__(self, config: EarthroverKeyboardTeleopConfigActions):
         super().__init__(config) #has parent class set up first
         self.config = config #stores the config inside this object 
         self.misc_keys_queue = Queue() #queue for misc. key presses separate from main robot tasks (different thread)
@@ -269,17 +265,17 @@ class EarthroverKeyboardTeleopConfigActions(EarthroverKeyboardTeleop): #child cl
 
 
 
-logger = logging.getLogger(__name__)
+# logger = logging.getLogger(__name__)
 
-class EarthroverMiniPlus(Teleoperator):
-    """
-    Earthrover Mini Plus designed by SIGRobotics and FrodoBots AI.
-    """
+# class EarthroverMiniPlus(Teleoperator):
+#     """
+#     Earthrover Mini Plus designed by SIGRobotics and FrodoBots AI.
+#     """
 
-    config_class = EarthroverMiniPlusConfig
-    name = "earthrover_mini_plus"
+#     config_class = EarthroverMiniPlusConfig
+#     name = "earthrover_mini_plus"
 
-    def __init__(self, config: EarthroverMiniPlusConfig):
-        super().__init__(config)
-        self.config = config
+#     def __init__(self, config: EarthroverMiniPlusConfig):
+#         super().__init__(config)
+#         self.config = config
         
