@@ -34,8 +34,9 @@ class EarthroverKeyboardTeleopConfig(TeleoperatorConfig):
     #check if we want to state what keys we will capture/listen to
     mock: bool = False
 
-# @TeleoperatorConfig.register_subclass("earthrover_keyboard_ee")
-# @dataclass
-# class KeyboardEndEffectorTeleopConfig(KeyboardTeleopConfig):
-#     #this class specifically controls the end effector, commented out for now
-#     use_gripper: bool = True
+@TeleoperatorConfig.register_subclass("earthrover_keyboard_ee")
+@dataclass
+class EarthroverKeyboardTeleopConfigActions(EarthroverKeyboardTeleopConfig):
+#     this class specifically controls the end effector, commented out for now
+    #use_gripper: bool = True
+    use_key: bool = True #placeholder for some random state we need to decide
