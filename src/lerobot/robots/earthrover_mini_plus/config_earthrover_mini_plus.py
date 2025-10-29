@@ -24,10 +24,10 @@ def earthrover_mini_plus_cameras_config() -> dict[str, CameraConfig]:
     # to edit based on earth rover's cameras
     return {
         "front": EarthRoverMiniCameraConfig(
-            index_or_path= EarthRoverMiniCameraConfig.FRONT_CAM_MAIN, fps=30, width=640, height=480, color_mode=ColorMode.RGB
+            index_or_path= EarthRoverMiniCameraConfig.FRONT_CAM_MAIN, color_mode=ColorMode.RGB
         ),
         "rear": EarthRoverMiniCameraConfig(
-            index_or_path=EarthRoverMiniCameraConfig.REAR_CAM_MAIN, fps=30, width=640, height=480, color_mode=ColorMode.RGB
+            index_or_path=EarthRoverMiniCameraConfig.REAR_CAM_MAIN, color_mode=ColorMode.RGB
         ),
     }
 

@@ -506,7 +506,7 @@ class Earthrover_API:
 #     await rover.disconnect()
 
 async def main():
-    rover = API("192.168.11.1", 8888)
+    rover = Earthrover_API("192.168.11.1", 8888)
     await rover.connect()
 
     # --- 1️⃣ Connection + Ping Test ---
