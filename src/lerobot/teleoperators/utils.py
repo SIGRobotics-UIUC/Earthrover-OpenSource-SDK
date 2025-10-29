@@ -33,6 +33,12 @@ def make_teleoperator_from_config(config: TeleoperatorConfig) -> Teleoperator:
         from .keyboard import KeyboardTeleop
 
         return KeyboardTeleop(config)
+    
+    elif config.type == "earthrover_keyboard":
+        from .earthrover_mini_plus_teleoperator import EarthroverKeyboardTeleop
+
+        return EarthroverKeyboardTeleop(config)
+
     elif config.type == "koch_leader":
         from .koch_leader import KochLeader
 
@@ -65,6 +71,10 @@ def make_teleoperator_from_config(config: TeleoperatorConfig) -> Teleoperator:
         from .keyboard.teleop_keyboard import KeyboardEndEffectorTeleop
 
         return KeyboardEndEffectorTeleop(config)
+    elif config.type == "earthrover_keyboard_actions":
+        from .earthrover_mini_plus_teleoperator.earthrover_mini_plus_teleoperator import EarthroverKeyboardTeleopActions
+
+        return EarthroverKeyboardTeleopActions(config)
     elif config.type == "homunculus_glove":
         from .homunculus import HomunculusGlove
 
