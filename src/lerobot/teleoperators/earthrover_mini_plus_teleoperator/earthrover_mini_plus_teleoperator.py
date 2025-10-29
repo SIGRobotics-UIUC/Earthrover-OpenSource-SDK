@@ -23,7 +23,7 @@ from typing import Any
 
 from lerobot.utils.errors import DeviceAlreadyConnectedError, DeviceNotConnectedError
 
-from .config_earthrover_mini_plus_teleoperator import EarthroverMiniPlusConfig, EarthroverKeyboardTeleopConfig
+from .config_earthrover_mini_plus_teleoperator import EarthroverMiniPlusConfig, EarthroverKeyboardTeleopConfig, EarthroverKeyboardTeleopConfigActions
 from .earthrover_mini_plus_teleoperator import EarthroverMiniPlus, EarthroverKeyboardTeleop
 
 
@@ -73,9 +73,9 @@ class EarthroverKeyboardTeleop(Teleoperator):
     def action_features(self) -> dict:  #describing all properties of an action in an array; creating a blueprint/metadata
         return {
             "dtype": "float32", #data type of values in the action, like how motor positions are this data type
-            "shape": (4,), #four arguments to pass in to move the robot (size of the array/how many values)
+            "shape": (3,), #four arguments to pass in to move the robot (size of the array/how many values)
             "names": { #describing what each element represents
-                "fields": ["sock", "duration", "speed", "angular"] #TODO: check if i need to set them to have default values later on
+                "fields": ["duration", "speed", "angular"] #TODO: check if i need to set them to have default values later on
             },
         }
     
@@ -110,11 +110,11 @@ class EarthroverKeyboardTeleop(Teleoperator):
         
         if PYNPUT_AVAILABLE: #runs if robot is not connected yet
             logging.info("pynput is available - enabling local keyboard listener.")
-            self.listener = keyboard.Listener(
-                on_press=self.on_press,
-                on_release=self.on_release,
+            self.listener = keyboard.Listener( #erroring because there's chance PYNPUT gets skipped
+                on_press=self._on_press,
+                on_release=self._on_release,
             )
-            self.listener.start()
+            self.listener.start() #runs in a different thread
         else:
             logging.info("pynput not available - skipping local keyboard listener.")
             self.listener = None
@@ -124,9 +124,129 @@ class EarthroverKeyboardTeleop(Teleoperator):
         # do i do this: return super().calibrate() or is there a different thing to do
         pass
 
-    def _on_press(self, key): #key is the key being pressed in I think
+
+    def _on_press(self, key): #key is the key being pressed in, and puts what the character is pressed in the queue
         if hasattr(key, "char"):
             self.event_queue.put((key.char, True))
+
+    def _on_release(self, key):
+        if hasattr(key, "char"):
+            self.event_queue.put((key.char, False)) #pushes this to a queue
+        if key == keyboard.Key.esc: #our disconnect key
+            logging.info("ESC pressed, disconnecting.")
+            self.disconnect()
+
+    def _drain_pressed_keys(self):
+        while not self.event_queue.empty(): #runs while queue is not empty
+            key_char, is_pressed = self.event_queue.get_nowait() #returns a tuple of each key state
+            self.current_pressed[key_char] = is_pressed #adds to the dictionary
+
+    def configure(self): #TODO: set this up
+        pass
+
+    def get_action(self) -> dict[str, Any]:
+        before_read_t = time.perf_counter() #gets precise time
+
+        if not self.is_connected: #checks that you are connected
+            raise DeviceNotConnectedError(
+                "Earthrover Mini Plus Keyboard Teleop is not connected. You need to run `connect()` before `get_action()`."
+            )
+        
+        self._drain_pressed_keys() #updates which keys are pressed down
+
+        # Generate action based on current key states (through creating a set of all currently pressed keys)
+        action = {key for key, val in self.current_pressed.items() if val}
+        self.logs["read_pos_dt_s"] = time.perf_counter() - before_read_t #checks how long the action took for the current key
+
+        return dict.fromkeys(action, None) #sets the value from each action to be None
+    
+    def send_feedback(self, feedback: dict[str, Any]) -> None:
+        pass #TODO: Implement this
+
+    def disconnect(self) -> None:
+        if not self.is_connected:
+            raise DeviceNotConnectedError(
+                "Earthrover Mini Plus Keyboard Teleop is not connected. You need to run `robot.connect()` before `disconnect()`."
+            )
+        if self.listener is not None:
+            self.listener.stop()
+
+class EarthroverKeyboardTeleopConfigActions(EarthroverKeyboardTeleop): #child class extending parent behavior
+    """
+    Keyboard teleop class to use keyboard inputs for robot actions.
+    Designed to be used with the `Earthrover Mini Plus` robot.
+    """
+
+    config_class = EarthroverKeyboardTeleopConfig
+    name = "earthrover keyboard teleop actions"
+
+    def __init__(self, config: EarthroverKeyboardTeleopConfig):
+        super().__init__(config) #has parent class set up first
+        self.config = config #stores the config inside this object 
+        self.misc_keys_queue = Queue() #queue for misc. key presses separate from main robot tasks (different thread)
+
+    @property
+    def action_features(self) -> dict:
+        return {
+            "dtype": "float32",
+            "shape": (3,),
+            "names": {
+                "fields": ["duration", "speed", "angular"]
+            },
+        }
+    
+    def get_action(self) -> dict[str, Any]:
+        if not self.is_connected:
+            raise DeviceNotConnectedError(
+                "KeyboardTeleop is not connected. You need to run `connect()` before `get_action()`."
+            )
+        
+        self._drain_pressed_keys()
+        duration = 0.0 #TODO: have users be able to enter in terminal
+        speed = 0.0
+        angular = 0.0
+
+        # Generate action based on current key states
+        for key, val in self.current_pressed.items(): #all of the below will error
+            if key == "up": #TODO: add in gradient stuff + better way for users to increment
+                speed += 5.0
+            elif key == "down":
+                speed -= 5.0
+            elif key == "+":
+                duration += .5
+            elif key == "-":
+                duration -= .5
+            elif key == "left":
+                angular -= 0.5
+            elif key == "right":
+                angular += 0.5
+            elif val:
+                #stores any other misc. keys in the queue
+                #can use this to implement other actions like the shortcuts for recording episodes or other interventions
+                self.misc_keys_queue.put(key)
+        
+        if not any(self.current_pressed.values()): 
+            duration = 0.0
+            speed = 0.0
+            angular = 0.0
+
+        self.current_pressed.clear()
+
+        action_dict = {
+            "duration": duration,
+            "speed": speed,
+            "angular": angular,
+        }
+
+        return action_dict
+
+
+    
+
+        
+
+
+        
         
 
 
