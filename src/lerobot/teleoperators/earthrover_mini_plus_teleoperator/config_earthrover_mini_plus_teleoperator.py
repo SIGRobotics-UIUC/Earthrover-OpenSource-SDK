@@ -18,23 +18,14 @@ from dataclasses import dataclass #we are using this because this is a data hold
 
 from ..config import TeleoperatorConfig #goes back one folder to import a base config file that defines how any teleoperator configuration should behave
 
-
-@TeleoperatorConfig.register_subclass("earthrover_mini_plus") #this allows you to register a different teleoperator and allows you to differentiate various teleoperators
-@dataclass #works with the import statement as a decorator so it knows for this class to auto create an __init__.py and other boilerplate code
-class EarthroverMiniPlusConfig(TeleoperatorConfig):
-    # the variables below don't have any default value so need to pass one in
-    port: str #Port to connect to the earthrover
-    ip: str #Robot's IP to connect to the earthrover
-    
-    #TODO: Come up later on with what other parameters we need for the config file
-
 @TeleoperatorConfig.register_subclass("earthrover_keyboard")
 @dataclass
 class EarthroverKeyboardTeleopConfig(TeleoperatorConfig):
     #check if we want to state what keys we will capture/listen to
-    mock: bool = False
+    port: int = 8888 #Port to connect to the earthrover
+    ip: str = "192.168.11.1 "#Robot's IP to connect to the earthrover
 
-@TeleoperatorConfig.register_subclass("earthrover_keyboard_ee")
+@TeleoperatorConfig.register_subclass("earthrover_keyboard_actions")
 @dataclass
 class EarthroverKeyboardTeleopConfigActions(EarthroverKeyboardTeleopConfig):
 #     this class specifically controls the end effector, commented out for now

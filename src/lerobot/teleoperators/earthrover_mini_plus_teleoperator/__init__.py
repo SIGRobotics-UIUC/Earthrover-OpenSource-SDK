@@ -14,8 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from .config_earthrover_mini_plus_teleoperator import EarthroverMiniPlusConfig, EarthroverKeyboardTeleopConfig, EarthroverKeyboardTeleopConfigActions
-from .earthrover_mini_plus_teleoperator import EarthroverMiniPlus, EarthroverKeyboardTeleop
+from .config_earthrover_mini_plus_teleoperator import EarthroverKeyboardTeleopConfig, EarthroverKeyboardTeleopConfigActions
+from .earthrover_mini_plus_teleoperator import EarthroverKeyboardTeleop, EarthroverKeyboardTeleopActions
 
 #TODO: Check if I need to do something for a .util file as well
 #TODO: Find out all instances where this file needs to be inserted by looking at the So100 example
