@@ -1,6 +1,7 @@
 import logging
 from socket import socket
-
+from typing import Any
+import asyncio
 from lerobot.utils.errors import DeviceAlreadyConnectedError, DeviceNotConnectedError
 
 from lerobot.cameras.utils import make_cameras_from_configs
@@ -32,7 +33,6 @@ class EarthRoverMiniPlus(Robot):
 
    
     def is_connected(self) -> bool:
-<<<<<<< HEAD
 
         # When are we connected?
         # class api_structure:
@@ -41,36 +41,39 @@ class EarthRoverMiniPlus(Robot):
         # We are connected once the api_structure object has been created, so we need to check it exists
 
         return self.is_connected
-=======
-        return  and all(cam.is_connected for cam in self.cameras.values())
->>>>>>> 51f4885 (robot class)
     
     def connect(self, calibrate: bool = True) -> None:
         if self.is_connected:
             raise DeviceAlreadyConnectedError(f"{self} already connected")
         
+        self.earth_rover= EarthRoverMiniPlus(self.config.port, self.config.ip_address)
+        for cam in self.cameras:
+            print(f"Connecting to camera {cam.config.index_or_path}...")
+            cam.connect()
+            if cam.is_connected:
+                print(f"{cam.config.index_or_path} connected successfully!")
+            else:
+                print(f"Failed to connect to {cam.config.index_or_path}. Exiting...")
+                raise DeviceNotConnectedError
         # Currently doesn't do anything, no configuration needed? Only need to connect.
         self.configure()
 
         # Connect to the EarthRover here by instantiating an api_structure object (this creates the socket connection automatically)
 
 
-        if not self.is_calibrated and calibrate:
-            logging.info(
-                "Mismatch between calibration values in the motor and the calibration file or no calibration file found"
-            )
-            self.calibrate()
-            
-        logger.info(f"{self} connected")
+        
     
     def is_calibrated(self) -> bool:
         return selfd.is_calibrated
     
     def calibrate(self) -> None:
+        """
+        Make this a calibration state machine for imu, mag, accelerometer data
+        """
         # Calibrate the IMU, motors, etc?
         if self.calibration:
             
-        logger.info(f"\nRunning calibration of {self}")
+            logger.info(f"\nRunning calibration of {self}")
 
         # todo
     
@@ -99,10 +102,10 @@ class EarthRoverMiniPlus(Robot):
 
     @property
     def _imu_ft(self) -> dict[str, type]:
-         {
-            "accel_x": 0.01, "accel_y": -0.12, "accel_z": 9.81,
-            "gyro_x": 0.002, "gyro_y": -0.001, "gyro_z": 0.0005,
-            "mag_x": 30.2, "mag_y": -47.8, "mag_z": 10.3
+        return {
+            "accel_x": float, "accel_y": float, "accel_z": float,
+            "gyro_x": float, "gyro_y": float, "gyro_z": float,
+            "mag_x": float, "mag_y": float, "mag_z": float
         }
 
     @property
@@ -120,13 +123,24 @@ class EarthRoverMiniPlus(Robot):
     def action_features(self) -> dict:
         return self._speed_and_heading_ft
 
+    
 
-    def action
 
     
     def get_observation(self) -> dict[str, Any]:
+        #calls function in earthrover object to get observation data:
         if not self.is_connected:
             raise DeviceNotConnectedError(f"{self} is not connected.")
+
+        obs_dct: dict[str: Any]={}
+        obs_dct.update(asyncio.run(self.earth_rover.get_telemetry()));
+        for cam_key, cam in self.cameras.items():
+            obs_dct[cam_key] = cam.async_read()
+
+        return obs_dct
+
+
+        
 
     def send_action(self, action: dict[str, Any]) -> dict[str, Any]:
         """Send control commands to Earthrover Mini Plus"""
@@ -150,6 +164,11 @@ class EarthRoverMiniPlus(Robot):
             v = action["linear_velocity"]
             w = action["angular_velocity"]
             # Call the api call for move, should be higher level not send_ctl_cmd
+        else:
+            return None
+
+        return self.earth_rover.move(v,w)
+            
 
 
 
@@ -158,4 +177,8 @@ class EarthRoverMiniPlus(Robot):
         if not self.is_connected:
             raise DeviceNotConnectedError(f"{self} is not connected.")
 
+        for cam in self.cameras.values():
+            cam.disconnect()
+        self.earth_rover.disconnect()
         logger.info(f"{self} disconnected.")
+
