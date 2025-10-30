@@ -17,7 +17,7 @@ from dataclasses import dataclass, field
 from lerobot.cameras.configs import CameraConfig, Cv2Rotation
 from lerobot.cameras.opencv.configuration_opencv import OpenCVCameraConfig  
 from lerobot.cameras.earthrover_mini_camera.configuration_earthrover_mini import EarthRoverMiniCameraConfig, ColorMode
-
+from lerobot.cameras.earthrover_mini_camera import EarthRoverMiniCamera
 from ..config import RobotConfig
 
 def earthrover_mini_plus_cameras_config() -> dict[str, CameraConfig]:
@@ -36,13 +36,17 @@ def earthrover_mini_plus_cameras_config() -> dict[str, CameraConfig]:
 @dataclass
 class EarthRoverMiniPlusConfig(RobotConfig):
 
-    port: str = "/dev/ttyACM0"  # port to be changed
+    port: str = "/dev/ttyACM0" 
+    remote_ip: str = "192.168.11.1" # port to be changed
 
     cameras: dict[str, CameraConfig] = field(default_factory=earthrover_mini_plus_cameras_config)
 
     # any other configs we want
 
 
+
+
+"""
 # todo: maybe have client and host configs
 @dataclass
 class EarthRoverMiniPlusHostConfig:
@@ -89,3 +93,4 @@ class EarthRoverMiniPlusClientConfig:
 
     polling_timeout_ms: int = 15
     connect_timeout_s: int = 5
+    """

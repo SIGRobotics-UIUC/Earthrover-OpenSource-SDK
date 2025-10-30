@@ -7,13 +7,14 @@ from lerobot.utils.errors import DeviceAlreadyConnectedError, DeviceNotConnected
 from lerobot.cameras.utils import make_cameras_from_configs
 
 from ..robot import Robot
-from .config_earthrover_mini_plus import EarthRoverMiniPlusConfig
+from .config_earthrover_mini_plus import EarthRoverMiniPlusConfig, EarthRoverMiniCamera
+
 
 
 # The import from our low-level API, so we can call actual functions on the robot
-from api import api_structure
+from earth_rover_mini_plus_sdk import EarthRoverMini
 
-logger = logging.get_logger(__name__)
+#logger = logging.get_logger(__name__)
 
 class EarthRoverMiniPlus(Robot):
 
@@ -29,6 +30,7 @@ class EarthRoverMiniPlus(Robot):
         #No motors
         #self.base_motors = [] # todo
         self.is_connected = False
+
         self.cameras = make_cameras_from_configs(config.cameras)
    
     def is_connected(self) -> bool:
@@ -36,19 +38,22 @@ class EarthRoverMiniPlus(Robot):
         return self.is_connected
     
     # Connects to all robot devices, currently just the cameras
-    def connect(self, calibrate: bool = True) -> None:
+    async def connect(self, calibrate: bool = True) -> None:
         if self.is_connected:
             raise DeviceAlreadyConnectedError(f"{self} already connected")
         
-        self.earth_rover= EarthRoverMiniPlus(self.config.port, self.config.ip_address)
-        for cam in self.cameras:
+        self.earth_rover= EarthRoverMini( ip="192.168.11.1", port=8888)
+        #EarthRoverMiniPlus(self.config)
+        await self.earth_rover.connect()
+        #asyncio.run(self.earth_rover.connect())
+        for cam in self.cameras.values():
             print(f"Connecting to camera {cam.config.index_or_path}...")
             cam.connect()
             if cam.is_connected:
-                print(f"{cam.config.index_or_path} connected successfully!")
+                  print(f"{cam.config.index_or_path} connected successfully!")
             else:
-                print(f"Failed to connect to {cam.config.index_or_path}. Exiting...")
-                raise DeviceNotConnectedError
+                  print(f"Failed to connect to {cam.config.index_or_path}. Exiting...")
+                  raise DeviceNotConnectedError
         
         # Currently doesn't do anything, no configuration needed? Only need to connect.
         self.configure()
@@ -66,8 +71,8 @@ class EarthRoverMiniPlus(Robot):
         """
         # Calibrate the IMU, motors, etc?
         if self.calibration:
-            
-            logger.info(f"\nRunning calibration of {self}")
+            pass
+            #logger.info(f"\nRunning calibration of {self}")
 
         # todo
     
@@ -121,13 +126,13 @@ class EarthRoverMiniPlus(Robot):
 
 
     
-    def get_observation(self) -> dict[str, Any]:
+    async def get_observation(self) -> dict[str, Any]:
         #calls function in earthrover object to get observation data:
         if not self.is_connected:
             raise DeviceNotConnectedError(f"{self} is not connected.")
 
         obs_dct: dict[str: Any]={}
-        obs_dct.update(asyncio.run(self.earth_rover.get_telemetry()));
+        obs_dct.update(await self.earth_rover.get_telemetry())
         for cam_key, cam in self.cameras.items():
             obs_dct[cam_key] = cam.async_read()
 
@@ -136,7 +141,7 @@ class EarthRoverMiniPlus(Robot):
 
         
 
-    def send_action(self, action: dict[str, Any]) -> dict[str, Any]:
+    async def send_action(self, action: dict[str, Any]) -> dict[str, Any]:
         """Send control commands to Earthrover Mini Plus"""
        
         # send_ctl_cmd(self.socket, self.speed, self.angular)
@@ -161,18 +166,18 @@ class EarthRoverMiniPlus(Robot):
         else:
             return None
 
-        return self.earth_rover.move(v,w)
+        return await self.earth_rover.move( speed=int(v),angular= int(w),duration=int(10))
             
 
 
 
 
-    def disconnect(self):
+    async def disconnect(self):
         if not self.is_connected:
             raise DeviceNotConnectedError(f"{self} is not connected.")
 
         for cam in self.cameras.values():
             cam.disconnect()
-        self.earth_rover.disconnect()
-        logger.info(f"{self} disconnected.")
+        await self.earth_rover.disconnect()
+        #logger.info(f"{self} disconnected.")
 

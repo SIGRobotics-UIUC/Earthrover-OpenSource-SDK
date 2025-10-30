@@ -207,25 +207,31 @@ class EarthroverKeyboardTeleopActions(EarthroverKeyboardTeleop): #child class ex
         for key, val in self.current_pressed.items(): #all of the below will error
             if key == "up": #TODO: add in gradient stuff + better way for users to increment
                 speed += 5.0
+                print(speed)
             elif key == "down":
                 speed -= 5.0
+                print(speed)
             elif key == "+":
                 duration += .5
+                print(duration)
             elif key == "-":
                 duration -= .5
+                print(duration)
             elif key == "left":
                 angular -= 0.5
+                print(angular)
             elif key == "right":
                 angular += 0.5
+                print(angular)
             elif val:
                 #stores any other misc. keys in the queue
                 #can use this to implement other actions like the shortcuts for recording episodes or other interventions
                 self.misc_keys_queue.put(key)
         
         if not any(self.current_pressed.values()): 
-            duration = 0.0
-            speed = 0.0
-            angular = 0.0
+            duration = 50.0
+            speed = 5.0
+            angular = 10
 
         self.current_pressed.clear()
 
