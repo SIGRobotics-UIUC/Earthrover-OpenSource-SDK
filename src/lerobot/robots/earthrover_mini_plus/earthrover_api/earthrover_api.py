@@ -565,10 +565,7 @@ async def main():
     await rover.mag_write((5, 6, 7))
     await asyncio.sleep(1)
 
-    # --- 7️⃣ OTA Update Simulation ---
-    print("\n[TEST] Requesting OTA update to version 42...")
-    await rover.over_the_air_update(42)
-    await asyncio.sleep(2)
+
 
     # --- ✅ Done ---
     print("\n[TEST] All commands sent. Disconnecting...")
