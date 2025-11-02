@@ -4,7 +4,7 @@ from typing import Any
 import asyncio
 from lerobot.utils.errors import DeviceAlreadyConnectedError, DeviceNotConnectedError
 import sys
-sys.path.append('/home/saketh/Earthrover-OpenSource-SDK/src/lerobot/robots/earthrover_mini_plus/earthrover_api')
+sys.path.append('/home/linuxsom/Code/Earthrover-OpenSource-SDK/src/lerobot/robots/earthrover_mini_plus/earthrover_api')
 from lerobot.cameras.utils import make_cameras_from_configs
 
 from ..robot import Robot
@@ -13,7 +13,7 @@ from .config_earthrover_mini_plus import EarthRoverMiniPlusConfig, EarthRoverMin
 
 
 # The import from our low-level API, so we can call actual functions on the robot
-from earthrover_api import Earthrover_API
+from earthrover_api import Earthrover_API, main_run
 
 #logger = logging.get_logger(__name__)
 
@@ -172,7 +172,11 @@ class EarthRoverMiniPlus(Robot):
         else:
             return None
 
+        print(f'v and w: {v}, {w}')
+        # return await self.earth_rover.move( speed=int(v),angular= int(w),duration=int(10))
         return await self.earth_rover.move( speed=int(v),angular= int(w),duration=int(10))
+        # move_task = asyncio.create_task(self.earth_rover.move(speed=int(60), angular=int(360), duration=int(10)))
+        # await move_task
             
 
 

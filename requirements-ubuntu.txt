@@ -4,8 +4,6 @@
 #
 #    pip-compile --output-file=requirements-ubuntu.txt requirements.in
 #
--e .[all]
-    # via -[all]
 absl-py==2.3.1
     # via
     #   dm-control
@@ -164,7 +162,7 @@ eiquadprog==1.2.9
     # via placo
 etils[epath,epy]==1.13.0
     # via mujoco
-evdev==1.9.2
+evdev==1.6.1
     # via pynput
 exceptiongroup==1.3.0
     # via

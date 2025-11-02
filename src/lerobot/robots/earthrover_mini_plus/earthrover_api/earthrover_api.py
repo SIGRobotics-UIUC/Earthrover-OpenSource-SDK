@@ -505,7 +505,7 @@ class Earthrover_API:
 
 #     await rover.disconnect()
 
-async def main():
+async def main_run():
     rover = Earthrover_API("192.168.11.1", 8888)
     await rover.connect()
 
@@ -573,4 +573,4 @@ async def main():
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    asyncio.run(main_run())

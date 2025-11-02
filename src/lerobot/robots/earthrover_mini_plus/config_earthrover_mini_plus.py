@@ -37,6 +37,7 @@ def earthrover_mini_plus_cameras_config() -> dict[str, CameraConfig]:
 class EarthRoverMiniPlusConfig(RobotConfig):
 
     port: str = "/dev/ttyACM0" 
+    # port: int = 8888
     remote_ip: str = "192.168.11.1" # port to be changed
 
     cameras: dict[str, CameraConfig] = field(default_factory=earthrover_mini_plus_cameras_config)
