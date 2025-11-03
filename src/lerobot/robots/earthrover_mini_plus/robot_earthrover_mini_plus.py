@@ -32,6 +32,7 @@ class EarthRoverMiniPlus(Robot):
         self.is_connected = False
 
         self.cameras = make_cameras_from_configs(config.cameras)
+        print("Cameras made from config:" + str(self.cameras))
    
     def is_connected(self) -> bool:
         # Connected iff all the cameras are connected
@@ -165,8 +166,9 @@ class EarthRoverMiniPlus(Robot):
             # Call the api call for move, should be higher level not send_ctl_cmd
         else:
             return None
-
-        return await self.earth_rover.move( speed=int(v),angular= int(w),duration=int(10))
+        await self.earth_rover.move( speed=int(v),angular= int(w),duration=int(10))
+        return
+        # return await self.earth_rover.move( speed=int(v),angular= int(w),duration=int(10))
             
 
 

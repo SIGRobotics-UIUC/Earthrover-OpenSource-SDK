@@ -3,6 +3,7 @@
 import time
 import logging
 import asyncio
+import cv2
 
 from lerobot.teleoperators.earthrover_mini_plus_teleoperator import (
     EarthroverKeyboardTeleopActions,
@@ -25,7 +26,7 @@ async def main():
 
     # Step 2: Create robot client config and instance
     client_config = EarthRoverMiniPlusConfig(remote_ip="192.168.11.1", port=8888)  # change IP to your robot
-    print(client_config)
+    print("client config:" + str(client_config))
     client = EarthRoverMiniPlus(client_config)
     
     # Connect to robot
@@ -34,8 +35,20 @@ async def main():
 
     try:
         while True:
+            idx=1
+            print("here")
+            print(str(client.cameras))
+            for cam in client.cameras.keys():
+                print(str(cam))
+                print((str(client.cameras[cam])))
+                frame = client.cameras[cam].read()
+                cv2.imshow(f"RTSP Stream {idx}", frame)
+                if cv2.waitKey(1) & 0xFF == ord("q"):
+                    break
+            print("--------------------------------------- ENTERED LOOP ---------------------------------------")
             # Step 3: Read teleop keys
             teleop_action = teleop.get_action()
+            print("--------------------------------------- GOT ACTION ---------------------------------------")
             # teleop_action example: {'speed': 5.0, 'angular': 0.5, 'duration': 0.5}
 
             # Step 4: Convert to robot API format
@@ -49,10 +62,11 @@ async def main():
 
             # Step 5: Send action to robot
             await client.send_action(action_dict)
-
+            print("--------------------------------------- LEGOON LOOP ---------------------------------------")
             # Optional: small sleep to avoid busy loop
             time.sleep(0.05)  # 20 Hz loop
-
+            break
+        print("--------------------------------------- EXITED LOOP ---------------------------------------")
     except KeyboardInterrupt:
         pass
         #logging.info("Keyboard interrupt received. Shutting down...")
