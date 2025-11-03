@@ -22,7 +22,7 @@ from lerobot.robots.earthrover_mini_plus import (
 
 # Define a thread-safe queue to pass frames from the main (async) loop 
 # to the display (sync) thread. Maxsize=1 means we always pass the LATEST frame.
-DISPLAY_QUEUE = queue.Queue(maxsize=1) 
+DISPLAY_QUEUE = queue.Queue(maxsize=100) 
 
 def display_loop():
     """
