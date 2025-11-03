@@ -243,35 +243,6 @@ class EarthroverKeyboardTeleopActions(EarthroverKeyboardTeleop): #child class ex
 
         return action_dict
 
-
-    
-
-        
-
-
-        
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # logger = logging.getLogger(__name__)
 
 # class EarthroverMiniPlus(Teleoperator):
