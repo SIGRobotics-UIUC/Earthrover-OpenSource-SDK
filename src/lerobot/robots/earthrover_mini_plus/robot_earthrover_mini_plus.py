@@ -135,7 +135,7 @@ class EarthRoverMiniPlus(Robot):
         obs_dct: dict[str: Any]={}
         obs_dct.update(await self.earth_rover.get_telemetry())
         for cam_key, cam in self.cameras.items():
-            obs_dct[cam_key] = cam.async_read()
+            obs_dct[cam_key] = cam.async_read(10000)
 
         return obs_dct
 

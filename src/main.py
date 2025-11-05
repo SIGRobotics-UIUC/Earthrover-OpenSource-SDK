@@ -35,16 +35,7 @@ async def main():
 
     try:
         while True:
-            idx=1
-            print("here")
-            print(str(client.cameras))
-            for cam in client.cameras.keys():
-                print(str(cam))
-                print((str(client.cameras[cam])))
-                frame = client.cameras[cam].read()
-                cv2.imshow(f"RTSP Stream {idx}", frame)
-                if cv2.waitKey(1) & 0xFF == ord("q"):
-                    break
+           
             print("--------------------------------------- ENTERED LOOP ---------------------------------------")
             # Step 3: Read teleop keys
             teleop_action = teleop.get_action()
