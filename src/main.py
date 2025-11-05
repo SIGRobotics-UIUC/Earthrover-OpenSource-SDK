@@ -2,7 +2,6 @@
 
 import time
 import logging
-import asyncio
 import cv2
 
 from lerobot.teleoperators.earthrover_mini_plus_teleoperator import (
@@ -16,7 +15,7 @@ from lerobot.robots.earthrover_mini_plus import (
 
 #logging.basicConfig(level=logging.INFO)
 
-async def main():
+def main():
     # Step 1: Create teleop config and instance
     teleop_config = EarthroverKeyboardTeleopConfigActions()
     teleop = EarthroverKeyboardTeleopActions(teleop_config)
@@ -30,7 +29,7 @@ async def main():
     client = EarthRoverMiniPlus(client_config)
     
     # Connect to robot
-    await client.connect()
+    client.connect()
     #logging.info("Teleop and client connected. Starting control loop...")
 
     try:
@@ -61,7 +60,7 @@ async def main():
             }
 
             # Step 5: Send action to robot
-            await client.send_action(action_dict)
+            client.send_action(action_dict)
             print("--------------------------------------- LEGOON LOOP ---------------------------------------")
             # Optional: small sleep to avoid busy loop
             time.sleep(0.05)  # 20 Hz loop
@@ -75,9 +74,9 @@ async def main():
         # Disconnect everything cleanly
         print("hello disconneted")
         teleop.disconnect()
-        await client.disconnect()
+        client.disconnect()
         #logging.info("Teleop and client disconnected.")
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()
 
