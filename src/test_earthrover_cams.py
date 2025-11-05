@@ -26,9 +26,10 @@ rear_sub_config = EarthRoverMiniCameraConfig(
 )
 
 config_list = [front_main_config, front_sub_config, rear_main_config, rear_sub_config]
-
+print(config_list)
 # Create all cameras
 cameras = [EarthRoverMiniCamera(cfg) for cfg in config_list]
+print(f"cameras item = {cameras[0]}")
 
 # Connect to all cameras
 for cam in cameras:
