@@ -2,7 +2,7 @@
 
 import time
 import logging
-import asyncio
+import cv2
 
 from lerobot.teleoperators.earthrover_mini_plus_teleoperator import (
     EarthroverKeyboardTeleopActions,
@@ -15,7 +15,7 @@ from lerobot.robots.earthrover_mini_plus import (
 
 #logging.basicConfig(level=logging.INFO)
 
-async def main():
+def main():
     # Step 1: Create teleop config and instance
     teleop_config = EarthroverKeyboardTeleopConfigActions()
     teleop = EarthroverKeyboardTeleopActions(teleop_config)
@@ -25,17 +25,20 @@ async def main():
 
     # Step 2: Create robot client config and instance
     client_config = EarthRoverMiniPlusConfig(remote_ip="192.168.11.1", port=8888)  # change IP to your robot
-    print(client_config)
+    print("client config:" + str(client_config))
     client = EarthRoverMiniPlus(client_config)
     
     # Connect to robot
-    await client.connect()
+    client.connect()
     #logging.info("Teleop and client connected. Starting control loop...")
 
     try:
         while True:
+           
+            print("--------------------------------------- ENTERED LOOP ---------------------------------------")
             # Step 3: Read teleop keys
             teleop_action = teleop.get_action()
+            print("--------------------------------------- GOT ACTION ---------------------------------------")
             # teleop_action example: {'speed': 5.0, 'angular': 0.5, 'duration': 0.5}
 
             # Step 4: Convert to robot API format
@@ -48,11 +51,12 @@ async def main():
             }
 
             # Step 5: Send action to robot
-            await client.send_action(action_dict)
-
+            client.send_action(action_dict)
+            print("--------------------------------------- LEGOON LOOP ---------------------------------------")
             # Optional: small sleep to avoid busy loop
             time.sleep(0.05)  # 20 Hz loop
-
+            break
+        print("--------------------------------------- EXITED LOOP ---------------------------------------")
     except KeyboardInterrupt:
         pass
         #logging.info("Keyboard interrupt received. Shutting down...")
@@ -61,9 +65,9 @@ async def main():
         # Disconnect everything cleanly
         print("hello disconneted")
         teleop.disconnect()
-        await client.disconnect()
+        client.disconnect()
         #logging.info("Teleop and client disconnected.")
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()
 
