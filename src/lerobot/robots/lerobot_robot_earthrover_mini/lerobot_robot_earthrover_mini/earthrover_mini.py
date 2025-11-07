@@ -181,7 +181,7 @@ class EarthRover_Mini(Robot):
         obs_dct: dict[str: Any]={}
         obs_dct.update(self.earth_rover.get_telemetry())
         for cam_key, cam in self.cameras.items():
-            obs_dct[cam_key] = cam.async_read()
+            obs_dct[cam_key] = cam.read()
 
         return obs_dct
 
@@ -212,7 +212,7 @@ class EarthRover_Mini(Robot):
             # Call the api call for move, should be higher level not send_ctl_cmd
         else:
             return None
-        self.earth_rover.move( speed=int(v),angular= int(w),duration=int(10))
+        self.earth_rover.move_continuous( speed=int(v),angular= int(w))
         return
         # return await self.earth_rover.move( speed=int(v),angular= int(w),duration=int(10))
             
