@@ -10,7 +10,21 @@ from lerobot.cameras.earthrover_mini_camera import EarthRoverMiniCamera
 from lerobot.cameras.earthrover_mini_camera.configuration_earthrover_mini import EarthRoverMiniCameraConfig, ColorMode
 # EXAMPLE TESTING FILE FOR EARTHROVER CAMERAS
 
+"""
+So far, config functions seem to work properly,
+but now need to add in the client connection part from the EarthRoverMiniPlus class
 
+Ideally using the blocking api version to start with to check if everything works properly,
+although it'll look slow but we'll have a guaranteed answer if it works or not.
+
+Then we'd incorporate the threaded version of the api
+
+config is being declared here. next we need to use the EarthRoverMiniPlusConfig class
+to declare config and test again.
+
+If the above works, introduce the EarthRoverMiniPlus class and test again.
+
+"""
 
 #client_config = EarthRoverMiniPlusConfig(remote_ip="192.168.11.1", port=8888) 
 #client = EarthRoverMiniPlus(client_config)
@@ -53,8 +67,7 @@ def earthrover_mini_plus_cameras_config() -> dict[str, CameraConfig]:
 #     color_mode=ColorMode.RGB
 # )
 config_list = earthrover_mini_plus_cameras_config()
-print(config_list["front main"])
-# config_list = [front_main_config, front_sub_config, rear_main_config, rear_sub_config]
+# print(config_list["front main"])
 # --------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------
 # Create all cameras
