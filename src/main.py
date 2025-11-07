@@ -5,8 +5,8 @@ This demonstrates how to teleoperate the rover using keyboard controls.
 
 import time
 import logging
-from lerobot.robots.earthrover_mini_plus.robot_earthrover_mini_plus import EarthRoverMiniPlus
-from lerobot.robots.earthrover_mini_plus.config_earthrover_mini_plus import EarthRoverMiniPlusConfig
+from lerobot.robots.lerobot_robot_earthrover_mini.lerobot_robot_earthrover_mini.earthrover_mini import EarthRoverMiniPlus
+from lerobot.robots.lerobot_robot_earthrover_mini.lerobot_robot_earthrover_mini.config_earthrover_mini import EarthRoverMiniPlusConfig
 from lerobot.teleoperators.keyboard.teleop_keyboard import KeyboardRoverTeleop,  PYNPUT_AVAILABLE
 from lerobot.teleoperators.keyboard.configuration_keyboard import KeyboardTeleopConfig
 

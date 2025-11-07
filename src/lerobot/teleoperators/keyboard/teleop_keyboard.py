@@ -372,25 +372,25 @@ class KeyboardRoverTeleop(KeyboardTeleop):
                     self.linear_velocity + self.linear_step, 
                     self.max_linear_velocity
                 )
-                print(f"📈 Forward! Linear velocity: {self.linear_velocity}")
+                print(f" Forward Linear velocity: {self.linear_velocity}")
             elif key == 's':  # Backward
                 self.linear_velocity = max(
                     self.linear_velocity - self.linear_step, 
                     self.min_linear_velocity
                 )
-                print(f"📉 Backward! Linear velocity: {self.linear_velocity}")
+                print(f"Backward Linear velocity: {self.linear_velocity}")
             elif key == 'a':  # Turn left
                 self.angular_velocity = min(
                     self.angular_velocity + self.angular_step, 
                     self.max_angular_velocity
                 )
-                print(f"↪️  Left! Angular velocity: {self.angular_velocity}")
+                print(f" Left Angular velocity: {self.angular_velocity}")
             elif key == 'd':  # Turn right
                 self.angular_velocity = max(
                     self.angular_velocity - self.angular_step, 
                     self.min_angular_velocity
                 )
-                print(f"↩️  Right! Angular velocity: {self.angular_velocity}")
+                print(f"Right! Angular velocity: {self.angular_velocity}")
             
             # Speed multiplier (t/g for turbo/gear down)
             elif key == 't':
@@ -404,13 +404,13 @@ class KeyboardRoverTeleop(KeyboardTeleop):
                     self.speed_multiplier - self.speed_step, 
                     self.min_speed_multiplier
                 )
-                print(f"🐌 Speed multiplier: {self.speed_multiplier:.1f}x")
+                print(f" Speed multiplier: {self.speed_multiplier:.1f}x")
             
             # Stop
             elif key == 'x' or key == ' ':
                 self.linear_velocity = 0.0
                 self.angular_velocity = 0.0
-                print("🛑 STOP! All velocities zeroed")
+                print(" STOP! All velocities zeroed")
             
             # Reset to defaults
             elif key == 'r':
