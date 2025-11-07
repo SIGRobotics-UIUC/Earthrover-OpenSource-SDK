@@ -7,6 +7,7 @@ from lerobot.robots.robot import Robot
 from lerobot.cameras.camera import Camera
 from lerobot.cameras.configs import CameraConfig, Cv2Rotation
 from lerobot.robots.earthrover_mini_plus import (EarthRoverMiniPlusConfig, EarthRover_Mini)
+
 from lerobot.cameras.earthrover_mini_camera import EarthRoverMiniCamera
 from lerobot.cameras.earthrover_mini_camera.configuration_earthrover_mini import EarthRoverMiniCameraConfig, ColorMode
 # EXAMPLE TESTING FILE FOR EARTHROVER CAMERAS
@@ -36,7 +37,9 @@ client.start_camera_stream()
 start_time = time.perf_counter()
 while time.perf_counter() - start_time < 120:  # Run for 10 seconds
     action_dict = { "linear_velocity": 50.0, "angular_velocity": 80.0 }
+    
 
+    
     # Step 5: Send action to robot
     client.send_action(action_dict)
     print("||||||||||||||||||||||||||||||||||||||||||||||||||||||| GOING THROUGH LOOP!!! |||||||||||||||||||||||||||||||||||||||||||||||||||||||")

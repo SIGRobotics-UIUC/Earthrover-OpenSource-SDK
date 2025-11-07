@@ -11,7 +11,8 @@ from ...robot import Robot
 from .config_earthrover_mini import EarthRoverMiniPlusConfig, EarthRoverMiniCamera
 
 # The import from our low-level API, so we can call actual functions on the robot
-from earthrover_api.earthrover_api import EarthRoverMini_API
+from ..earthrover_api.earthrover_api import EarthRoverMini_API
+
 
 #logger = logging.get_logger(__name__)
 
