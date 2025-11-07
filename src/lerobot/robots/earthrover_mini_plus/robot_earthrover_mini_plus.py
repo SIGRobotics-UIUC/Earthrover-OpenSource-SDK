@@ -1,9 +1,10 @@
 import logging
 from socket import socket
 from typing import Any
-import asyncio
-from lerobot.utils.errors import DeviceAlreadyConnectedError, DeviceNotConnectedError
+import cv2
+import threading
 
+from lerobot.utils.errors import DeviceAlreadyConnectedError, DeviceNotConnectedError
 from lerobot.cameras.utils import make_cameras_from_configs
 
 from ..robot import Robot
@@ -32,6 +33,9 @@ class EarthRoverMiniPlus(Robot):
         self.is_connected = False
 
         self.cameras = make_cameras_from_configs(config.cameras)
+        self.thread_stop_event = None
+        self.camera_thread = None
+
         print("Cameras made from config:" + str(self.cameras))
    
     def is_connected(self) -> bool:
@@ -62,7 +66,50 @@ class EarthRoverMiniPlus(Robot):
         # Change the is_connected class value
         self.is_connected = True
 
+    def start_camera_stream(self):
+        if self.camera_thread and self.camera_thread.is_alive():
+            print("Camera stream already running.")
+            return
+        self.thread_stop_event = threading.Event()
+        self.camera_thread = threading.Thread(target=self.update_stream, args=(self.thread_stop_event,), daemon=True)
+        self.camera_thread.start()
+        
     
+    def update_stream(self, stop_event):
+        while not stop_event.is_set():
+            for idx, cam in enumerate(self.cameras.values()):
+                frame = cam.read()
+                if frame is None:
+                    continue
+                
+                cv2.imshow(f"RTSP Stream {idx}", frame)
+
+                if cv2.waitKey(1) & 0xFF == ord("q"):
+                    stop_event.set()
+                    break
+
+        print("Stopping camera stream thread...")
+
+        # for cam in self.cameras.keys():
+        #         print(str(cam))
+        #         print((str(self.cameras[cam])))
+        #         frame = self.cameras[cam].read()
+        #         cv2.imshow(f"RTSP Stream {idx}", frame)
+        #         if cv2.waitKey(1) & 0xFF == ord("q"):
+        #             break
+
+    def close_camera_stream(self):
+        if self.thread_stop_event:
+            self.thread_stop_event.set()
+        
+        if self.camera_thread:
+            self.camera_thread.join(timeout=1.0)
+
+        for cam in self.cameras.values():
+            cam.disconnect()
+
+        cv2.destroyAllWindows()
+
     def is_calibrated(self) -> bool:
         return self.is_calibrated
     
