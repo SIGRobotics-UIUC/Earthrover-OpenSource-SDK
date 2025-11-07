@@ -36,16 +36,16 @@ from .uart_cp import (
 
 
 
-UCP_KEEP_ALIVE           = 0x1
-UCP_MOTOR_CTL            = 0x2
-UCP_IMU_CORRECTION_START = 0x3
-UCP_IMU_CORRECTION_END   = 0x4
-UCP_RPM_REPORT           = 0x5
-UCP_IMU_WRITE            = 0x6
-UCP_MAG_WRITE            = 0x7
-UCP_IMUMAG_READ          = 0x8
-UCP_OTA                  = 0x9
-UCP_STATE                = 0xA
+# UCP_KEEP_ALIVE           = 0x1
+# UCP_MOTOR_CTL            = 0x2
+# UCP_IMU_CORRECTION_START = 0x3
+# UCP_IMU_CORRECTION_END   = 0x4
+# UCP_RPM_REPORT           = 0x5
+# UCP_IMU_WRITE            = 0x6
+# UCP_MAG_WRITE            = 0x7
+# UCP_IMUMAG_READ          = 0x8
+# UCP_OTA                  = 0x9
+# UCP_STATE                = 0xA
 
 PRINT_DEBUG = False
 def debug_print(*args, **kwargs):
@@ -1027,7 +1027,7 @@ class EarthRoverMiniBlocking:
         self.send_packet(ctrl_pkt)
         print(f"[CTRL] speed={speed}, angular={angular}")
 
-    def move(self, duration, speed, angular):
+    def move(self, speed, angular, duration):
         """Blocking ‘timed’ move; keeps printing telemetry if it arrives."""
         print(f"[MOVE] speed={speed}, angular={angular}")
         start = time.time()

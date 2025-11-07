@@ -1,6 +1,7 @@
 import sys
 import cv2
 from dataclasses import dataclass, field
+import time
 
 from lerobot.robots.robot import Robot
 from lerobot.cameras.camera import Camera
@@ -26,79 +27,19 @@ If the above works, introduce the EarthRoverMiniPlus class and test again.
 
 """
 
-#client_config = EarthRoverMiniPlusConfig(remote_ip="192.168.11.1", port=8888) 
-#client = EarthRoverMiniPlus(client_config)
+client_config = EarthRoverMiniPlusConfig(remote_ip="192.168.11.1", port=8888)  # change IP to your robot
+print("client config:" + str(client_config))
+client = EarthRoverMiniPlus(client_config)
+client.connect()
+client.start_camera_stream()
 
-# --------------------------------------------------------------------------------
-# Define camera configurations
-def earthrover_mini_plus_cameras_config() -> dict[str, CameraConfig]:
-    # to edit based on earth rover's cameras
-    return {
-        "front main": EarthRoverMiniCameraConfig(
-            index_or_path= EarthRoverMiniCameraConfig.FRONT_CAM_MAIN, color_mode=ColorMode.RGB
-        ),
-        "rear main": EarthRoverMiniCameraConfig(
-            index_or_path=EarthRoverMiniCameraConfig.REAR_CAM_MAIN, color_mode=ColorMode.RGB
-        ),
-        "front sub": EarthRoverMiniCameraConfig(
-            index_or_path= EarthRoverMiniCameraConfig.FRONT_CAM_SUB, color_mode=ColorMode.RGB
-        ),
-        "rear sub": EarthRoverMiniCameraConfig(
-            index_or_path=EarthRoverMiniCameraConfig.REAR_CAM_SUB, color_mode=ColorMode.RGB
-        )
-    }
-# front_main_config = EarthRoverMiniCameraConfig(
-#     index_or_path=EarthRoverMiniCameraConfig.FRONT_CAM_MAIN,  # front main stream
-#     color_mode=ColorMode.RGB
-# )
+start_time = time.perf_counter()
+while time.perf_counter() - start_time < 120:  # Run for 10 seconds
+    action_dict = { "linear_velocity": 50.0, "angular_velocity": 80.0 }
 
-# front_sub_config = EarthRoverMiniCameraConfig(
-#     index_or_path=EarthRoverMiniCameraConfig.FRONT_CAM_SUB,  # front sub stream
-#     color_mode=ColorMode.RGB
-# )
+    # Step 5: Send action to robot
+    client.send_action(action_dict)
+    print("||||||||||||||||||||||||||||||||||||||||||||||||||||||| GOING THROUGH LOOP!!! |||||||||||||||||||||||||||||||||||||||||||||||||||||||")
 
-# rear_main_config = EarthRoverMiniCameraConfig(
-#     index_or_path=EarthRoverMiniCameraConfig.REAR_CAM_MAIN,  # rear main stream
-#     color_mode=ColorMode.RGB
-# )
-
-# rear_sub_config = EarthRoverMiniCameraConfig(
-#     index_or_path=EarthRoverMiniCameraConfig.REAR_CAM_SUB,  # rear sub stream
-#     color_mode=ColorMode.RGB
-# )
-config_list = earthrover_mini_plus_cameras_config()
-# print(config_list["front main"])
-# --------------------------------------------------------------------------------
-# --------------------------------------------------------------------------------
-# Create all cameras
-cameras = {}
-for key, cfg in config_list.items():
-    print(f"[KEY {key}] CONFIG = {cfg}")
-    cameras[key] = EarthRoverMiniCamera(cfg)
-    print(f"cameras item = {cameras[key]}")
-
-# --------------------------------------------------------------------------------
-# --------------------------------------------------------------------------------
-# Connect to all cameras
-for cam in cameras.values():
-    print(f"Connecting to camera {cam.config.index_or_path}...")
-    cam.connect()
-    if cam.is_connected:
-        print(f"{cam.config.index_or_path} connected successfully!")
-    else:
-        print(f"Failed to connect to {cam.config.index_or_path}. Exiting...")
-        sys.exit(1)
-# --------------------------------------------------------------------------------
-# Read frames from cameras
-try:
-    while True:
-        for idx, cam in enumerate(cameras.values()):
-            frame = cam.read()
-            cv2.imshow(f"RTSP Stream {idx}", frame)
-            if cv2.waitKey(1) & 0xFF == ord("q"):
-                break
-finally:
-    for cam in cameras:
-        cam.disconnect()
-    cv2.destroyAllWindows()
-# --------------------------------------------------------------------------------
+    
+client.close_camera_stream()
