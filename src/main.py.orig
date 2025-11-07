@@ -10,6 +10,7 @@ from lerobot.robots.earthrover_mini_plus.config_earthrover_mini_plus import Eart
 from lerobot.teleoperators.keyboard.teleop_keyboard import KeyboardRoverTeleop,  PYNPUT_AVAILABLE
 from lerobot.teleoperators.keyboard.configuration_keyboard import KeyboardTeleopConfig
 
+<<<<<<< HEAD
 from lerobot.teleoperators.earthrover_mini_plus_teleoperator import (
     EarthroverKeyboardTeleopActions,
     EarthroverKeyboardTeleopConfigActions,
@@ -73,8 +74,9 @@ def main():
         teleop.disconnect()
         client.disconnect()
         #logging.info("Teleop and client disconnected.")
-
+=======
 logging.basicConfig(level=logging.INFO)
+>>>>>>> 129e02e5 (installable robot package)
 
 if __name__ == "__main__":
         
@@ -120,7 +122,7 @@ if __name__ == "__main__":
             # Optional: Start camera stream in separate thread
             # robot.start_camera_stream()
             
-            print("\n Teleoperation started! Use keyboard to control the rover.")
+            print("\n🎮 Teleoperation started! Use keyboard to control the rover.")
             print("Press 'h' to show controls again, 'q' to quit.\n")
             
             # Main control loop
@@ -141,7 +143,7 @@ if __name__ == "__main__":
                     teleop.print_controls()
                 
                 if events.get("terminate_episode", False):
-                    print("\n Quit command received. Stopping rover...")
+                    print("\n🛑 Quit command received. Stopping rover...")
                     break
                 
                 # Send action to robot
@@ -170,9 +172,9 @@ if __name__ == "__main__":
                 time.sleep(sleep_time)
                 
         except KeyboardInterrupt:
-            print("\n\n KeyboardInterrupt received.")
+            print("\n\n⚠️  KeyboardInterrupt received.")
         except Exception as e:
-            print(f"\n\n Error: {e}")
+            print(f"\n\n❌ Error: {e}")
             logging.exception("Error in main loop")
         finally:
             # Cleanup
@@ -181,29 +183,29 @@ if __name__ == "__main__":
             # Stop the rover
             try:
                 robot.send_action({"linear_velocity": 0, "angular_velocity": 0})
-                print(" Rover stopped")
+                print("✅ Rover stopped")
             except:
                 pass
             
             # Disconnect teleop
             try:
                 teleop.disconnect()
-                print(" Keyboard disconnected")
+                print("✅ Keyboard disconnected")
             except:
                 pass
             
             # Close camera stream if started
             try:
                 robot.close_camera_stream()
-                print(" Camera stream closed")
+                print("✅ Camera stream closed")
             except:
                 pass
             
             # Disconnect robot
             try:
                 robot.disconnect()
-                print(" Robot disconnected")
+                print("✅ Robot disconnected")
             except:
                 pass
             
-            print("\n Teleoperation ended.\n")
+            print("\n👋 Teleoperation ended.\n")
