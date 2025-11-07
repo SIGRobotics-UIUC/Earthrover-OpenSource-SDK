@@ -10,14 +10,13 @@ from lerobot.cameras.utils import make_cameras_from_configs
 from ..robot import Robot
 from .config_earthrover_mini_plus import EarthRoverMiniPlusConfig, EarthRoverMiniCamera
 
-
-
 # The import from our low-level API, so we can call actual functions on the robot
-from .earthrover_api.earthrover_api import EarthRoverMiniBlocking
+from .earthrover_api.earthrover_api import EarthRoverMini_API
 
 #logger = logging.get_logger(__name__)
 
-class EarthRoverMiniPlus(Robot):
+
+class EarthRover_Mini(Robot):
 
     config_class = EarthRoverMiniPlusConfig
     name = "earthrover_mini_plus"
@@ -47,7 +46,7 @@ class EarthRoverMiniPlus(Robot):
         if self.is_connected:
             raise DeviceAlreadyConnectedError(f"{self} already connected")
         
-        self.earth_rover= EarthRoverMiniBlocking( ip="192.168.11.1", port=8888)
+        self.earth_rover = EarthRoverMini_API(ip="192.168.11.1", port=8888)
         #EarthRoverMiniPlus(self.config)
         self.earth_rover.connect()
         #asyncio.run(self.earth_rover.connect())
@@ -55,10 +54,10 @@ class EarthRoverMiniPlus(Robot):
             print(f"Connecting to camera {cam.config.index_or_path}...")
             cam.connect()
             if cam.is_connected:
-                  print(f"{cam.config.index_or_path} connected successfully!")
+                print(f"{cam.config.index_or_path} connected successfully!")
             else:
-                  print(f"Failed to connect to {cam.config.index_or_path}. Exiting...")
-                  raise DeviceNotConnectedError
+                print(f"Failed to connect to {cam.config.index_or_path}. Exiting...")
+                raise DeviceNotConnectedError
         
         # Currently doesn't do anything, no configuration needed? Only need to connect.
         self.configure()
