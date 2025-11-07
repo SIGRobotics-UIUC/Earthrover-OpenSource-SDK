@@ -31,7 +31,8 @@ If the above works, introduce the EarthRoverMiniPlus class and test again.
 
 # --------------------------------------------------------------------------------
 # Define camera configurations
-def earthrover_mini_plus_cameras_config() -> dict[str, CameraConfig]:
+
+def  earthrover_mini_plus_cameras_config() -> dict[str, CameraConfig]:
     # to edit based on earth rover's cameras
     return {
         "front main": EarthRoverMiniCameraConfig(
@@ -68,7 +69,9 @@ def earthrover_mini_plus_cameras_config() -> dict[str, CameraConfig]:
 # )
 config_list = earthrover_mini_plus_cameras_config()
 # print(config_list["front main"])
+
 # --------------------------------------------------------------------------------
+
 # --------------------------------------------------------------------------------
 # Create all cameras
 cameras = {}
@@ -78,6 +81,7 @@ for key, cfg in config_list.items():
     print(f"cameras item = {cameras[key]}")
 
 # --------------------------------------------------------------------------------
+
 # --------------------------------------------------------------------------------
 # Connect to all cameras
 for cam in cameras.values():
