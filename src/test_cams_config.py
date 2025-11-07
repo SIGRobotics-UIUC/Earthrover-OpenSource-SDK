@@ -6,7 +6,7 @@ import time
 from lerobot.robots.robot import Robot
 from lerobot.cameras.camera import Camera
 from lerobot.cameras.configs import CameraConfig, Cv2Rotation
-from lerobot.robots.earthrover_mini_plus import (EarthRoverMiniPlusConfig, EarthRoverMiniPlus)
+from lerobot.robots.earthrover_mini_plus import (EarthRoverMiniPlusConfig, EarthRover_Mini)
 from lerobot.cameras.earthrover_mini_camera import EarthRoverMiniCamera
 from lerobot.cameras.earthrover_mini_camera.configuration_earthrover_mini import EarthRoverMiniCameraConfig, ColorMode
 # EXAMPLE TESTING FILE FOR EARTHROVER CAMERAS
@@ -28,8 +28,8 @@ If the above works, introduce the EarthRoverMiniPlus class and test again.
 """
 
 client_config = EarthRoverMiniPlusConfig(remote_ip="192.168.11.1", port=8888)  # change IP to your robot
-print("client config:" + str(client_config))
-client = EarthRoverMiniPlus(client_config)
+#print("client config:" + str(client_config))
+client = EarthRover_Mini(client_config)
 client.connect()
 client.start_camera_stream()
 
