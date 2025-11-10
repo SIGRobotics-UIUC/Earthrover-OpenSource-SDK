@@ -1,5 +1,6 @@
 import socket, struct, asyncio, time, contextlib, copy
 import threading
+import threading
 from typing import Any
 
 from .uart_cp import (
@@ -221,6 +222,7 @@ class EarthRoverMini_API:
                 i = sync_index + total_len
             else:
                 debug_print(f"[FRAME] Bad CRC @ {sync_index}: expected={expected_crc:04X}, got={computed_crc:04X}")
+                debug_print(f"[FRAME] Bad CRC @ {sync_index}: expected={expected_crc:04X}, got={computed_crc:04X}")
                 i = sync_index + 1  # resync one byte forward
 
         return frames, buf[i:]
@@ -284,6 +286,7 @@ class EarthRoverMini_API:
     def decode_unknown(self, frame: bytes):
         pkt_id = frame[4]
         payload = frame[6:-2]
+        debug_print(f"[WARN] Unknown packet ID 0x{pkt_id:02X}, payload={payload.hex()}")
         debug_print(f"[WARN] Unknown packet ID 0x{pkt_id:02X}, payload={payload.hex()}")
         return {"raw_payload": payload.hex()}
 
@@ -484,6 +487,25 @@ class EarthRoverMini_API:
 # ---- Example usage ----------------------------------------
 # ===========================================================
 if __name__ == "__main__":
+    rover = EarthRoverMiniBlocking("192.168.11.1", 8888)
+    rover.connect()
+
+    print("\n[TEST] Ping test:")
+    rover.safe_ping()
+
+    print("\n[TEST] Move test (3s at speed=60, angular=360):")
+    rover.move(3, 60, 360)
+
+    print("\n[TEST] IMU read:")
+    imu_data = rover.imu_mag_read()
+    print("IMU/MAG Data:", imu_data)
+
+    print("\n[TEST] Telemetry read:")
+    telemetry = rover.get_telemetry(timeout=1.0)
+    print("Telemetry:", telemetry)
+
+    rover.disconnect()
+
     rover = EarthRoverMiniBlocking("192.168.11.1", 8888)
     rover.connect()
 

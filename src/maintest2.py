@@ -88,6 +88,7 @@ async def main():
 
             # Step 3: Get observation (includes frame and robot telemetry)
             obs_dict = await client.get_observation()
+            print("---------------------------------------- GOT OBSERVATION ---------------------------------------")
             
             # Extract the front camera frame using the key defined in the config
             frame = obs_dict.get("front")

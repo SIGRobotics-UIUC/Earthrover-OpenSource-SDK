@@ -45,7 +45,7 @@ for cam in cameras:
 try:
     while True:
         for idx, cam in enumerate(cameras):
-            frame = cam.read()
+            frame = cam.async_read()
             cv2.imshow(f"RTSP Stream {idx}", frame)
             if cv2.waitKey(1) & 0xFF == ord("q"):
                 break
