@@ -23,12 +23,18 @@ from ..config import RobotConfig
 def earthrover_mini_plus_cameras_config() -> dict[str, CameraConfig]:
     # to edit based on earth rover's cameras
     return {
-        "front": EarthRoverMiniCameraConfig(
+        "front main": EarthRoverMiniCameraConfig(
             index_or_path= EarthRoverMiniCameraConfig.FRONT_CAM_MAIN, color_mode=ColorMode.RGB
         ),
-        "rear": EarthRoverMiniCameraConfig(
+        "rear main": EarthRoverMiniCameraConfig(
             index_or_path=EarthRoverMiniCameraConfig.REAR_CAM_MAIN, color_mode=ColorMode.RGB
-        ),
+        )
+    #     "front sub": EarthRoverMiniCameraConfig(
+    #         index_or_path= EarthRoverMiniCameraConfig.FRONT_CAM_SUB, color_mode=ColorMode.RGB
+    #     ),
+    #     "rear sub": EarthRoverMiniCameraConfig(
+    #         index_or_path=EarthRoverMiniCameraConfig.REAR_CAM_SUB, color_mode=ColorMode.RGB
+    #     )
     }
 
 
@@ -36,8 +42,8 @@ def earthrover_mini_plus_cameras_config() -> dict[str, CameraConfig]:
 @dataclass
 class EarthRoverMiniPlusConfig(RobotConfig):
 
-    port: str = "/dev/ttyACM0" # 8888
-    remote_ip: str = "192.168.11.1" # port to be changed
+    port: str = "8888"  #"/dev/ttyACM0" 
+    remote_ip: str = "192.168.11.1"  # port to be changed
 
     cameras: dict[str, CameraConfig] = field(default_factory=earthrover_mini_plus_cameras_config)
 
