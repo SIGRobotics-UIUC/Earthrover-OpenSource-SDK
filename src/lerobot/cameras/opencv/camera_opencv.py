@@ -56,7 +56,7 @@ class OpenCVCamera(Camera):
     synchronous and asynchronous frame reading.
 
     An OpenCVCamera instance requires a camera index (e.g., 0) or a device path
-    (e.g., '/dev/video0' on Linux). Camera indices can be unstable across reboots
+    (e display_data.g., '/dev/video0' on Linux). Camera indices can be unstable across reboots
     or port changes, especially on Linux. Use the provided utility script to find
     available camera indices or paths:
     ```bash
