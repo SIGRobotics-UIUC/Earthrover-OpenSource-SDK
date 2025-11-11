@@ -12,7 +12,8 @@ from .config_earthrover_mini import EarthRoverMiniPlusConfig, EarthRoverMiniCame
 
 # The import from our low-level API, so we can call actual functions on the robot
 
-from .earthrover_api.earthrover_api import EarthRoverMini_API
+# from .earthrover_api.earthrover_api import EarthRoverMini_API
+from earth_rover_mini_plus_sdk import EarthRoverMini_API
 
 
 #logger = logging.get_logger(__name__)
@@ -44,7 +45,8 @@ class EarthRover_Mini(Robot):
         return self.is_connected
     
     # Connects to all robot devices, currently just the cameras
-    def connect(self, calibrate: bool = True) -> None:
+    # def connect(self, calibrate: bool = True) -> None:
+    #     pass # wtf this line was empty
     def connect(self, calibrate: bool = True) -> None:
         if self.is_connected:
             raise DeviceAlreadyConnectedError(f"{self} already connected")
@@ -172,12 +174,8 @@ class EarthRover_Mini(Robot):
     @property
     def action_features(self) -> dict:
         return self._speed_and_heading_ft
-
     
-
-
-    
-    def get_observation(self) -> dict[str, Any]:
+    # def get_observation(self) -> dict[str, Any]:
     def get_observation(self) -> dict[str, Any]:
         #calls function in earthrover object to get observation data:
         if not self.is_connected:
@@ -194,7 +192,7 @@ class EarthRover_Mini(Robot):
 
         
 
-    def send_action(self, action: dict[str, Any]) -> dict[str, Any]:
+    # def send_action(self, action: dict[str, Any]) -> dict[str, Any]:
     def send_action(self, action: dict[str, Any]) -> dict[str, Any]:
         """Send control commands to Earthrover Mini Plus"""
        
@@ -227,7 +225,7 @@ class EarthRover_Mini(Robot):
 
 
 
-    def disconnect(self):
+    # def disconnect(self):
     def disconnect(self):
         if not self.is_connected:
             raise DeviceNotConnectedError(f"{self} is not connected.")
