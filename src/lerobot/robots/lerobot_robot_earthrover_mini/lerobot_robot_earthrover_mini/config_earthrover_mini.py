@@ -15,7 +15,7 @@
 from dataclasses import dataclass, field
 
 from lerobot.cameras.configs import CameraConfig, Cv2Rotation
-from lerobot.cameras.opencv.configuration_opencv import OpenCVCameraConfig  
+from lerobot.cameras.opencv.configuration_opencv import OpenCVCameraConfig  # not used
 from lerobot.cameras.earthrover_mini_camera.configuration_earthrover_mini import EarthRoverMiniCameraConfig, ColorMode
 from lerobot.cameras.earthrover_mini_camera import EarthRoverMiniCamera
 from ...config import RobotConfig

@@ -169,7 +169,6 @@ class EarthRover_Mini(Robot):
     @property
     def action_features(self) -> dict:
         return self._speed_and_heading_ft
-
     
 
 
