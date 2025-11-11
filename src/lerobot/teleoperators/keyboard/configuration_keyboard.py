@@ -16,8 +16,14 @@
 
 from dataclasses import dataclass
 
-from ..config import TeleoperatorConfig
+from lerobot.teleoperators.config import TeleoperatorConfig
 
+
+@TeleoperatorConfig.register_subclass("lerobot_teleoperator_earthrover_mini")
+@dataclass
+class EarthRoverMiniKeyboardTeleopConfig(TeleoperatorConfig):
+    mock: bool = False
+    
 
 @TeleoperatorConfig.register_subclass("keyboard")
 @dataclass

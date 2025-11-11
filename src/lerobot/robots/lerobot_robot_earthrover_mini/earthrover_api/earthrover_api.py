@@ -484,7 +484,7 @@ class EarthRoverMini_API:
 # ---- Example usage ----------------------------------------
 # ===========================================================
 if __name__ == "__main__":
-    rover = EarthRoverMiniBlocking("192.168.11.1", 8888)
+    rover = EarthRoverMini_API("192.168.11.1", 8888)
     rover.connect()
 
     print("\n[TEST] Ping test:")
