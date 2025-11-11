@@ -30,7 +30,7 @@ from lerobot.utils.errors import DeviceAlreadyConnectedError, DeviceNotConnected
 
 #TODO: Figure out what is Teleoperator
 from ..teleoperator import Teleoperator
-from ..utils import TeleopEvents #TODO: Figure out if I need this
+from ..utils import TeleopEvents #TODO: Figure out if I need this <- so100 doesn't use it, might not need it.
 
 PYNPUT_AVAILABLE = True #this is just a flag to see whether PYNPUT is able to be imported or not
 try:
@@ -47,13 +47,15 @@ except Exception as e: #catches any other errors and displays them
     PYNPUT_AVAILABLE = False
     logging.info(f"Could not import pynput: {e}")
 
+# logger = logging.getLogger(__name__)
+
 class EarthroverKeyboardTeleop(Teleoperator):
     """
     Teleop class to use keyboard inputs for control.
     """
     
     config_class = EarthroverKeyboardTeleopConfig
-    name = "keyboard"
+    name = "keyboard" # TODO: check if correct name, not same as config's register subclass name
 
     def __init__(self, config: EarthroverKeyboardTeleopConfig): #prepares everything an object needs (runs automatically) such as the variables needed, config tells what kind of robot this is
         super().__init__(config) #this tells the parent class to do its setup first (calls the parent class's __init__ function [its constructor])
@@ -118,6 +120,9 @@ class EarthroverKeyboardTeleop(Teleoperator):
     #TODO: Check where this is being called and if this needs to be implemented/how
     def calibrate(self) -> None:
         # do i do this: return super().calibrate() or is there a different thing to do
+        # set calibration in init from super, then just check if it's set here. 
+        # maybe also do what s0-100 does and let user input calibration file.
+        
         pass
 
 
@@ -198,7 +203,7 @@ class EarthroverKeyboardTeleopActions(EarthroverKeyboardTeleop): #child class ex
             )
         
         self._drain_pressed_keys()
-        duration = 0.0 #TODO: have users be able to enter in terminal
+        duration = 0.0 #TODO: have users be able to enter in terminal <- can make it a flag, doesn't make sense for teleop tho
         speed = 0.0
         angular = 0.0
 
