@@ -354,7 +354,7 @@ class EarthRoverMini_API:
         self.send_packet(ctrl_pkt)
         print(f"[CTRL] speed={speed}, angular={angular}")
 
-    def move(self, speed, angular, duration):
+    def move(self, duration, speed, angular):
         """Blocking ‘timed’ move; keeps printing telemetry if it arrives."""
         print(f"[MOVE] speed={speed}, angular={angular}")
         start = time.time()

@@ -7,11 +7,11 @@ import threading
 from lerobot.utils.errors import DeviceAlreadyConnectedError, DeviceNotConnectedError
 from lerobot.cameras.utils import make_cameras_from_configs
 
-from ..robot import Robot
-from .config_earthrover_mini_plus import EarthRoverMiniPlusConfig, EarthRoverMiniCamera
+from ...robot import Robot
+from .config_earthrover_mini import EarthRoverMiniPlusConfig, EarthRoverMiniCamera
 
 # The import from our low-level API, so we can call actual functions on the robot
-from .earthrover_api.earthrover_api import EarthRoverMini_API
+from earthrover_api.earthrover_api import EarthRoverMini_API
 
 #logger = logging.get_logger(__name__)
 
@@ -37,7 +37,7 @@ class EarthRover_Mini(Robot):
 
         print("Cameras made from config:" + str(self.cameras))
    
-    def is_connected(self) -> bool:
+    def is_connectedd(self) -> bool:
         # Connected iff all the cameras are connected
         return self.is_connected
     
@@ -109,7 +109,7 @@ class EarthRover_Mini(Robot):
 
         cv2.destroyAllWindows()
 
-    def is_calibrated(self) -> bool:
+    def is_calibratedd(self) -> bool:
         return self.is_calibrated
     
     def calibrate(self) -> None:
@@ -185,9 +185,6 @@ class EarthRover_Mini(Robot):
 
         return obs_dct
 
-
-        
-
     def send_action(self, action: dict[str, Any]) -> dict[str, Any]:
         """Send control commands to Earthrover Mini Plus"""
        
@@ -215,10 +212,6 @@ class EarthRover_Mini(Robot):
         self.earth_rover.move_continuous( speed=int(v),angular= int(w))
         return
         # return await self.earth_rover.move( speed=int(v),angular= int(w),duration=int(10))
-            
-
-
-
 
     def disconnect(self):
         if not self.is_connected:
