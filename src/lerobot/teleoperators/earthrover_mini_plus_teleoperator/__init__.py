@@ -18,7 +18,7 @@ from .config_earthrover_mini_plus_teleoperator import EarthroverKeyboardTeleopCo
 from .earthrover_mini_plus_teleoperator import EarthroverKeyboardTeleop, EarthroverKeyboardTeleopActions
 
 #TODO: Check if I need to do something for a .util file as well
-#TODO: Find out all instances where this file needs to be inserted by looking at the So100 example
+#TODO: Find out all instances where this file needs to be inserted by looking at the SO100 example
 
 # __init__.py states that whatever folder this file is in can be treated as an individualized module, then you can do
 # simpler imports like from earthrover_mini_plus_teleoperator import EarthroverMiniPlus, EarthroverMiniPlusConfig
