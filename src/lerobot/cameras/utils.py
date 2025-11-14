@@ -28,6 +28,7 @@ def make_cameras_from_configs(camera_configs: dict[str, CameraConfig]) -> dict[s
     cameras = {}
 
     for key, cfg in camera_configs.items():
+        print(f"[KEY {key}] CONFIG = {cfg}")
         if cfg.type == "opencv":
             from .opencv import OpenCVCamera
 
@@ -44,7 +45,7 @@ def make_cameras_from_configs(camera_configs: dict[str, CameraConfig]) -> dict[s
             cameras[key] = Reachy2Camera(cfg)
         elif cfg.type == "earthrover_mini_camera":
             from .earthrover_mini_camera.earthrover_mini_camera import EarthRoverMiniCamera
-
+        
             cameras[key] = EarthRoverMiniCamera(cfg)
 
         else:
