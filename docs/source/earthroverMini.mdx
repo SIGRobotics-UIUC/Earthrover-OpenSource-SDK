@@ -1,11 +1,6 @@
-# EarthRover Mini+
+# EarthRover Mini
 
-ASSEMBLY?? DO WE NEED TO PROVIDE OR?.
-
-## Source the parts
-
-Follow this [README](LINK). 
-
+The below instructions are for interfacing with the EarthRover Mini from within the LeRobot library.
 ## Install LeRobot 🤗
 
 To install LeRobot, follow our [Installation Guide](./installation)
@@ -16,14 +11,9 @@ In addition to these instructions, you need to install the XXX SDK:
 pip install -e ".[DO WE NEED ANYTHING HERE?]"
 ```
 
-## Configure the motors
+## Connect to the EarthRover Mini
 
-**Note:**
-Unlike the SO-101, the motor connectors are not easily accessible once the arm is assembled, so the configuration step must be done beforehand.
-
-### 1. Find the USB ports associated with each arm
-
-To find the port for each bus servo adapter, run this script:
+### 1. Ensure the EarthRover Mini is charged, then hold the button at the front for about 6 seconds or until the lights stop changing.
 
 ```bash
 lerobot-find-port
