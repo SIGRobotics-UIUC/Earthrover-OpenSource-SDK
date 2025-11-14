@@ -3,12 +3,14 @@ import cv2
 from dataclasses import dataclass, field
 import time
 
-from lerobot.robots.robot import Robot
-from lerobot.cameras.camera import Camera
-from lerobot.cameras.configs import CameraConfig, Cv2Rotation
-from lerobot.robots.earthrover_mini_plus import (EarthRoverMiniPlusConfig, EarthRover_Mini)
-from lerobot.cameras.earthrover_mini_camera import EarthRoverMiniCamera
-from lerobot.cameras.earthrover_mini_camera.configuration_earthrover_mini import EarthRoverMiniCameraConfig, ColorMode
+from lerobot.robots.robot import Robot # not used
+from lerobot.cameras.camera import Camera # not used
+from lerobot.cameras.configs import CameraConfig, Cv2Rotation # not used
+from lerobot.robots.lerobot_robot_earthrover_mini.lerobot_robot_earthrover_mini.config_earthrover_mini import EarthRoverMiniPlusConfig
+from lerobot.robots.lerobot_robot_earthrover_mini.lerobot_robot_earthrover_mini.earthrover_mini import EarthRover_Mini
+
+from lerobot.cameras.earthrover_mini_camera import EarthRoverMiniCamera # not used
+from lerobot.cameras.earthrover_mini_camera.configuration_earthrover_mini import EarthRoverMiniCameraConfig, ColorMode # not used
 # EXAMPLE TESTING FILE FOR EARTHROVER CAMERAS
 
 """
@@ -36,7 +38,9 @@ client.start_camera_stream()
 start_time = time.perf_counter()
 while time.perf_counter() - start_time < 120:  # Run for 10 seconds
     action_dict = { "linear_velocity": 50.0, "angular_velocity": 80.0 }
+    
 
+    
     # Step 5: Send action to robot
     client.send_action(action_dict)
     print("||||||||||||||||||||||||||||||||||||||||||||||||||||||| GOING THROUGH LOOP!!! |||||||||||||||||||||||||||||||||||||||||||||||||||||||")

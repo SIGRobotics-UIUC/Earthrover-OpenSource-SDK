@@ -11,7 +11,10 @@ from ...robot import Robot
 from .config_earthrover_mini import EarthRoverMiniPlusConfig, EarthRoverMiniCamera
 
 # The import from our low-level API, so we can call actual functions on the robot
-from earthrover_api.earthrover_api import EarthRoverMini_API
+
+# from .earthrover_api.earthrover_api import EarthRoverMini_API
+from earth_rover_mini_sdk import EarthRoverMini_API
+
 
 #logger = logging.get_logger(__name__)
 
@@ -42,12 +45,15 @@ class EarthRover_Mini(Robot):
         return self.is_connected
     
     # Connects to all robot devices, currently just the cameras
+    # def connect(self, calibrate: bool = True) -> None:
+    #     pass # wtf this line was empty
     def connect(self, calibrate: bool = True) -> None:
         if self.is_connected:
             raise DeviceAlreadyConnectedError(f"{self} already connected")
         
         self.earth_rover = EarthRoverMini_API(ip="192.168.11.1", port=8888)
         #EarthRoverMiniPlus(self.config)
+        self.earth_rover.connect()
         self.earth_rover.connect()
         #asyncio.run(self.earth_rover.connect())
         for cam in self.cameras.values():
@@ -168,11 +174,8 @@ class EarthRover_Mini(Robot):
     @property
     def action_features(self) -> dict:
         return self._speed_and_heading_ft
-
     
-
-
-    
+    # def get_observation(self) -> dict[str, Any]:
     def get_observation(self) -> dict[str, Any]:
         #calls function in earthrover object to get observation data:
         if not self.is_connected:
@@ -180,11 +183,19 @@ class EarthRover_Mini(Robot):
 
         obs_dct: dict[str: Any]={}
         obs_dct.update(self.earth_rover.get_telemetry())
+        obs_dct.update(self.earth_rover.get_telemetry())
         for cam_key, cam in self.cameras.items():
             obs_dct[cam_key] = cam.read()
 
         return obs_dct
 
+<<<<<<< HEAD
+=======
+
+        
+
+    # def send_action(self, action: dict[str, Any]) -> dict[str, Any]:
+>>>>>>> origin/hasan-edits
     def send_action(self, action: dict[str, Any]) -> dict[str, Any]:
         """Send control commands to Earthrover Mini Plus"""
        
@@ -213,12 +224,14 @@ class EarthRover_Mini(Robot):
         return
         # return await self.earth_rover.move( speed=int(v),angular= int(w),duration=int(10))
 
+    # def disconnect(self):
     def disconnect(self):
         if not self.is_connected:
             raise DeviceNotConnectedError(f"{self} is not connected.")
 
         for cam in self.cameras.values():
             cam.disconnect()
+        self.earth_rover.disconnect()
         self.earth_rover.disconnect()
         #logger.info(f"{self} disconnected.")
 
