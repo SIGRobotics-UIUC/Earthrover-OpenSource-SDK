@@ -11,7 +11,9 @@ from ..robot import Robot
 from .config_earthrover_mini_plus import EarthRoverMiniPlusConfig, EarthRoverMiniCamera
 
 # The import from our low-level API, so we can call actual functions on the robot
-from .earthrover_api.earthrover_api import EarthRoverMini_API
+from earth_rover_mini_sdk import EarthRoverMini_API
+
+
 
 #logger = logging.get_logger(__name__)
 
@@ -212,7 +214,7 @@ class EarthRover_Mini(Robot):
             # Call the api call for move, should be higher level not send_ctl_cmd
         else:
             return None
-        self.earth_rover.move( speed=int(v),angular= int(w),duration=int(10))
+        self.earth_rover.move_continuous_loop( speed=int(v),angular= int(w))
         return
         # return await self.earth_rover.move( speed=int(v),angular= int(w),duration=int(10))
             

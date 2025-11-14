@@ -289,200 +289,112 @@ class KeyboardEndEffectorTeleop(KeyboardTeleop):
             TeleopEvents.SUCCESS: success,
             TeleopEvents.RERECORD_EPISODE: rerecord_episode,
         }
+UPDATE_RATE = 0.03   # send commands every 30ms
+
+
 class KeyboardRoverTeleop(KeyboardTeleop):
     """
-    Teleop class to use keyboard inputs for rover control.
-    Designed to be used with the EarthRoverMiniPlus.
+    Rover teleop built on top of the official KeyboardTeleop base class,
+    but using simple W/A/S/D controls exactly like the minimal teleop script.
 
-    Controls (WASD-style):
-        w/s : increase/decrease linear velocity
-        a/d : increase/decrease angular velocity
-        t/g : speed multiplier (up/down)
-        space or x : emergency stop
-        r : reset
-        q : quit episode
-
-    Output:
-        {
-            "linear_velocity": float32,
-            "angular_velocity": float32
-        }
+    Behavior:
+        w: speed +60
+        s: speed -60
+        a: turn -40
+        d: turn +40
+        space: zero
+        q: quit episode
     """
 
     name = "keyboard_rover"
 
     def __init__(self, config: KeyboardTeleopConfig):
         super().__init__(config)
-        self.config = config
+
+        # Rover state
+        self.speed = 0
+        self.turn = 0
+
+        # Events
         self.misc_keys_queue = Queue()
 
-        # Movement state
-        self.linear_velocity = 0.0
-        self.angular_velocity = 0.0
-
-        # Targets (keys change these; smoothing moves actual values toward target)
-        self.target_linear = 0.0
-        self.target_angular = 0.0
-
-        # Increment steps
-        self.linear_step = 10
-        self.angular_step = 10
-
-        # Speed multiplier
-        self.speed_multiplier = 1.0
-        self.speed_step = 0.1
-        self.max_speed_multiplier = 2.0
-        self.min_speed_multiplier = 0.1
-
-        # Limits
-        self.max_linear_velocity = 100
-        self.min_linear_velocity = -100
-        self.max_angular_velocity = 100
-        self.min_angular_velocity = -100
-
-        # Smoothing factor (for acceleration)
-        self.smoothing = 0.15  # lower = slower acceleration
-
-    # ------------------------------------------------------------------
-    # Action feature definition
-    # ------------------------------------------------------------------
     @property
-    def action_features(self) -> dict:
+    def action_features(self):
         return {
             "dtype": "float32",
             "shape": (2,),
-            "names": {"linear_velocity": 0, "angular_velocity": 1},
+            "names": {
+                "speed": 0,
+                "turn": 1,
+            },
         }
 
-    # ------------------------------------------------------------------
-    # Main teleop action logic
-    # ------------------------------------------------------------------
-    def get_action(self) -> dict[str, Any]:
+    def get_action(self):
+        """
+        Converts held keys → speed/turn increments.
+        Follows the HF KeyboardTeleop pattern.
+        """
         if not self.is_connected:
-            raise DeviceNotConnectedError(
-                "KeyboardRoverTeleop: call connect() before get_action()."
-            )
+            raise DeviceNotConnectedError("Call connect() before get_action().")
 
         self._drain_pressed_keys()
 
-        # Process key states
+        # Apply changes based on keys
         for key, pressed in self.current_pressed.items():
             if not pressed:
                 continue
 
-            # Convert char keys only
-            if not isinstance(key, str):
-                continue
+            if key == "w":
+                self.speed += 60
+            elif key == "s":
+                self.speed -= 60
+            elif key == "a":
+                self.turn -= 40
+            elif key == "d":
+                self.turn += 40
+            elif key == " ":
+                self.speed = 0
+                self.turn = 0
+            elif key == "q":
+                self.misc_keys_queue.put("q")
 
-            # Movement
-            if key == 'w':
-                self.target_linear = min(
-                    self.target_linear + self.linear_step,
-                    self.max_linear_velocity,
-                )
-            elif key == 's':
-                self.target_linear = max(
-                    self.target_linear - self.linear_step,
-                    self.min_linear_velocity,
-                )
-            elif key == 'a':
-                self.target_angular = min(
-                    self.target_angular + self.angular_step,
-                    self.max_angular_velocity,
-                )
-            elif key == 'd':
-                self.target_angular = max(
-                    self.target_angular - self.angular_step,
-                    self.min_angular_velocity,
-                )
-
-            # Speed multiplier
-            elif key == 't':
-                self.speed_multiplier = min(
-                    self.speed_multiplier + self.speed_step,
-                    self.max_speed_multiplier,
-                )
-            elif key == 'g':
-                self.speed_multiplier = max(
-                    self.speed_multiplier - self.speed_step,
-                    self.min_speed_multiplier,
-                )
-
-            # Stop
-            elif key == ' ' or key == 'x':
-                self.target_linear = 0.0
-                self.target_angular = 0.0
-
-            # Reset
-            elif key == 'r':
-                self.target_linear = 0.0
-                self.target_angular = 0.0
-                self.speed_multiplier = 1.0
-
-            # Misc episode events
-            elif key in ['q', 'h']:
-                self.misc_keys_queue.put(key)
-
-        # Clear pressed keys after processing
+        # Clear state after processing
         self.current_pressed.clear()
 
-        # Smooth update
-        self.linear_velocity += self.smoothing * (self.target_linear - self.linear_velocity)
-        self.angular_velocity += self.smoothing * (self.target_angular - self.angular_velocity)
+        return {"speed": float(self.speed), "turn": float(self.turn)}
 
-        # Apply multiplier
-        effective_linear = self.linear_velocity * self.speed_multiplier
-        effective_angular = self.angular_velocity * self.speed_multiplier
-
-        return {
-            "linear_velocity": effective_linear,
-            "angular_velocity": effective_angular,
-        }
-
-    # ------------------------------------------------------------------
-    # Teleop events (quit, help, etc.)
-    # ------------------------------------------------------------------
     def get_teleop_events(self) -> dict[str, Any]:
         """
-        Identical pattern to KeyboardEndEffectorTeleop.get_teleop_events, but
-        adapted for rover controls.
+        Matches the pattern of KeyboardEndEffectorTeleop.get_teleop_events().
         """
-
         if not self.is_connected:
             return {
                 TeleopEvents.IS_INTERVENTION: False,
                 TeleopEvents.TERMINATE_EPISODE: False,
-                "show_help": False,
             }
 
-        # Rover movement uses WASD as intervention signal
-        movement_keys = ['w', 's', 'a', 'd']
-        is_intervention = any(self.current_pressed.get(key, False) for key in movement_keys)
+        # WASD = intervention
+        movement_keys = ["w", "a", "s", "d"]
+        is_intervention = any(
+            self.current_pressed.get(k, False)
+            for k in movement_keys
+        )
 
-        terminate_episode = False
-        show_help = False
+        terminate = False
 
         while not self.misc_keys_queue.empty():
             key = self.misc_keys_queue.get_nowait()
-            if key == 'q':
-                terminate_episode = True
-            elif key == 'h':
-                show_help = True
+            if key == "q":
+                terminate = True
 
         return {
             TeleopEvents.IS_INTERVENTION: is_intervention,
-            TeleopEvents.TERMINATE_EPISODE: terminate_episode,
-            "show_help": show_help,
+            TeleopEvents.TERMINATE_EPISODE: terminate,
         }
 
-    # ------------------------------------------------------------------
-    # Optional status helper
-    # ------------------------------------------------------------------
-    def get_status(self) -> dict[str, Any]:
+    def get_status(self):
+        """Optional helper like original version."""
         return {
-            "linear_velocity": self.linear_velocity,
-            "angular_velocity": self.angular_velocity,
-            "speed_multiplier": self.speed_multiplier,
-            "effective_linear": self.linear_velocity * self.speed_multiplier,
-            "effective_angular": self.angular_velocity * self.speed_multiplier,
+            "speed": self.speed,
+            "turn": self.turn,
         }
