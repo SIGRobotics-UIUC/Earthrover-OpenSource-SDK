@@ -203,7 +203,8 @@ class EarthRover_Mini(Robot):
             raise DeviceNotConnectedError(f"{self} is not connected.")
         
         # The action is the movement command, with a linear velocity and angular velocity
-        if "linear_velocity" in action and "angular_velocity" in action:
+        if "linear_velocity" in action or "angular_velocity" in action:
+            print("ennterrrrrrrrrrrrrrrrrrrrrrr")
             v = action["linear_velocity"]
             w = action["angular_velocity"]
             # Call the api call for move, should be higher level not send_ctl_cmd
