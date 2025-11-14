@@ -170,7 +170,7 @@ outputs/
 # Translations
 *.mo
 *.pot
-
+*.sh
 # Dev folders
 .cache/*
 *.stl
