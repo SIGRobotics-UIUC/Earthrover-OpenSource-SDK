@@ -14,6 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from .config_earthrover_mini_plus import EarthRoverMiniPlusConfig
-from .robot_earthrover_mini_plus import EarthRover_Mini
+from .config_earthrover_mini import EarthRoverMiniPlusConfig
+from .earthrover_mini import EarthRover_Mini
 

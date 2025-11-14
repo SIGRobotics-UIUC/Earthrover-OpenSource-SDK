@@ -17,17 +17,23 @@
 from dataclasses import dataclass #we are using this because this is a data holder class (since its a config file) where its main operation is just to store data, very minimal edits
 
 from ..config import TeleoperatorConfig #goes back one folder to import a base config file that defines how any teleoperator configuration should behave
+from ..keyboard.configuration_keyboard import KeyboardTeleopConfig #imports the keyboard teleoperator config since the earthrover mini plus teleoperator is based on keyboard teleoperator
+
 
 @TeleoperatorConfig.register_subclass("earthrover_keyboard")
 @dataclass
-class EarthroverKeyboardTeleopConfig(TeleoperatorConfig):
+class EarthroverKeyboardTeleopConfig(KeyboardTeleopConfig):
     #check if we want to state what keys we will capture/listen to
-    port: int = 8888 #Port to connect to the earthrover
-    ip: str = "192.168.11.1 "#Robot's IP to connect to the earthrover
+    port: int = 8888                    #Port to connect to the earthrover
+    ip: str = "192.168.11.1 "           #Robot's IP to connect to the earthrover
+    move_forward: str  = "w"            #key to move forward
+    turn_left: str     = "a"            #key to turn left
+    move_backward: str = "s"            #key to move backward
+    turn_right: str    = "d"            #key to turn right
+    stop: str          = "space"        #key to stop movement
 
 @TeleoperatorConfig.register_subclass("earthrover_keyboard_actions")
 @dataclass
 class EarthroverKeyboardTeleopConfigActions(EarthroverKeyboardTeleopConfig):
-#     this class specifically controls the end effector, commented out for now
     #use_gripper: bool = True
-    use_key: bool = True #placeholder for some random state we need to decide
+    use_key: bool = True        #placeholder for some random state we need to decide

@@ -7,7 +7,7 @@ import threading
 from lerobot.utils.errors import DeviceAlreadyConnectedError, DeviceNotConnectedError
 from lerobot.cameras.utils import make_cameras_from_configs
 
-from ...robot import Robot
+from ..robot import Robot
 from .config_earthrover_mini import EarthRoverMiniPlusConfig, EarthRoverMiniCamera
 
 # The import from our low-level API, so we can call actual functions on the robot

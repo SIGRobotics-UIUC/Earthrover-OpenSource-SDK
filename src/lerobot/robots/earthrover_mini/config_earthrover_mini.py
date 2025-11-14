@@ -18,7 +18,7 @@ from lerobot.cameras.configs import CameraConfig, Cv2Rotation
 from lerobot.cameras.opencv.configuration_opencv import OpenCVCameraConfig  # not used
 from lerobot.cameras.earthrover_mini_camera.configuration_earthrover_mini import EarthRoverMiniCameraConfig, ColorMode
 from lerobot.cameras.earthrover_mini_camera import EarthRoverMiniCamera
-from ...config import RobotConfig
+from ..config import RobotConfig
 
 def earthrover_mini_plus_cameras_config() -> dict[str, CameraConfig]:
     # to edit based on earth rover's cameras
@@ -46,57 +46,4 @@ class EarthRoverMiniPlusConfig(RobotConfig):
     remote_ip: str = "192.168.11.1"  # port to be changed
 
     cameras: dict[str, CameraConfig] = field(default_factory=earthrover_mini_plus_cameras_config)
-
     # any other configs we want
-
-
-
-
-"""
-# todo: maybe have client and host configs
-@dataclass
-class EarthRoverMiniPlusHostConfig:
-    # Network Configuration
-    port_cmd: int = 5555
-    port_observations: int = 5556
-
-    # Duration of the application
-    connection_time_s: int = 30
-
-    # Watchdog: stop the robot if no command is received for over 0.5 seconds.
-    watchdog_timeout_ms: int = 500
-
-    # If robot jitters decrease the frequency and monitor cpu load with `top` in cmd
-    max_loop_freq_hz: int = 30
-
-@RobotConfig.register_subclass("earthrover_mini_plus_client")  
-@dataclass
-class EarthRoverMiniPlusClientConfig:
-    # Network Configuration
-    remote_ip: str
-    port_cmd: int = 5555
-    port_observations: int = 5556
-
-    # todo: update this based on earthrover miniplus teleoperator
-    teleop_keys: dict[str, str] = field(
-        default_factory=lambda: {
-            # Movement
-            "forward": "up",
-            "backward": "down",
-            "increase_time": "+",
-            "decrease_time": "-",
-            "rotate_left": "left",
-            "rotate_right": "right",
-            # Speed control
-            # "speed_up": "r",
-            # "speed_down": "f",
-            # quit teleop
-            # "quit": "q",
-        }
-    )
-
-    cameras: dict[str, CameraConfig] = field(default_factory=earthrover_mini_plus_cameras_config)
-
-    polling_timeout_ms: int = 15
-    connect_timeout_s: int = 5
-    """

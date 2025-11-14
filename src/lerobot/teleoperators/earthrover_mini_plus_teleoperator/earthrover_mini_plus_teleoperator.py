@@ -30,7 +30,7 @@ from lerobot.utils.errors import DeviceAlreadyConnectedError, DeviceNotConnected
 
 #TODO: Figure out what is Teleoperator
 from ..teleoperator import Teleoperator
-from ..utils import TeleopEvents #TODO: Figure out if I need this <- so100 doesn't use it, might not need it.
+from ..utils import TeleopEvents #TODO: Figure out if I need this
 
 PYNPUT_AVAILABLE = True #this is just a flag to see whether PYNPUT is able to be imported or not
 try:
@@ -55,7 +55,7 @@ class EarthroverKeyboardTeleop(Teleoperator):
     """
     
     config_class = EarthroverKeyboardTeleopConfig
-    name = "keyboard" # TODO: check if correct name, not same as config's register subclass name
+    name = "earthrover_keyboard"
 
     def __init__(self, config: EarthroverKeyboardTeleopConfig): #prepares everything an object needs (runs automatically) such as the variables needed, config tells what kind of robot this is
         super().__init__(config) #this tells the parent class to do its setup first (calls the parent class's __init__ function [its constructor])
@@ -162,7 +162,7 @@ class EarthroverKeyboardTeleop(Teleoperator):
         return dict.fromkeys(action, None) #sets the value from each action to be None
     
     def send_feedback(self, feedback: dict[str, Any]) -> None:
-        pass #TODO: Implement this
+        raise NotImplementedError #TODO: Research how to implement feedback for earthrover mini teleop
 
     def disconnect(self) -> None:
         if not self.is_connected:
