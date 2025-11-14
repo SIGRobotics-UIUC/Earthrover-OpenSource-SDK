@@ -22,7 +22,7 @@ from earth_rover_mini_sdk import EarthRoverMini_API
 class EarthRover_Mini(Robot):
 
     config_class = EarthRoverMiniPlusConfig
-    name = "earthrover_mini_plus"
+    name = "earthrover_mini"
 
     def __init__(self, config: EarthRoverMiniPlusConfig):
 
@@ -40,7 +40,7 @@ class EarthRover_Mini(Robot):
 
         print("Cameras made from config:" + str(self.cameras))
    
-    def is_connectedd(self) -> bool:
+    def is_connected(self) -> bool:
         # Connected iff all the cameras are connected
         return self.is_connected
     
@@ -95,13 +95,6 @@ class EarthRover_Mini(Robot):
 
         print("Stopping camera stream thread...")
 
-        # for cam in self.cameras.keys():
-        #         print(str(cam))
-        #         print((str(self.cameras[cam])))
-        #         frame = self.cameras[cam].read()
-        #         cv2.imshow(f"RTSP Stream {idx}", frame)
-        #         if cv2.waitKey(1) & 0xFF == ord("q"):
-        #             break
 
     def close_camera_stream(self):
         if self.thread_stop_event:
@@ -115,7 +108,7 @@ class EarthRover_Mini(Robot):
 
         cv2.destroyAllWindows()
 
-    def is_calibratedd(self) -> bool:
+    def is_calibrated(self) -> bool:
         return self.is_calibrated
     
     def calibrate(self) -> None:
@@ -127,12 +120,12 @@ class EarthRover_Mini(Robot):
             pass
             #logger.info(f"\nRunning calibration of {self}")
 
-        # todo
+        #TODO
     
     # Not necessary for right now, no configuration needed for the EarthRover
     # Just need to connect using the socket in connect, so possibly configure is unnecessary
     def configure(self):
-        # todo
+        # TODO: Any configuration steps needed for EarthRover Mini?
         pass
 
     @property
@@ -189,19 +182,14 @@ class EarthRover_Mini(Robot):
 
         return obs_dct
 
-<<<<<<< HEAD
-=======
-
-        
-
     # def send_action(self, action: dict[str, Any]) -> dict[str, Any]:
->>>>>>> origin/hasan-edits
     def send_action(self, action: dict[str, Any]) -> dict[str, Any]:
-        """Send control commands to Earthrover Mini Plus"""
-       
-        # send_ctl_cmd(self.socket, self.speed, self.angular)
+        """Send control commands to Earthrover Mini Plus
+        Args:
+            action (dict[str, Any]): A dictionary containing the action commands.
+        Returns:
+            None
 
-        """
         Example of possible action dictionary:
 
         action = {

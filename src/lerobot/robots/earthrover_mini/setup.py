@@ -10,11 +10,11 @@ setup(
     description="LeRobot EarthRover Mini integration",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    author="Sig Robotics",
+    author="SIGRobotics",
     author_email="temp@gmail.com",
     packages=find_packages(),
     install_requires=[
-        "earth-rover-mini-plus-sdk",
+        "earth-rover-mini-sdk",
         "lerobot>=0.4",
     ],
     python_requires=">=3.10",

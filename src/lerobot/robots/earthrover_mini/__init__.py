@@ -16,4 +16,3 @@
 
 from .config_earthrover_mini import EarthRoverMiniPlusConfig
 from .earthrover_mini import EarthRover_Mini
-

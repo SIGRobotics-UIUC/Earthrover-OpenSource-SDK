@@ -122,7 +122,6 @@ class EarthroverKeyboardTeleop(Teleoperator):
         # do i do this: return super().calibrate() or is there a different thing to do
         # set calibration in init from super, then just check if it's set here. 
         # maybe also do what s0-100 does and let user input calibration file.
-        
         pass
 
 
@@ -175,7 +174,7 @@ class EarthroverKeyboardTeleop(Teleoperator):
 class EarthroverKeyboardTeleopActions(EarthroverKeyboardTeleop): #child class extending parent behavior
     """
     Keyboard teleop class to use keyboard inputs for robot actions.
-    Designed to be used with the `Earthrover Mini Plus` robot.
+    Designed to be used with the `Earthrover Mini` robot.
     """
 
     config_class = EarthroverKeyboardTeleopConfigActions
