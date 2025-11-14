@@ -178,3 +178,5 @@ outputs/
 *.urdf
 *.xml
 *.part
+src/Miniforge3-Linux-x86_64.sh
+src/Miniconda3-latest-Linux-x86_64.sh
